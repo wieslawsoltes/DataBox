@@ -11,9 +11,14 @@ namespace CellPanelDemo.Controls
 
         public List<double> SharedWidths { get; set; }
 
-        public ColumnData()
+        public ColumnData(int totalColumns)
         {
-            SharedWidths = new();
+            SharedWidths = new(totalColumns);
+
+            for (var i = 0; i < totalColumns; i++)
+            {
+                SharedWidths.Add(0.0);
+            }
         }
     }
 }

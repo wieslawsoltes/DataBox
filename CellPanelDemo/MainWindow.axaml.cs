@@ -16,17 +16,19 @@ namespace CellPanelDemo
 #if DEBUG
             this.AttachDevTools();
 #endif
+            int totalColumns = 3;
+            
             Columns = new List<ColumnData>()
             {
-                new()
+                new(totalColumns)
                 {
                     Width = new GridLength(100, GridUnitType.Pixel),
                 },
-                new()
+                new(totalColumns)
                 {
                     Width = new GridLength(0, GridUnitType.Auto),
                 },
-                new()
+                new(totalColumns)
                 {
                     Width = new GridLength(200, GridUnitType.Pixel),
                 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 
@@ -9,12 +10,14 @@ namespace CellPanelDemo.Controls
     {
         protected override Size MeasureOverride(Size availableSize)
         {
+            Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}'");
+            
             var columns = DataContext as List<ColumnData>;
             if (columns is null)
             {
                 return availableSize;
             }
-            
+
             var children = Children;
             var parentWidth = 0.0;
             var parentHeight = 0.0;
@@ -52,7 +55,7 @@ namespace CellPanelDemo.Controls
                 {
                     case GridUnitType.Pixel:
                     {
-                        column.SharedWidths.Add(width);
+                        column.SharedWidths[i] = width;
                         parentWidth += width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += width;
@@ -61,7 +64,7 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Auto:
                     {
-                        column.SharedWidths.Add(childDesiredSize.Width);
+                        column.SharedWidths[i] = childDesiredSize.Width;
                         parentWidth += childDesiredSize.Width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += childDesiredSize.Width;
@@ -76,11 +79,16 @@ namespace CellPanelDemo.Controls
                 }
             }
 
-            return new Size(parentWidth, parentHeight);
+            var parentSize = new Size(parentWidth, parentHeight);
+            Debug.WriteLine($"[CellsPresenter.MeasureOverride] parentSize='{parentSize}'");
+
+            return parentSize;
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
+            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}'");
+            
             var columns = DataContext as List<ColumnData>;
             if (columns is null)
             {
@@ -125,7 +133,10 @@ namespace CellPanelDemo.Controls
                 child.Arrange(rcChild);
             }
 
-            return new Size(accumulatedWidth, accumulatedHeight);
+            var accumulatedSize = new Size(accumulatedWidth, accumulatedHeight);
+            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] accumulatedSize='{accumulatedSize}'");
+
+            return accumulatedSize;
         }
     }
 }
