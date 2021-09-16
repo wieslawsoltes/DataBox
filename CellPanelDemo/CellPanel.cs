@@ -5,30 +5,61 @@ using Avalonia.Controls;
 
 namespace CellPanelDemo
 {
-    public class CellPanel : Panel
+    public class SharedStackPanel : StackPanel
     {
-        private List<double> _columWidths;
-        private List<GridUnitType> _types;
-
-        public CellPanel()
-        {
-            _columWidths = new List<double>()
-            {
-                100,
-                150,
-                200
-            };
-
-            _types = new List<GridUnitType>()
-            {
-                GridUnitType.Pixel,
-                GridUnitType.Auto,
-                GridUnitType.Pixel
-            };
-        }
-
         protected override Size MeasureOverride(Size availableSize)
         {
+            var columns = DataContext as List<ColumnData>;
+            
+            foreach (var column in columns)
+            {
+                column.SharedWidth.Clear();
+            }
+
+            return base.MeasureOverride(availableSize);
+        }
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            var columns = DataContext as List<ColumnData>;
+
+            foreach (var column in columns)
+            {
+                column.InvalidateSharedWidth();
+            }
+
+            return base.ArrangeOverride(finalSize);
+        }
+    }
+    
+    public class ColumnData
+    {
+        public GridLength Width { get; set; }
+
+        public double ActualWidth { get; set; }
+
+        public List<double> SharedWidth { get; set; }
+
+        public ColumnData()
+        {
+            SharedWidth = new();
+        }
+
+        public void InvalidateSharedWidth()
+        {
+            foreach (var width in SharedWidth)
+            {
+                ActualWidth = Math.Max(ActualWidth, width);
+            }
+        }
+    }
+
+    public class CellPanel : Panel
+    {
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            var columns = DataContext as List<ColumnData>;
+            
             var children = Children;
             var parentWidth = 0.0;
             var parentHeight = 0.0;
@@ -46,11 +77,13 @@ namespace CellPanelDemo
                     continue;
                 }
 
-                var type = _types[i];
+                var column = columns[i];
+                var type = column.Width.GridUnitType;
+                var value = column.Width.Value;
                 
                 var width = type switch
                 {
-                    GridUnitType.Pixel => _columWidths[i],
+                    GridUnitType.Pixel => value,
                     GridUnitType.Auto => double.PositiveInfinity,
                     GridUnitType.Star => double.PositiveInfinity,
                     _ => throw new ArgumentOutOfRangeException()
@@ -64,6 +97,7 @@ namespace CellPanelDemo
                 {
                     case GridUnitType.Pixel:
                     {
+                        column.SharedWidth.Add(width);
                         parentWidth += width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += width;
@@ -72,6 +106,7 @@ namespace CellPanelDemo
                     }
                     case GridUnitType.Auto:
                     {
+                        column.SharedWidth.Add(childDesiredSize.Width);
                         parentWidth += childDesiredSize.Width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += childDesiredSize.Width;
@@ -91,6 +126,8 @@ namespace CellPanelDemo
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
+            var columns = DataContext as List<ColumnData>;
+            
             var children = Children;
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
@@ -105,12 +142,14 @@ namespace CellPanelDemo
 
                 var childDesiredSize = child.DesiredSize;
 
-                var type = _types[i];
+                var column = columns[i];
+                var type = column.Width.GridUnitType;
+                var value = column.Width.Value;
 
                 var width = type switch
                 {
-                    GridUnitType.Pixel => _columWidths[i],
-                    GridUnitType.Auto => childDesiredSize.Width,
+                    GridUnitType.Pixel => value,
+                    GridUnitType.Auto => column.ActualWidth, // childDesiredSize.Width
                     GridUnitType.Star => childDesiredSize.Width,
                     _ => throw new ArgumentOutOfRangeException()
                 };

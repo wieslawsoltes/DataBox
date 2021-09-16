@@ -11,20 +11,52 @@
           HorizontalAlignment="Center"
           VerticalAlignment="Center">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-      <local:CellPanel Background="LightGray">
-        <!-- Column 0 -->
-        <Panel Background="Red">
-          <TextBlock Text="Column 0" Margin="2" />
-        </Panel>
-        <!-- Column 1 -->
-        <Panel Background="Green">
-          <TextBlock Text="Column 1" Margin="2" />
-        </Panel>
-        <!-- Column 2 -->
-        <Panel Background="Blue">
-          <TextBlock Text="Column 2" Margin="2" />
-        </Panel>
-      </local:CellPanel>
+
+      <local:SharedStackPanel>
+        <local:CellPanel Background="LightGray">
+          <!-- Column 0 -->
+          <Panel Background="Red">
+            <TextBlock Text="Column 0" Margin="2" />
+          </Panel>
+          <!-- Column 1 -->
+          <Panel Background="Green">
+            <TextBlock Text="Column 1" Margin="2" />
+          </Panel>
+          <!-- Column 2 -->
+          <Panel Background="Blue">
+            <TextBlock Text="Column 2" Margin="2" />
+          </Panel>
+        </local:CellPanel>
+        <local:CellPanel Background="LightGray">
+          <!-- Column 0 -->
+          <Panel Background="Red">
+            <TextBlock Text="Column 0" Margin="2" />
+          </Panel>
+          <!-- Column 1 -->
+          <Panel Background="Green">
+            <TextBlock Text="Column 1 Auto" Margin="2" />
+          </Panel>
+          <!-- Column 2 -->
+          <Panel Background="Blue">
+            <TextBlock Text="Column 2" Margin="2" />
+          </Panel>
+        </local:CellPanel>
+        <local:CellPanel Background="LightGray">
+          <!-- Column 0 -->
+          <Panel Background="Red">
+            <TextBlock Text="Column 0" Margin="2" />
+          </Panel>
+          <!-- Column 1 -->
+          <Panel Background="Green">
+            <TextBlock Text="Column 1 Auto Auto" Margin="2" />
+          </Panel>
+          <!-- Column 2 -->
+          <Panel Background="Blue">
+            <TextBlock Text="Column 2" Margin="2" />
+          </Panel>
+        </local:CellPanel>
+      </local:SharedStackPanel>
+
     </ScrollViewer>
   </Border>
 </Window>
