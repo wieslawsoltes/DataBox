@@ -6,20 +6,25 @@
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
         x:Class="CellPanelDemo.MainWindow"
         Title="CellPanelDemo">
-  <Border BorderBrush="Black" BorderThickness="1">
-    <local:CellPanel Background="LightGray">
-      <!-- Column 0 -->
-      <Panel Background="Red">
-        <TextBlock Text="Column 0" Margin="2" />
-      </Panel>
-      <!-- Column 1 -->
-      <Panel Background="Green">
-        <TextBlock Text="Column 1" Margin="2" />
-      </Panel>
-      <!-- Column 2 -->
-      <Panel Background="Blue">
-        <TextBlock Text="Column 2" Margin="2" />
-      </Panel>
-    </local:CellPanel>
+  <Border BorderBrush="Black" 
+          BorderThickness="1" 
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center">
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <local:CellPanel Background="LightGray">
+        <!-- Column 0 -->
+        <Panel Background="Red">
+          <TextBlock Text="Column 0" Margin="2" />
+        </Panel>
+        <!-- Column 1 -->
+        <Panel Background="Green">
+          <TextBlock Text="Column 1" Margin="2" />
+        </Panel>
+        <!-- Column 2 -->
+        <Panel Background="Blue">
+          <TextBlock Text="Column 2" Margin="2" />
+        </Panel>
+      </local:CellPanel>
+    </ScrollViewer>
   </Border>
 </Window>
