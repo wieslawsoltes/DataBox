@@ -9,11 +9,11 @@ namespace CellPanelDemo.Controls
 
         public double ActualWidth { get; set; }
 
-        public List<double> SharedWidth { get; set; }
+        public List<double> SharedWidths { get; set; }
 
         public ColumnData()
         {
-            SharedWidth = new();
+            SharedWidths = new();
         }
     }
 }

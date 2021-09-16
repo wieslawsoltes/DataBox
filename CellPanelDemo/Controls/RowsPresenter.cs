@@ -17,7 +17,7 @@ namespace CellPanelDemo.Controls
 
             foreach (var column in columns)
             {
-                column.SharedWidth.Clear();
+                column.SharedWidths.Clear();
             }
         }
 
@@ -31,7 +31,7 @@ namespace CellPanelDemo.Controls
 
             foreach (var column in columns)
             {
-                foreach (var width in column.SharedWidth)
+                foreach (var width in column.SharedWidths)
                 {
                     column.ActualWidth = Math.Max(column.ActualWidth, width);
                 }

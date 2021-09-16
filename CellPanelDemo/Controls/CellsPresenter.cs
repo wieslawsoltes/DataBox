@@ -52,7 +52,7 @@ namespace CellPanelDemo.Controls
                 {
                     case GridUnitType.Pixel:
                     {
-                        column.SharedWidth.Add(width);
+                        column.SharedWidths.Add(width);
                         parentWidth += width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += width;
@@ -61,7 +61,7 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Auto:
                     {
-                        column.SharedWidth.Add(childDesiredSize.Width);
+                        column.SharedWidths.Add(childDesiredSize.Width);
                         parentWidth += childDesiredSize.Width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += childDesiredSize.Width;
