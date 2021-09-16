@@ -1,0 +1,25 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CellPanelDemo"
+        mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
+        x:Class="CellPanelDemo.MainWindow"
+        Title="CellPanelDemo">
+  <Border BorderBrush="Black" BorderThickness="1">
+    <local:CellPanel Background="LightGray">
+      <!-- Column 0 -->
+      <Panel Background="Red">
+        <TextBlock Text="Column 0" Margin="2" />
+      </Panel>
+      <!-- Column 1 -->
+      <Panel Background="Green">
+        <TextBlock Text="Column 1" Margin="2" />
+      </Panel>
+      <!-- Column 2 -->
+      <Panel Background="Blue">
+        <TextBlock Text="Column 2" Margin="2" />
+      </Panel>
+    </local:CellPanel>
+  </Border>
+</Window>
