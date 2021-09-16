@@ -76,7 +76,7 @@ namespace CellPanelDemo.Controls
                 }
             }
 
-            return (new Size(parentWidth, parentHeight));
+            return new Size(parentWidth, parentHeight);
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)
