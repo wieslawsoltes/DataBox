@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CellPanelDemo"
+        xmlns:c="clr-namespace:CellPanelDemo.Controls"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
         x:Class="CellPanelDemo.MainWindow"
         Title="CellPanelDemo">
@@ -12,8 +12,8 @@
           VerticalAlignment="Center">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
-      <local:RowsPresenter>
-        <local:CellsPresenter Background="LightGray">
+      <c:RowsPresenter>
+        <c:CellsPresenter Background="LightGray">
           <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
@@ -26,8 +26,8 @@
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
-        </local:CellsPresenter>
-        <local:CellsPresenter Background="LightGray">
+        </c:CellsPresenter>
+        <c:CellsPresenter Background="LightGray">
           <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
@@ -40,8 +40,8 @@
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
-        </local:CellsPresenter>
-        <local:CellsPresenter Background="LightGray">
+        </c:CellsPresenter>
+        <c:CellsPresenter Background="LightGray">
           <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
@@ -54,8 +54,8 @@
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
-        </local:CellsPresenter>
-      </local:RowsPresenter>
+        </c:CellsPresenter>
+      </c:RowsPresenter>
 
     </ScrollViewer>
   </Border>

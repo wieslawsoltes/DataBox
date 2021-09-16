@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 
-namespace CellPanelDemo
+namespace CellPanelDemo.Controls
 {
-    public class RowsPresenter : StackPanel
+    public class RowsPresenter : VirtualizingStackPanel
     {
         private void OnMeasure()
         {
             var columns = DataContext as List<ColumnData>;
+            if (columns is null)
+            {
+                return;
+            }
 
             foreach (var column in columns)
             {
@@ -20,6 +24,10 @@ namespace CellPanelDemo
         private void OnArrange()
         {
             var columns = DataContext as List<ColumnData>;
+            if (columns is null)
+            {
+                return;
+            }
 
             foreach (var column in columns)
             {

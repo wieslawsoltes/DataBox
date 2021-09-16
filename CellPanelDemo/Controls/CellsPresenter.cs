@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 
-namespace CellPanelDemo
+namespace CellPanelDemo.Controls
 {
     public class CellsPresenter : Panel
     {
         protected override Size MeasureOverride(Size availableSize)
         {
             var columns = DataContext as List<ColumnData>;
+            if (columns is null)
+            {
+                return availableSize;
+            }
             
             var children = Children;
             var parentWidth = 0.0;
@@ -78,7 +82,11 @@ namespace CellPanelDemo
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             var columns = DataContext as List<ColumnData>;
-            
+            if (columns is null)
+            {
+                return arrangeSize;
+            }
+
             var children = Children;
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;

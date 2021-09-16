@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
 using Avalonia.Controls;
 
-namespace CellPanelDemo
+namespace CellPanelDemo.Controls
 {
     public class ColumnData
     {

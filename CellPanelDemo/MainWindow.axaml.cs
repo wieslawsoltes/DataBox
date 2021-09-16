@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using CellPanelDemo.Controls;
 
 namespace CellPanelDemo
 {
