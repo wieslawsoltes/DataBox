@@ -12,8 +12,8 @@
           VerticalAlignment="Center">
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
-      <local:SharedStackPanel>
-        <local:CellPanel Background="LightGray">
+      <local:RowsPresenter>
+        <local:CellsPresenter Background="LightGray">
           <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
@@ -26,8 +26,8 @@
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
-        </local:CellPanel>
-        <local:CellPanel Background="LightGray">
+        </local:CellsPresenter>
+        <local:CellsPresenter Background="LightGray">
           <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
@@ -40,8 +40,8 @@
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
-        </local:CellPanel>
-        <local:CellPanel Background="LightGray">
+        </local:CellsPresenter>
+        <local:CellsPresenter Background="LightGray">
           <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
@@ -54,8 +54,8 @@
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
-        </local:CellPanel>
-      </local:SharedStackPanel>
+        </local:CellsPresenter>
+      </local:RowsPresenter>
 
     </ScrollViewer>
   </Border>

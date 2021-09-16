@@ -5,56 +5,7 @@ using Avalonia.Controls;
 
 namespace CellPanelDemo
 {
-    public class SharedStackPanel : StackPanel
-    {
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            var columns = DataContext as List<ColumnData>;
-            
-            foreach (var column in columns)
-            {
-                column.SharedWidth.Clear();
-            }
-
-            return base.MeasureOverride(availableSize);
-        }
-
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            var columns = DataContext as List<ColumnData>;
-
-            foreach (var column in columns)
-            {
-                column.InvalidateSharedWidth();
-            }
-
-            return base.ArrangeOverride(finalSize);
-        }
-    }
-    
-    public class ColumnData
-    {
-        public GridLength Width { get; set; }
-
-        public double ActualWidth { get; set; }
-
-        public List<double> SharedWidth { get; set; }
-
-        public ColumnData()
-        {
-            SharedWidth = new();
-        }
-
-        public void InvalidateSharedWidth()
-        {
-            foreach (var width in SharedWidth)
-            {
-                ActualWidth = Math.Max(ActualWidth, width);
-            }
-        }
-    }
-
-    public class CellPanel : Panel
+    public class CellsPresenter : Panel
     {
         protected override Size MeasureOverride(Size availableSize)
         {
