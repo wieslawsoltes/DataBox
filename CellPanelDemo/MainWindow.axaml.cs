@@ -20,6 +20,7 @@ namespace CellPanelDemo
 
             ListData = new ListData();
 
+            /*
             ListData.Columns = new List<ColumnData>()
             {
                 new(totalColumns)
@@ -39,6 +40,29 @@ namespace CellPanelDemo
                     Width = new GridLength(1, GridUnitType.Star)
                 },
             };
+            //*/
+
+            //*
+            ListData.Columns = new List<ColumnData>()
+            {
+                new(totalColumns)
+                {
+                    Width = new GridLength(2, GridUnitType.Star)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                },
+            };
+            //*/
 
             DataContext = ListData;
         }
