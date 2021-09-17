@@ -16,11 +16,12 @@ namespace CellPanelDemo.Controls
                 return;
             }
 
-            foreach (var column in columns)
+            for (var c = 0; c < columns.Count; c++)
             {
-                for (var i = 0; i < column.SharedWidths.Count; i++)
+                var column = columns[c];
+                for (var r = 0; r < column.SharedWidths.Count; r++)
                 {
-                    column.SharedWidths[i] = 0.0;
+                    column.SharedWidths[r] = 0.0;
                 }
             }
         }
@@ -35,11 +36,14 @@ namespace CellPanelDemo.Controls
 
             var accumulatedWidth = 0.0;
 
-            foreach (var column in columns)
+            for (var c = 0; c < columns.Count; c++)
             {
-                foreach (var width in column.SharedWidths)
+                var column = columns[c];
+                for (var r = 0; r < column.SharedWidths.Count; r++)
                 {
+                    var width = column.SharedWidths[r];
                     column.ActualWidth = Math.Max(column.ActualWidth, width);
+                    Debug.WriteLine($"[UpdateActualWidths] columns[{c}].SharedWidths[{r}]='{width}'");
                 }
 
                 accumulatedWidth += column.ActualWidth;
@@ -50,7 +54,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            Debug.WriteLine($"[RowsPresenter.MeasureOverride] availableSize='{availableSize}'");
+            //Debug.WriteLine($"[RowsPresenter.MeasureOverride] availableSize='{availableSize}'");
             // TODO: ClearSharedWidths();
 
             var panelSize = base.MeasureOverride(availableSize);
@@ -64,7 +68,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            Debug.WriteLine($"[RowsPresenter.ArrangeOverride] finalSize='{finalSize}'");
+            //Debug.WriteLine($"[RowsPresenter.ArrangeOverride] finalSize='{finalSize}'");
             
             var accumulatedWidth = UpdateActualWidths();
             finalSize = finalSize.WithWidth(accumulatedWidth);
