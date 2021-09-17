@@ -135,6 +135,8 @@ namespace CellPanelDemo.Controls
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
+                width = Math.Max(0.0, width);
+
                 var rcChild = new Rect(
                     accumulatedWidth,
                     0.0,
