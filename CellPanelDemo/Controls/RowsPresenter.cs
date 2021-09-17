@@ -51,6 +51,7 @@ namespace CellPanelDemo.Controls
                             column.ActualWidth = Math.Max(column.ActualWidth, width);
                             Debug.WriteLine($"[UpdateActualWidths] columns[{c}].SharedWidths[{r}]='{width}', type='{type}'");
                         }
+                        accumulatedWidth += column.ActualWidth;
                         break;
                     }
                     case GridUnitType.Auto:
@@ -61,6 +62,7 @@ namespace CellPanelDemo.Controls
                             column.ActualWidth = Math.Max(column.ActualWidth, width);
                             Debug.WriteLine($"[UpdateActualWidths] columns[{c}].SharedWidths[{r}]='{width}', type='{type}'");
                         }
+                        accumulatedWidth += column.ActualWidth;
                         break;
                     }
                     case GridUnitType.Star:
@@ -99,12 +101,12 @@ namespace CellPanelDemo.Controls
                     {
                         var width = (value / totalStarValue) * totalWidthForStars;
                         column.ActualWidth = width;
+                        accumulatedWidth += column.ActualWidth;
                         Debug.WriteLine($"[UpdateActualWidths] columns[{c}].ActualWidth='{width}', type='{type}', value='{value}', totalStarValue='{totalStarValue}', totalWidthForStars='{totalWidthForStars}'");
                         break;
                     }
                 }
 
-                accumulatedWidth += column.ActualWidth;
             }
             
             return accumulatedWidth;
