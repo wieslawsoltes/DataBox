@@ -68,8 +68,6 @@ namespace CellPanelDemo.Controls
                         break;
                     }
                 }
-
-                accumulatedWidth += column.ActualWidth;
             }
 
             var totalWidthForStars = listData.AvailableWidth - accumulatedWidth;
@@ -105,6 +103,8 @@ namespace CellPanelDemo.Controls
                         break;
                     }
                 }
+
+                accumulatedWidth += column.ActualWidth;
             }
             
             return accumulatedWidth;
