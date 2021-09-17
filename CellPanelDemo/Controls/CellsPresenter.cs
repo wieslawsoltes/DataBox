@@ -87,7 +87,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}'");
+            //Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}'");
             
             var columns = DataContext as List<ColumnData>;
             if (columns is null)
