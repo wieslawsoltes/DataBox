@@ -16,8 +16,8 @@ namespace CellPanelDemo
 #if DEBUG
             this.AttachDevTools();
 #endif
-            int totalColumns = 3;
-            
+            int totalColumns = 4;
+
             Columns = new List<ColumnData>()
             {
                 new(totalColumns)
@@ -31,9 +31,12 @@ namespace CellPanelDemo
                 new(totalColumns)
                 {
                     Width = new GridLength(200, GridUnitType.Pixel),
-                }
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(0, GridUnitType.Auto),
+                },
             };
-
 
             DataContext = Columns;
         }

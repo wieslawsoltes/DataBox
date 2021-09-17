@@ -26,6 +26,7 @@
           <x:String>Item1</x:String>
           <x:String>Item2 Auto</x:String>
           <x:String>Item3</x:String>
+          <x:String>Item4</x:String>
         </generic:List>
       </ListBox.Items>
       <ListBox.ItemsPanel>
@@ -44,6 +45,9 @@
             </Panel>
             <Panel Background="Blue">
               <TextBlock Text="Column 2" Margin="2" />
+            </Panel>
+            <Panel Background="Yellow">
+              <TextBlock Text="Column 3" Margin="2" />
             </Panel>
           </c:CellsPresenter>
         </DataTemplate>
