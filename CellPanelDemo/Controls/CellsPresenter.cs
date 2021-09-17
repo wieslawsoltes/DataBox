@@ -11,7 +11,12 @@ namespace CellPanelDemo.Controls
     {
         protected override Size MeasureOverride(Size availableSize)
         {
-            //Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}'");
+            var listBoxItem = this.GetLogicalParent() as ListBoxItem;
+            var listBox = listBoxItem?.GetLogicalParent() as ListBox;
+            var listBoxItemIndex = listBox.ItemContainerGenerator.IndexFromContainer(listBoxItem);
+            var rowIndex = listBoxItemIndex;
+            
+            //Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             var listData = DataContext as ListData;
             if (listData is null)
@@ -24,14 +29,6 @@ namespace CellPanelDemo.Controls
             var parentHeight = 0.0;
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
-
-            
-
-            var listBoxItem = this.GetLogicalParent() as ListBoxItem;
-            var listBox = listBoxItem.GetLogicalParent() as ListBox;
-            var listBoxItemIndex = listBox.ItemContainerGenerator.IndexFromContainer(listBoxItem);
-            var rowIndex = listBoxItemIndex;
-
 
             for (int c = 0, count = children.Count; c < count; ++c)
             {
@@ -64,7 +61,7 @@ namespace CellPanelDemo.Controls
                 {
                     case GridUnitType.Pixel:
                     {
-                        Debug.WriteLine($"[CellsPresenter.MeasureOverride] column[{c}].SharedWidths[{rowIndex}]='{width}'");
+                        Debug.WriteLine($"[CellsPresenter.MeasureOverride] column[{c}].SharedWidths[{rowIndex}]='{width}', rowIndex='{rowIndex}'");
                         column.SharedWidths[rowIndex] = width;
                         parentWidth += width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
@@ -74,7 +71,7 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Auto:
                     {
-                        Debug.WriteLine($"[CellsPresenter.MeasureOverride] column[].SharedWidths[{rowIndex}]='{childDesiredSize.Width}'");
+                        Debug.WriteLine($"[CellsPresenter.MeasureOverride] column[].SharedWidths[{rowIndex}]='{childDesiredSize.Width}', rowIndex='{rowIndex}'");
                         column.SharedWidths[rowIndex] = childDesiredSize.Width;
                         parentWidth += childDesiredSize.Width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
@@ -94,14 +91,19 @@ namespace CellPanelDemo.Controls
             }
 
             var parentSize = new Size(parentWidth, parentHeight);
-            Debug.WriteLine($"[CellsPresenter.MeasureOverride] parentSize='{parentSize}', Children='{Children.Count}'");
+            Debug.WriteLine($"[CellsPresenter.MeasureOverride] parentSize='{parentSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             return parentSize;
         }
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            //Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}'");
+            var listBoxItem = this.GetLogicalParent() as ListBoxItem;
+            var listBox = listBoxItem?.GetLogicalParent() as ListBox;
+            var listBoxItemIndex = listBox.ItemContainerGenerator.IndexFromContainer(listBoxItem);
+            var rowIndex = listBoxItemIndex;
+
+            //Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
             
             var listData = DataContext as ListData;
             if (listData is null)
@@ -150,7 +152,7 @@ namespace CellPanelDemo.Controls
             }
 
             var accumulatedSize = new Size(accumulatedWidth, accumulatedHeight);
-            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] accumulatedSize='{accumulatedSize}', Children='{Children.Count}'");
+            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] accumulatedSize='{accumulatedSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             return accumulatedSize;
         }
