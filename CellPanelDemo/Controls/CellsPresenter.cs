@@ -10,8 +10,8 @@ namespace CellPanelDemo.Controls
     {
         protected override Size MeasureOverride(Size availableSize)
         {
-            Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}'");
-            
+            //Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}'");
+
             var columns = DataContext as List<ColumnData>;
             if (columns is null)
             {
