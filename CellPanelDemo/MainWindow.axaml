@@ -3,6 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:c="clr-namespace:CellPanelDemo.Controls"
+        xmlns:generic="clr-namespace:System.Collections.Generic;assembly=System.Collections"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
         WindowStartupLocation="CenterScreen"
         Width="600" Height="350"
@@ -12,53 +13,85 @@
           BorderThickness="1" 
           HorizontalAlignment="Center"
           VerticalAlignment="Center">
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
+    <ListBox VirtualizationMode="Simple">
+      <ListBox.Styles>
+        <Style Selector="ListBoxItem">
+          <Setter Property="Margin" Value="0" />
+          <Setter Property="Padding" Value="0" />
+        </Style>
+      </ListBox.Styles>
+      <ListBox.Items>
+        <generic:List x:TypeArguments="x:String">
+          <x:String>Item1</x:String>
+          <x:String>Item2 Auto</x:String>
+          <x:String>Item3</x:String>
+        </generic:List>
+      </ListBox.Items>
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <c:RowsPresenter/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+          <c:CellsPresenter Background="LightGray" DataContext="{Binding $parent[ListBox].DataContext}">
+            <Panel Background="Red">
+              <TextBlock Text="Column 0" Margin="2" />
+            </Panel>
+            <Panel Background="Green">
+              <TextBlock Text="{Binding $parent[ListBoxItem].DataContext}" Margin="2" />
+            </Panel>
+            <Panel Background="Blue">
+              <TextBlock Text="Column 2" Margin="2" />
+            </Panel>
+          </c:CellsPresenter>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+    </ListBox>
+
+    
+<!--
+    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
       <c:RowsPresenter>
         <c:CellsPresenter Background="LightGray">
-          <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
           </Panel>
-          <!-- Column 1 -->
           <Panel Background="Green">
             <TextBlock Text="Column 1" Margin="2" />
           </Panel>
-          <!-- Column 2 -->
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
         </c:CellsPresenter>
         <c:CellsPresenter Background="LightGray">
-          <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
           </Panel>
-          <!-- Column 1 -->
           <Panel Background="Green">
             <TextBlock Text="Column 1 Auto" Margin="2" />
           </Panel>
-          <!-- Column 2 -->
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
         </c:CellsPresenter>
         <c:CellsPresenter Background="LightGray">
-          <!-- Column 0 -->
           <Panel Background="Red">
             <TextBlock Text="Column 0" Margin="2" />
           </Panel>
-          <!-- Column 1 -->
           <Panel Background="Green">
             <TextBlock Text="Column 1 Auto Auto" Margin="2" />
           </Panel>
-          <!-- Column 2 -->
           <Panel Background="Blue">
             <TextBlock Text="Column 2" Margin="2" />
           </Panel>
         </c:CellsPresenter>
       </c:RowsPresenter>
-
     </ScrollViewer>
+-->
+
+    
+    
   </Border>
 </Window>
