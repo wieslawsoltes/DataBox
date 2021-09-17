@@ -4,7 +4,7 @@ namespace CellPanelDemo.Controls
 {
     public class ListData
     {
-        public List<ColumnData> Columns { get; set; }
+        public List<ColumnData>? Columns { get; set; }
 
         public double AccumulatedWidth { get; set; }
         
