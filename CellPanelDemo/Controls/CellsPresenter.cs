@@ -13,8 +13,8 @@ namespace CellPanelDemo.Controls
         {
             //Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}'");
 
-            var columns = DataContext as List<ColumnData>;
-            if (columns is null)
+            var listData = DataContext as ListData;
+            if (listData is null)
             {
                 return availableSize;
             }
@@ -44,7 +44,7 @@ namespace CellPanelDemo.Controls
                     continue;
                 }
 
-                var column = columns[c];
+                var column = listData.Columns[c];
                 var type = column.Width.GridUnitType;
                 var value = column.Width.Value;
                 
@@ -84,7 +84,10 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Star:
                     {
-                        // TODO:
+                        parentWidth += childDesiredSize.Width;
+                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
+                        accumulatedWidth += childDesiredSize.Width;
+                        accumulatedHeight += childDesiredSize.Height;
                         break;
                     }
                 }
@@ -100,8 +103,8 @@ namespace CellPanelDemo.Controls
         {
             //Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}'");
             
-            var columns = DataContext as List<ColumnData>;
-            if (columns is null)
+            var listData = DataContext as ListData;
+            if (listData is null)
             {
                 return arrangeSize;
             }
@@ -120,7 +123,7 @@ namespace CellPanelDemo.Controls
 
                 var childDesiredSize = child.DesiredSize;
 
-                var column = columns[c];
+                var column = listData.Columns[c];
                 var type = column.Width.GridUnitType;
                 var value = column.Width.Value;
 
@@ -128,7 +131,7 @@ namespace CellPanelDemo.Controls
                 {
                     GridUnitType.Pixel => value,
                     GridUnitType.Auto => column.ActualWidth, // childDesiredSize.Width
-                    GridUnitType.Star => childDesiredSize.Width,
+                    GridUnitType.Star => column.ActualWidth,
                     _ => throw new ArgumentOutOfRangeException()
                 };
 

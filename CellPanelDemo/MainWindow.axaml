@@ -46,15 +46,14 @@
             <Panel Background="Blue">
               <TextBlock Text="Column 2" Margin="2" />
             </Panel>
-            <Panel Background="Yellow">
+            <Panel Background="Yellow" HorizontalAlignment="Stretch">
               <TextBlock Text="Column 3" Margin="2" />
             </Panel>
           </c:CellsPresenter>
         </DataTemplate>
       </ListBox.ItemTemplate>
     </ListBox>
-
-    
+ 
 <!--
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
       <c:RowsPresenter>
@@ -95,7 +94,5 @@
     </ScrollViewer>
 -->
 
-    
-    
   </Border>
 </Window>

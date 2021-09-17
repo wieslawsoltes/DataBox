@@ -8,7 +8,7 @@ namespace CellPanelDemo
 {
     public partial class MainWindow : Window
     {
-        public List<ColumnData> Columns { get; set; } 
+        public ListData ListData { get; set; } 
 
         public MainWindow()
         {
@@ -18,27 +18,29 @@ namespace CellPanelDemo
 #endif
             int totalColumns = 4;
 
-            Columns = new List<ColumnData>()
+            ListData = new ListData();
+
+            ListData.Columns = new List<ColumnData>()
             {
                 new(totalColumns)
                 {
-                    Width = new GridLength(100, GridUnitType.Pixel),
+                    Width = new GridLength(100, GridUnitType.Pixel)
                 },
                 new(totalColumns)
                 {
-                    Width = new GridLength(0, GridUnitType.Auto),
+                    Width = new GridLength(0, GridUnitType.Auto)
                 },
                 new(totalColumns)
                 {
-                    Width = new GridLength(200, GridUnitType.Pixel),
+                    Width = new GridLength(200, GridUnitType.Pixel)
                 },
                 new(totalColumns)
                 {
-                    Width = new GridLength(0, GridUnitType.Auto),
+                    Width = new GridLength(1, GridUnitType.Star)
                 },
             };
 
-            DataContext = Columns;
+            DataContext = ListData;
         }
 
         private void InitializeComponent()
