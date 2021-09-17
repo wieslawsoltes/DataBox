@@ -51,7 +51,7 @@ namespace CellPanelDemo.Controls
         protected override Size MeasureOverride(Size availableSize)
         {
             Debug.WriteLine($"[RowsPresenter.MeasureOverride] availableSize='{availableSize}'");
-            ClearSharedWidths();
+            // TODO: ClearSharedWidths();
 
             var panelSize = base.MeasureOverride(availableSize);
             Debug.WriteLine($"[RowsPresenter.MeasureOverride] panelSize='{panelSize}'");
