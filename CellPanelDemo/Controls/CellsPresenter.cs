@@ -84,9 +84,9 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Star:
                     {
-                        parentWidth += childDesiredSize.Width;
+                        parentWidth += column.ActualWidth;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
-                        accumulatedWidth += childDesiredSize.Width;
+                        accumulatedWidth += column.ActualWidth;
                         accumulatedHeight += childDesiredSize.Height;
                         break;
                     }
