@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 
 namespace CellPanelDemo.Controls
 {
@@ -24,9 +25,17 @@ namespace CellPanelDemo.Controls
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
 
-            for (int i = 0, count = children.Count; i < count; ++i)
+            
+
+            var listBoxItem = this.GetLogicalParent() as ListBoxItem;
+            var listBox = listBoxItem.GetLogicalParent() as ListBox;
+            var listBoxItemIndex = listBox.ItemContainerGenerator.IndexFromContainer(listBoxItem);
+            var rowIndex = listBoxItemIndex;
+
+
+            for (int c = 0, count = children.Count; c < count; ++c)
             {
-                var child = children[i];
+                var child = children[c];
                 Size childConstraint;
                 Size childDesiredSize;
 
@@ -35,7 +44,7 @@ namespace CellPanelDemo.Controls
                     continue;
                 }
 
-                var column = columns[i];
+                var column = columns[c];
                 var type = column.Width.GridUnitType;
                 var value = column.Width.Value;
                 
@@ -55,7 +64,8 @@ namespace CellPanelDemo.Controls
                 {
                     case GridUnitType.Pixel:
                     {
-                        column.SharedWidths[i] = width;
+                        Debug.WriteLine($"[CellsPresenter.MeasureOverride] column[{c}].SharedWidths[{rowIndex}]='{width}'");
+                        column.SharedWidths[rowIndex] = width;
                         parentWidth += width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += width;
@@ -64,7 +74,8 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Auto:
                     {
-                        column.SharedWidths[i] = childDesiredSize.Width;
+                        Debug.WriteLine($"[CellsPresenter.MeasureOverride] column[].SharedWidths[{rowIndex}]='{childDesiredSize.Width}'");
+                        column.SharedWidths[rowIndex] = childDesiredSize.Width;
                         parentWidth += childDesiredSize.Width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += childDesiredSize.Width;
@@ -80,7 +91,7 @@ namespace CellPanelDemo.Controls
             }
 
             var parentSize = new Size(parentWidth, parentHeight);
-            Debug.WriteLine($"[CellsPresenter.MeasureOverride] parentSize='{parentSize}'");
+            Debug.WriteLine($"[CellsPresenter.MeasureOverride] parentSize='{parentSize}', Children='{Children.Count}'");
 
             return parentSize;
         }
@@ -99,9 +110,9 @@ namespace CellPanelDemo.Controls
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
 
-            for (int i = 0, count = children.Count; i < count; ++i)
+            for (int c = 0, count = children.Count; c < count; ++c)
             {
-                var child = children[i];
+                var child = children[c];
                 if (child == null)
                 {
                     continue;
@@ -109,7 +120,7 @@ namespace CellPanelDemo.Controls
 
                 var childDesiredSize = child.DesiredSize;
 
-                var column = columns[i];
+                var column = columns[c];
                 var type = column.Width.GridUnitType;
                 var value = column.Width.Value;
 
