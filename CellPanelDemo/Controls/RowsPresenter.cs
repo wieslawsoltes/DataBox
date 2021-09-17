@@ -68,6 +68,7 @@ namespace CellPanelDemo.Controls
             
             var accumulatedWidth = UpdateActualWidths();
             finalSize = finalSize.WithWidth(accumulatedWidth);
+            Debug.WriteLine($"[RowsPresenter.ArrangeOverride] accumulatedWidth='{accumulatedWidth}'");
 
             var panelSize = base.ArrangeOverride(finalSize);
             Debug.WriteLine($"[RowsPresenter.ArrangeOverride] panelSize='{panelSize}'");
