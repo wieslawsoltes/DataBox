@@ -49,7 +49,7 @@ namespace CellPanelDemo.Controls
                         {
                             var width = column.SharedWidths[r];
                             column.ActualWidth = Math.Max(column.ActualWidth, width);
-                            Debug.WriteLine($"[UpdateActualWidths] columns[{c}].SharedWidths[{r}]='{width}', type='{type}'");
+                            //Debug.WriteLine($"[UpdateActualWidths] columns[{c}].SharedWidths[{r}]='{width}', type='{type}'");
                         }
                         accumulatedWidth += column.ActualWidth;
                         break;
@@ -60,7 +60,7 @@ namespace CellPanelDemo.Controls
                         {
                             var width = column.SharedWidths[r];
                             column.ActualWidth = Math.Max(column.ActualWidth, width);
-                            Debug.WriteLine($"[UpdateActualWidths] columns[{c}].SharedWidths[{r}]='{width}', type='{type}'");
+                            //Debug.WriteLine($"[UpdateActualWidths] columns[{c}].SharedWidths[{r}]='{width}', type='{type}'");
                         }
                         accumulatedWidth += column.ActualWidth;
                         break;
@@ -102,7 +102,7 @@ namespace CellPanelDemo.Controls
                         var width = (value / totalStarValue) * totalWidthForStars;
                         column.ActualWidth = width;
                         accumulatedWidth += column.ActualWidth;
-                        Debug.WriteLine($"[UpdateActualWidths] columns[{c}].ActualWidth='{width}', type='{type}', value='{value}', totalStarValue='{totalStarValue}', totalWidthForStars='{totalWidthForStars}'");
+                        //Debug.WriteLine($"[UpdateActualWidths] columns[{c}].ActualWidth='{width}', type='{type}', value='{value}', totalStarValue='{totalStarValue}', totalWidthForStars='{totalWidthForStars}'");
                         break;
                     }
                 }
