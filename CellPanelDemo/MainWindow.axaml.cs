@@ -19,6 +19,72 @@ namespace CellPanelDemo
             int totalColumns = 4;
 
             ListData = new ListData();
+            
+            /*
+            ListData.Columns = new List<ColumnData>()
+            {
+                new(totalColumns)
+                {
+                    Width = new GridLength(0, GridUnitType.Auto)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(0, GridUnitType.Auto)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(0, GridUnitType.Auto)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(0, GridUnitType.Auto)
+                },
+            };
+            //*/
+
+            /*
+            ListData.Columns = new List<ColumnData>()
+            {
+                new(totalColumns)
+                {
+                    Width = new GridLength(100, GridUnitType.Pixel)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(150, GridUnitType.Pixel)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(150, GridUnitType.Pixel)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(100, GridUnitType.Pixel)
+                },
+            };
+            //*/
+
+            //*
+            ListData.Columns = new List<ColumnData>()
+            {
+                new(totalColumns)
+                {
+                    Width = new GridLength(2, GridUnitType.Star)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(0, GridUnitType.Auto)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(200, GridUnitType.Pixel)
+                },
+                new(totalColumns)
+                {
+                    Width = new GridLength(1, GridUnitType.Star)
+                },
+            };
+            //*/
 
             /*
             ListData.Columns = new List<ColumnData>()
@@ -42,7 +108,7 @@ namespace CellPanelDemo
             };
             //*/
 
-            //*
+            /*
             ListData.Columns = new List<ColumnData>()
             {
                 new(totalColumns)
