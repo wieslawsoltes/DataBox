@@ -98,7 +98,7 @@ namespace CellPanelDemo.Controls
                     case GridUnitType.Star:
                     {
                         var width = (value / totalStarValue) * totalWidthForStars;
-                        column.ActualWidth = Math.Max(column.ActualWidth, width);
+                        column.ActualWidth = width;
                         Debug.WriteLine($"[UpdateActualWidths] columns[{c}].ActualWidth='{width}', type='{type}', value='{value}', totalStarValue='{totalStarValue}', totalWidthForStars='{totalWidthForStars}'");
                         break;
                     }
