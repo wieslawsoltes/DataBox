@@ -123,11 +123,11 @@ namespace CellPanelDemo.Controls
             listData.AvailableWidth = availableSize.Width;
             listData.AvailableHeight = availableSize.Height;
 
-            //Debug.WriteLine($"[RowsPresenter.MeasureOverride] availableSize='{availableSize}'");
+            //Debug.WriteLine($"[RowsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}'");
             // TODO: ClearSharedWidths();
 
             var panelSize = base.MeasureOverride(availableSize);
-            Debug.WriteLine($"[RowsPresenter.MeasureOverride] panelSize='{panelSize}'");
+            Debug.WriteLine($"[RowsPresenter.MeasureOverride] panelSize='{panelSize}', Children='{Children.Count}'");
 
             var accumulatedWidth = UpdateActualWidths();
             panelSize = panelSize.WithWidth(accumulatedWidth);
@@ -150,10 +150,10 @@ namespace CellPanelDemo.Controls
 
             listData.AccumulatedWidth = UpdateActualWidths();
             finalSize = finalSize.WithWidth(listData.AccumulatedWidth);
-            Debug.WriteLine($"[RowsPresenter.ArrangeOverride] accumulatedWidth='{listData.AccumulatedWidth}'");
+            //Debug.WriteLine($"[RowsPresenter.ArrangeOverride] accumulatedWidth='{listData.AccumulatedWidth}', Children='{Children.Count}'");
 
             var panelSize = base.ArrangeOverride(finalSize);
-            Debug.WriteLine($"[RowsPresenter.ArrangeOverride] panelSize='{panelSize}'");
+            Debug.WriteLine($"[RowsPresenter.ArrangeOverride] panelSize='{panelSize}', Children='{Children.Count}'");
 
             return panelSize;
         }
