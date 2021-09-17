@@ -46,7 +46,7 @@
             <Panel Background="Blue">
               <TextBlock Text="Column 2" Margin="2" />
             </Panel>
-            <Panel Background="Yellow" HorizontalAlignment="Stretch">
+            <Panel Background="Yellow">
               <TextBlock Text="Column 3" Margin="2" />
             </Panel>
           </c:CellsPresenter>
