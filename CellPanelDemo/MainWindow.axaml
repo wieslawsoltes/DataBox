@@ -34,19 +34,26 @@
             BorderThickness="1" 
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-
-      <ListBox Items="{Binding Items}" VirtualizationMode="Simple">
+      <ListBox Items="{Binding Items}">
         <ListBox.Styles>
+          <Style Selector="ListBox">
+            <Setter Property="VirtualizationMode" Value="Simple" />
+            <Setter Property="Background" Value="Transparent" />
+            <!-- <Setter Property="(ScrollViewer.HorizontalScrollBarVisibility)" Value="Auto" /> -->
+            <!-- <Setter Property="(ScrollViewer.VerticalScrollBarVisibility)" Value="Auto" /> -->
+            <Setter Property="ItemsPanel">
+              <Setter.Value>
+                <ItemsPanelTemplate>
+                  <c:RowsPresenter DataContext="{Binding ListData}" Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
           <Style Selector="ListBoxItem">
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
           </Style>
         </ListBox.Styles>
-        <ListBox.ItemsPanel>
-          <ItemsPanelTemplate>
-            <c:RowsPresenter DataContext="{Binding ListData}"/>
-          </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
         <ListBox.ItemTemplate>
           <DataTemplate>
             <c:CellsPresenter Background="LightGray" DataContext="{Binding $parent[ListBox].DataContext.ListData}">
