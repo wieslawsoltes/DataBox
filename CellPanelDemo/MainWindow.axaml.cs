@@ -22,11 +22,11 @@ namespace CellPanelDemo
             
             Items = new List<string>()
             {
+                "Item 0",
                 "Item 1",
                 "Item 2",
-                "Item 3",
-                "Item 4", // "Item 4 Auto Auto"
-                "Item 5"
+                "Item 3", // "Item 4 Auto Auto"
+                "Item 4"
             };
 
             for (int i = 0; i < 1_000; i++)
