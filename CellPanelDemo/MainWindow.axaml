@@ -34,8 +34,8 @@
             BorderThickness="1" 
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-      <ListBox Items="{Binding Items}">
-        <ListBox.Styles>
+      <c:RowsListBox Items="{Binding Items}">
+        <c:RowsListBox.Styles>
           <Style Selector="ListBox">
             <Setter Property="VirtualizationMode" Value="Simple" />
             <Setter Property="Background" Value="Transparent" />
@@ -53,8 +53,8 @@
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
           </Style>
-        </ListBox.Styles>
-        <ListBox.ItemTemplate>
+        </c:RowsListBox.Styles>
+        <c:RowsListBox.ItemTemplate>
           <DataTemplate>
             <c:CellsPresenter Background="LightGray" DataContext="{Binding $parent[ListBox].DataContext.ListData}">
               <Panel Background="Red">
@@ -71,48 +71,8 @@
               </Panel>
             </c:CellsPresenter>
           </DataTemplate>
-        </ListBox.ItemTemplate>
-      </ListBox>
-   
-  <!--
-      <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <c:RowsPresenter>
-          <c:CellsPresenter Background="LightGray">
-            <Panel Background="Red">
-              <TextBlock Text="Column 0" Margin="2" />
-            </Panel>
-            <Panel Background="Green">
-              <TextBlock Text="Column 1" Margin="2" />
-            </Panel>
-            <Panel Background="Blue">
-              <TextBlock Text="Column 2" Margin="2" />
-            </Panel>
-          </c:CellsPresenter>
-          <c:CellsPresenter Background="LightGray">
-            <Panel Background="Red">
-              <TextBlock Text="Column 0" Margin="2" />
-            </Panel>
-            <Panel Background="Green">
-              <TextBlock Text="Column 1 Auto" Margin="2" />
-            </Panel>
-            <Panel Background="Blue">
-              <TextBlock Text="Column 2" Margin="2" />
-            </Panel>
-          </c:CellsPresenter>
-          <c:CellsPresenter Background="LightGray">
-            <Panel Background="Red">
-              <TextBlock Text="Column 0" Margin="2" />
-            </Panel>
-            <Panel Background="Green">
-              <TextBlock Text="Column 1 Auto Auto" Margin="2" />
-            </Panel>
-            <Panel Background="Blue">
-              <TextBlock Text="Column 2" Margin="2" />
-            </Panel>
-          </c:CellsPresenter>
-        </c:RowsPresenter>
-      </ScrollViewer>
-  -->
+        </c:RowsListBox.ItemTemplate>
+      </c:RowsListBox>
 
     </Border>
   </DockPanel>
