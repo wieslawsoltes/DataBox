@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 
@@ -12,9 +11,6 @@ namespace CellPanelDemo.Controls
 
         internal static readonly AttachedProperty<object?> ItemDataProperty = 
             AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(RowsPresenter), default, true);
-
-        internal static readonly AttachedProperty<double> ItemWidthProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("ItemWidth", typeof(RowsPresenter), 0.0, false);
 
         internal static int GetItemIndex(IAvaloniaObject obj)
         {
@@ -34,16 +30,6 @@ namespace CellPanelDemo.Controls
         internal static void SetItemData(IAvaloniaObject obj, object? value)
         {
             obj.SetValue(ItemDataProperty, value);
-        }
-
-        internal static double GetItemWidth(IAvaloniaObject obj)
-        {
-            return obj.GetValue(ItemWidthProperty);
-        }
-
-        internal static void SetItemWidth(IAvaloniaObject obj, double value)
-        {
-            obj.SetValue(ItemWidthProperty, value);
         }
 
         private double UpdateActualWidths(Avalonia.Controls.Controls children)
@@ -70,9 +56,8 @@ namespace CellPanelDemo.Controls
                             var cellPresenter = child.LogicalChildren[0] as CellsPresenter;
                             var cells = cellPresenter.Children;
                             var cell = cells[c];
-                            var width = RowsPresenter.GetItemWidth(cell);
+                            var width = Cell.GetItemWidth(cell);
                             column.ActualWidth = Math.Max(column.ActualWidth, width);
-                            //Debug.WriteLine($"[UpdateActualWidths] columns[{c}]='{width}', type='{type}'");
                         }
                         accumulatedWidth += column.ActualWidth;
                         break;
@@ -84,9 +69,8 @@ namespace CellPanelDemo.Controls
                             var cellPresenter = child.LogicalChildren[0] as CellsPresenter;
                             var cells = cellPresenter.Children;
                             var cell = cells[c];
-                            var width = RowsPresenter.GetItemWidth(cell);
+                            var width = Cell.GetItemWidth(cell);
                             column.ActualWidth = Math.Max(column.ActualWidth, width);
-                            //Debug.WriteLine($"[UpdateActualWidths] columns[{c}]='{width}', type='{type}'");
                         }
                         accumulatedWidth += column.ActualWidth;
                         break;
@@ -128,7 +112,6 @@ namespace CellPanelDemo.Controls
                         var width = (value / totalStarValue) * totalWidthForStars;
                         column.ActualWidth = width;
                         accumulatedWidth += column.ActualWidth;
-                        //Debug.WriteLine($"[UpdateActualWidths] columns[{c}].ActualWidth='{width}', type='{type}', value='{value}', totalStarValue='{totalStarValue}', totalWidthForStars='{totalWidthForStars}'");
                         break;
                     }
                 }
@@ -149,10 +132,7 @@ namespace CellPanelDemo.Controls
             listData.AvailableWidth = availableSize.Width;
             listData.AvailableHeight = availableSize.Height;
 
-            //Debug.WriteLine($"[RowsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}'");
-
             var panelSize = base.MeasureOverride(availableSize);
-            //Debug.WriteLine($"[RowsPresenter.MeasureOverride] panelSize='{panelSize}', Children='{Children.Count}'");
 
             var accumulatedWidth = UpdateActualWidths(Children);
             panelSize = panelSize.WithWidth(accumulatedWidth);
@@ -171,14 +151,10 @@ namespace CellPanelDemo.Controls
             listData.AvailableWidth = finalSize.Width;
             listData.AvailableHeight = finalSize.Height;
 
-            //Debug.WriteLine($"[RowsPresenter.ArrangeOverride] finalSize='{finalSize}'");
-
             listData.AccumulatedWidth = UpdateActualWidths(Children);
             finalSize = finalSize.WithWidth(listData.AccumulatedWidth);
-            //Debug.WriteLine($"[RowsPresenter.ArrangeOverride] accumulatedWidth='{listData.AccumulatedWidth}', Children='{Children.Count}'");
 
             var panelSize = base.ArrangeOverride(finalSize);
-            //Debug.WriteLine($"[RowsPresenter.ArrangeOverride] panelSize='{panelSize}', Children='{Children.Count}'");
 
             return panelSize;
         }

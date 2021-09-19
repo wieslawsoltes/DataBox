@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 
@@ -10,7 +9,6 @@ namespace CellPanelDemo.Controls
         protected override Size MeasureOverride(Size availableSize)
         {
             var rowIndex = RowsPresenter.GetItemIndex(this);
-            Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             var listData = DataContext as ListData;
             if (listData is null)
@@ -55,8 +53,7 @@ namespace CellPanelDemo.Controls
                 {
                     case GridUnitType.Pixel:
                     {
-                        //Debug.WriteLine($"[CellsPresenter.MeasureOverride] column[{c}].SharedWidths[{rowIndex}]='{width}', rowIndex='{rowIndex}'");
-                        RowsPresenter.SetItemWidth(child, width);
+                        Cell.SetItemWidth(child, width);
                         parentWidth += width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += width;
@@ -65,8 +62,7 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Auto:
                     {
-                        //Debug.WriteLine($"[CellsPresenter.MeasureOverride] column[].SharedWidths[{rowIndex}]='{childDesiredSize.Width}', rowIndex='{rowIndex}'");
-                        RowsPresenter.SetItemWidth(child, childDesiredSize.Width);
+                        Cell.SetItemWidth(child, childDesiredSize.Width);
                         parentWidth += childDesiredSize.Width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += childDesiredSize.Width;
@@ -75,7 +71,7 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Star:
                     {
-                        RowsPresenter.SetItemWidth(child, 0.0);
+                        Cell.SetItemWidth(child, 0.0);
                         parentWidth += column.ActualWidth;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += column.ActualWidth;
@@ -86,7 +82,6 @@ namespace CellPanelDemo.Controls
             }
 
             var parentSize = new Size(parentWidth, parentHeight);
-            Debug.WriteLine($"[CellsPresenter.MeasureOverride] parentSize='{parentSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             return parentSize;
         }
@@ -94,7 +89,6 @@ namespace CellPanelDemo.Controls
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             var rowIndex = RowsPresenter.GetItemIndex(this);
-            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
             
             var listData = DataContext as ListData;
             if (listData is null)
@@ -115,20 +109,8 @@ namespace CellPanelDemo.Controls
                 }
 
                 var childDesiredSize = child.DesiredSize;
-
                 var column = listData.Columns[c];
-                var type = column.Width.GridUnitType;
-                var value = column.Width.Value;
-
-                var width = type switch
-                {
-                    GridUnitType.Pixel => value,
-                    GridUnitType.Auto => column.ActualWidth, // childDesiredSize.Width
-                    GridUnitType.Star => column.ActualWidth,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
-
-                width = Math.Max(0.0, width);
+                var width = Math.Max(0.0, column.ActualWidth);
 
                 var rcChild = new Rect(
                     accumulatedWidth,
@@ -143,7 +125,6 @@ namespace CellPanelDemo.Controls
             }
 
             var accumulatedSize = new Size(accumulatedWidth, accumulatedHeight);
-            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] accumulatedSize='{accumulatedSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             return accumulatedSize;
         }
