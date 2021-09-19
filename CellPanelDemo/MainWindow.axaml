@@ -35,12 +35,11 @@
             BorderThickness="1" 
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-      
+      <!--
       <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto">
         <c:RowsItemsRepeater Items="{Binding Items}">
           <ItemsRepeater.Layout>
-            <!-- <StackLayout Orientation="Vertical"/> -->
             <UniformGridLayout MaximumRowsOrColumns="1"/>
           </ItemsRepeater.Layout>
           <ItemsRepeater.ItemTemplate>
@@ -64,8 +63,8 @@
           </ItemsRepeater.ItemTemplate>
         </c:RowsItemsRepeater>
       </ScrollViewer>
+      -->
 
-<!--
       <c:RowsListBox Items="{Binding Items}">
         <c:RowsListBox.Styles>
           <Style Selector="ListBox">
@@ -106,7 +105,7 @@
           </DataTemplate>
         </c:RowsListBox.ItemTemplate>
       </c:RowsListBox>
--->
+
     </Border>
   </DockPanel>
 </Window>
