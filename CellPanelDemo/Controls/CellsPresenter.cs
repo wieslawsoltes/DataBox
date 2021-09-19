@@ -9,8 +9,7 @@ namespace CellPanelDemo.Controls
     {
         protected override Size MeasureOverride(Size availableSize)
         {
-            var rowIndex = RowsPresenter.GetItemIndex(this);
-
+            //var rowIndex = RowsPresenter.GetItemIndex(this);
             //Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             var listData = DataContext as ListData;
@@ -94,8 +93,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var rowIndex = RowsPresenter.GetItemIndex(this);
-
+            //var rowIndex = RowsPresenter.GetItemIndex(this);
             //Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
             
             var listData = DataContext as ListData;
