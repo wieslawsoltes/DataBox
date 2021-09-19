@@ -128,15 +128,18 @@ namespace CellPanelDemo.Controls
 
             var children = Children;
 
+            // TODO: Measure children only when column ActualWidth changes.
             for (int i = 0, count = children.Count; i < count; ++i)
             {
                 var child = children[i];
                 child.Measure(availableSize);
             }
 
-            var panelSize = base.MeasureOverride(availableSize);
-
             var accumulatedWidth = UpdateActualWidths(children);
+
+            var panelSize = base.MeasureOverride(availableSize.WithWidth(accumulatedWidth));
+
+            accumulatedWidth = UpdateActualWidths(children);
             panelSize = panelSize.WithWidth(accumulatedWidth);
 
             return panelSize;
@@ -153,8 +156,25 @@ namespace CellPanelDemo.Controls
             listData.AvailableWidth = finalSize.Width;
             listData.AvailableHeight = finalSize.Height;
 
-            listData.AccumulatedWidth = UpdateActualWidths(Children);
+            var children = Children;
+
+            listData.AccumulatedWidth = UpdateActualWidths(children);
             finalSize = finalSize.WithWidth(listData.AccumulatedWidth);
+
+            // TODO: InvalidateArrange children only when column ActualWidth changes.
+            foreach (var child in children)
+            {
+                child.InvalidateArrange();
+                
+                var cellPresenter = child.LogicalChildren[0] as CellsPresenter;
+                cellPresenter.InvalidateArrange();
+                
+                var cells = cellPresenter.Children;
+                foreach (var cell in cells)
+                {
+                    cell.InvalidateArrange();
+                }
+            }
 
             var panelSize = base.ArrangeOverride(finalSize);
 
