@@ -150,7 +150,6 @@ namespace CellPanelDemo.Controls
             listData.AvailableHeight = availableSize.Height;
 
             //Debug.WriteLine($"[RowsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}'");
-            // TODO: ClearSharedWidths();
 
             var panelSize = base.MeasureOverride(availableSize);
             //Debug.WriteLine($"[RowsPresenter.MeasureOverride] panelSize='{panelSize}', Children='{Children.Count}'");
