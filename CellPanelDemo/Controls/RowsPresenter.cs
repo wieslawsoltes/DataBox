@@ -126,9 +126,17 @@ namespace CellPanelDemo.Controls
             listData.AvailableWidth = availableSize.Width;
             listData.AvailableHeight = availableSize.Height;
 
+            var children = Children;
+
+            for (int i = 0, count = children.Count; i < count; ++i)
+            {
+                var child = children[i];
+                child.Measure(availableSize);
+            }
+
             var panelSize = base.MeasureOverride(availableSize);
 
-            var accumulatedWidth = UpdateActualWidths(Children);
+            var accumulatedWidth = UpdateActualWidths(children);
             panelSize = panelSize.WithWidth(accumulatedWidth);
 
             return panelSize;
