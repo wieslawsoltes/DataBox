@@ -6,11 +6,20 @@ namespace CellPanelDemo.Controls
 {
     public class CellsPresenter : Panel
     {
+        public static readonly StyledProperty<ListData?> ListDataProperty = 
+            AvaloniaProperty.Register<CellsPresenter, ListData?>(nameof(ListData));
+
+        public ListData? ListData
+        {
+            get => GetValue(ListDataProperty);
+            set => SetValue(ListDataProperty, value);
+        }
+
         protected override Size MeasureOverride(Size availableSize)
         {
             var rowIndex = RowsPresenter.GetItemIndex(this);
 
-            var listData = DataContext as ListData;
+            var listData = ListData;
             if (listData is null)
             {
                 return availableSize;
@@ -99,7 +108,7 @@ namespace CellPanelDemo.Controls
         {
             var rowIndex = RowsPresenter.GetItemIndex(this);
             
-            var listData = DataContext as ListData;
+            var listData = ListData;
             if (listData is null)
             {
                 return arrangeSize;
