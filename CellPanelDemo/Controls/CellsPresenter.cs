@@ -28,7 +28,7 @@ namespace CellPanelDemo.Controls
                 Size childConstraint;
                 Size childDesiredSize;
 
-                if (child == null)
+                if (child is not Cell cell)
                 {
                     continue;
                 }
@@ -46,36 +46,45 @@ namespace CellPanelDemo.Controls
                 };
 
                 childConstraint = new Size(width, double.PositiveInfinity);
-                child.Measure(childConstraint);
-                childDesiredSize = child.DesiredSize;
+                cell.Measure(childConstraint);
+                childDesiredSize = cell.DesiredSize;
 
                 switch (type)
                 {
                     case GridUnitType.Pixel:
                     {
-                        Cell.SetItemWidth(child, width);
+                        Cell.SetItemWidth(cell, width);
+
                         parentWidth += width;
-                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += width;
+
+                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedHeight += childDesiredSize.Height;
+
                         break;
                     }
                     case GridUnitType.Auto:
                     {
-                        Cell.SetItemWidth(child, childDesiredSize.Width);
+                        Cell.SetItemWidth(cell, childDesiredSize.Width);
+
                         parentWidth += childDesiredSize.Width;
-                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += childDesiredSize.Width;
+
+                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedHeight += childDesiredSize.Height;
+
                         break;
                     }
                     case GridUnitType.Star:
                     {
-                        Cell.SetItemWidth(child, 0.0);
+                        Cell.SetItemWidth(cell, 0.0);
+
                         parentWidth += column.ActualWidth;
-                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedWidth += column.ActualWidth;
+                        
+                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
                         accumulatedHeight += childDesiredSize.Height;
+
                         break;
                     }
                 }
@@ -103,12 +112,12 @@ namespace CellPanelDemo.Controls
             for (int c = 0, count = children.Count; c < count; ++c)
             {
                 var child = children[c];
-                if (child == null)
+                if (child is not Cell cell)
                 {
                     continue;
                 }
 
-                var childDesiredSize = child.DesiredSize;
+                var childDesiredSize = cell.DesiredSize;
                 var column = listData.Columns[c];
                 var width = Math.Max(0.0, column.ActualWidth);
 
@@ -121,7 +130,7 @@ namespace CellPanelDemo.Controls
                 accumulatedWidth += width;
                 accumulatedHeight = Math.Max(accumulatedHeight, childDesiredSize.Height);
 
-                child.Arrange(rcChild);
+                cell.Arrange(rcChild);
             }
 
             var accumulatedSize = new Size(accumulatedWidth, accumulatedHeight);
