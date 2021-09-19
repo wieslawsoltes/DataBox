@@ -89,14 +89,9 @@ namespace CellPanelDemo.Controls
             {
                 var column = listData.Columns[c];
                 var type = column.Width.GridUnitType;
-                var value = column.Width.Value;
-                switch (type)
+                if (type == GridUnitType.Star)
                 {
-                    case GridUnitType.Star:
-                    {
-                        totalStarValue += value;
-                        break;
-                    }
+                    totalStarValue += column.Width.Value;
                 }
             }
 
@@ -115,7 +110,6 @@ namespace CellPanelDemo.Controls
                         break;
                     }
                 }
-
             }
             
             return accumulatedWidth;
