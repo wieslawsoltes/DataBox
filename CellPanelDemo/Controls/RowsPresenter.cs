@@ -8,10 +8,10 @@ namespace CellPanelDemo.Controls
     public class RowsPresenter : VirtualizingStackPanel
     {
         internal static readonly AttachedProperty<int> ItemIndexProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(RowsPresenter), -1, false);
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(RowsPresenter), -1, true);
 
         internal static readonly AttachedProperty<object?> ItemDataProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(RowsPresenter), default, false);
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(RowsPresenter), default, true);
 
         internal static readonly AttachedProperty<double> ItemWidthProperty = 
             AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("ItemWidth", typeof(RowsPresenter), 0.0, false);
