@@ -21,7 +21,7 @@
         <TextBlock Text="Column 0" Margin="2" />
       </Panel>
       <Panel Grid.Column="1" Background="Green">
-        <TextBlock Text="Item4 Auto Auto" Margin="2" />
+        <TextBlock Text="Item 4 Auto Auto" Margin="2" />
       </Panel>
       <Panel Grid.Column="2" Background="Blue">
         <TextBlock Text="Column 2" Margin="2" />
