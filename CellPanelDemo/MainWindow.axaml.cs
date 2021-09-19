@@ -29,7 +29,7 @@ namespace CellPanelDemo
                 "Item 4"
             };
 
-            for (int i = 0; i < 10_000_000; i++)
+            for (int i = 0; i < 1_000_000; i++)
             {
                 Items.Add($"Item {i+5}");
             }
