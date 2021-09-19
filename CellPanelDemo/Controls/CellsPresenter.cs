@@ -93,7 +93,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            //var rowIndex = RowsPresenter.GetItemIndex(this);
+            var rowIndex = RowsPresenter.GetItemIndex(this);
             //Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
             
             var listData = DataContext as ListData;
@@ -143,7 +143,7 @@ namespace CellPanelDemo.Controls
             }
 
             var accumulatedSize = new Size(accumulatedWidth, accumulatedHeight);
-            //Debug.WriteLine($"[CellsPresenter.ArrangeOverride] accumulatedSize='{accumulatedSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
+            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] accumulatedSize='{accumulatedSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             return accumulatedSize;
         }
