@@ -9,8 +9,8 @@ namespace CellPanelDemo.Controls
     {
         protected override Size MeasureOverride(Size availableSize)
         {
-            //var rowIndex = RowsPresenter.GetItemIndex(this);
-            //Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
+            var rowIndex = RowsPresenter.GetItemIndex(this);
+            Debug.WriteLine($"[CellsPresenter.MeasureOverride] availableSize='{availableSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             var listData = DataContext as ListData;
             if (listData is null)
@@ -86,7 +86,7 @@ namespace CellPanelDemo.Controls
             }
 
             var parentSize = new Size(parentWidth, parentHeight);
-            //Debug.WriteLine($"[CellsPresenter.MeasureOverride] parentSize='{parentSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
+            Debug.WriteLine($"[CellsPresenter.MeasureOverride] parentSize='{parentSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
 
             return parentSize;
         }
@@ -94,7 +94,7 @@ namespace CellPanelDemo.Controls
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             var rowIndex = RowsPresenter.GetItemIndex(this);
-            //Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
+            Debug.WriteLine($"[CellsPresenter.ArrangeOverride] arrangeSize='{arrangeSize}', Children='{Children.Count}', rowIndex='{rowIndex}'");
             
             var listData = DataContext as ListData;
             if (listData is null)
