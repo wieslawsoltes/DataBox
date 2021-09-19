@@ -40,6 +40,9 @@
       <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto">
         <c:RowsItemsRepeater Items="{Binding Items}">
+          <ItemsRepeater.Layout>
+            <UniformGridLayout MaximumRowsOrColumns="1"/>
+          </ItemsRepeater.Layout>
           <ItemsRepeater.ItemTemplate>
             <DataTemplate>
               <c:CellsPresenter ListData="{Binding $parent[ItemsRepeater].DataContext.ListData}" 
