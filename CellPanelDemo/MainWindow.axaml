@@ -40,8 +40,8 @@
           <Style Selector="ListBox">
             <Setter Property="VirtualizationMode" Value="Simple" />
             <Setter Property="Background" Value="Transparent" />
-            <!-- <Setter Property="(ScrollViewer.HorizontalScrollBarVisibility)" Value="Auto" /> -->
-            <!-- <Setter Property="(ScrollViewer.VerticalScrollBarVisibility)" Value="Auto" /> -->
+            <Setter Property="(ScrollViewer.HorizontalScrollBarVisibility)" Value="Disabled" />
+            <Setter Property="(ScrollViewer.VerticalScrollBarVisibility)" Value="Auto" />
             <Setter Property="ItemsPanel">
               <Setter.Value>
                 <ItemsPanelTemplate>
@@ -57,12 +57,13 @@
         </c:RowsListBox.Styles>
         <c:RowsListBox.ItemTemplate>
           <DataTemplate>
-            <c:CellsPresenter Background="LightGray" DataContext="{Binding $parent[ListBox].DataContext.ListData}">
+            <c:CellsPresenter ListData="{Binding $parent[ListBox].DataContext.ListData}"
+                              Background="LightGray">
               <c:Cell Background="Red">
                 <TextBlock Text="Column 0" Margin="2" />
               </c:Cell>
               <c:Cell Background="Green">
-                <TextBlock Text="{Binding $parent[ListBoxItem].DataContext}" Margin="2" />
+                <TextBlock Text="{Binding}" Margin="2" />
               </c:Cell>
               <c:Cell Background="Blue">
                 <TextBlock Text="Column 2" Margin="2" />
