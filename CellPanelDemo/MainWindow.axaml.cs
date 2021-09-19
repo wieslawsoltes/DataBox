@@ -34,26 +34,24 @@ namespace CellPanelDemo
                 Items.Add($"Item{i+5}");
             }
             
-            int totalRows = Items.Count;
-
             ListData = new ListData();
             
             /*
             ListData.Columns = new List<ColumnData>()
             {
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(0, GridUnitType.Auto)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(0, GridUnitType.Auto)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(0, GridUnitType.Auto)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(0, GridUnitType.Auto)
                 },
@@ -63,19 +61,19 @@ namespace CellPanelDemo
             /*
             ListData.Columns = new List<ColumnData>()
             {
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(100, GridUnitType.Pixel)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(150, GridUnitType.Pixel)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(150, GridUnitType.Pixel)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(100, GridUnitType.Pixel)
                 },
@@ -85,19 +83,19 @@ namespace CellPanelDemo
             //*
             ListData.Columns = new List<ColumnData>()
             {
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(2, GridUnitType.Star)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(0, GridUnitType.Auto)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(200, GridUnitType.Pixel)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(1, GridUnitType.Star)
                 },
@@ -107,19 +105,19 @@ namespace CellPanelDemo
             /*
             ListData.Columns = new List<ColumnData>()
             {
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(100, GridUnitType.Pixel)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(0, GridUnitType.Auto)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(200, GridUnitType.Pixel)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(1, GridUnitType.Star)
                 },
@@ -129,19 +127,19 @@ namespace CellPanelDemo
             /*
             ListData.Columns = new List<ColumnData>()
             {
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(2, GridUnitType.Star)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(1, GridUnitType.Star)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(1, GridUnitType.Star)
                 },
-                new(totalRows)
+                new()
                 {
                     Width = new GridLength(1, GridUnitType.Star)
                 },
