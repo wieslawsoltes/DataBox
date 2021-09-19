@@ -35,6 +35,34 @@
             BorderThickness="1" 
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
+
+    <!--
+      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">
+        <c:RowsItemsRepeater Items="{Binding Items}">
+          <ItemsRepeater.ItemTemplate>
+            <DataTemplate>
+              <c:CellsPresenter ListData="{Binding $parent[ItemsRepeater].DataContext.ListData}" 
+                                Background="LightGray">
+                <c:Cell Background="Red">
+                  <TextBlock Text="{Binding}" Margin="2" />
+                </c:Cell>
+                <c:Cell Background="Green">
+                  <TextBlock Text="{Binding}" Margin="2" />
+                </c:Cell>
+                <c:Cell Background="Blue">
+                  <TextBlock Text="{Binding}" Margin="2" />
+                </c:Cell>
+                <c:Cell Background="Yellow">
+                  <TextBlock Text="{Binding}" Margin="2" />
+                </c:Cell>
+              </c:CellsPresenter>
+            </DataTemplate>
+          </ItemsRepeater.ItemTemplate>
+        </c:RowsItemsRepeater>
+      </ScrollViewer>
+      -->
+
       <c:RowsListBox Items="{Binding Items}">
         <c:RowsListBox.Styles>
           <Style Selector="ListBox">
