@@ -35,37 +35,38 @@
             BorderThickness="1" 
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
-      <!--
-      <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                    VerticalScrollBarVisibility="Auto">
-        <c:RowsItemsRepeater Items="{Binding Items}">
-          <ItemsRepeater.Layout>
-            <UniformGridLayout MaximumRowsOrColumns="1"/>
-          </ItemsRepeater.Layout>
-          <ItemsRepeater.ItemTemplate>
-            <DataTemplate>
-              <c:CellsPresenter ListData="{Binding $parent[ItemsRepeater].DataContext.ListData}" 
-                                Background="LightGray">
-                <c:Cell Background="Red">
-                  <TextBlock Text="{Binding}" Margin="2" />
-                </c:Cell>
-                <c:Cell Background="Green">
-                  <TextBlock Text="{Binding}" Margin="2" />
-                </c:Cell>
-                <c:Cell Background="Blue">
-                  <TextBlock Text="{Binding}" Margin="2" />
-                </c:Cell>
-                <c:Cell Background="Yellow">
-                  <TextBlock Text="{Binding}" Margin="2" />
-                </c:Cell>
-              </c:CellsPresenter>
-            </DataTemplate>
-          </ItemsRepeater.ItemTemplate>
-        </c:RowsItemsRepeater>
-      </ScrollViewer>
-      -->
 
       <c:RowsListBox Items="{Binding Items}">
+        <c:RowsListBox.Columns>
+          <c:Column Width="2*">
+            <DataTemplate DataType="x:String">
+              <Panel Background="Red">
+                <TextBlock Text="Column 0" Margin="2" />
+              </Panel>
+            </DataTemplate>
+          </c:Column>
+          <c:Column Width="Auto">
+            <DataTemplate DataType="x:String">
+              <Panel Background="Green">
+                <TextBlock Text="{Binding}" Margin="2" />
+              </Panel>
+            </DataTemplate>
+          </c:Column>
+          <c:Column Width="200">
+            <DataTemplate DataType="x:String">
+              <Panel Background="Blue">
+                <TextBlock Text="Column 2" Margin="2" />
+              </Panel>
+            </DataTemplate>
+          </c:Column>
+          <c:Column Width="1*">
+            <DataTemplate DataType="x:String">
+              <Panel Background="Yellow">
+                <TextBlock Text="Column 3" Margin="2" />
+              </Panel>
+            </DataTemplate>
+          </c:Column>
+        </c:RowsListBox.Columns>
         <c:RowsListBox.Styles>
           <Style Selector="ListBox">
             <Setter Property="VirtualizationMode" Value="Simple" />
@@ -75,7 +76,7 @@
             <Setter Property="ItemsPanel">
               <Setter.Value>
                 <ItemsPanelTemplate>
-                  <c:RowsPresenter DataContext="{Binding ListData}" Orientation="Vertical"/>
+                  <c:RowsPresenter DataContext="{Binding $parent[ListBox]}" Orientation="Vertical"/>
                 </ItemsPanelTemplate>
               </Setter.Value>
             </Setter>
@@ -87,21 +88,7 @@
         </c:RowsListBox.Styles>
         <c:RowsListBox.ItemTemplate>
           <DataTemplate>
-            <c:CellsPresenter ListData="{Binding $parent[ListBox].DataContext.ListData}"
-                              Background="LightGray">
-              <c:Cell Background="Red">
-                <TextBlock Text="Column 0" Margin="2" />
-              </c:Cell>
-              <c:Cell Background="Green">
-                <TextBlock Text="{Binding}" Margin="2" />
-              </c:Cell>
-              <c:Cell Background="Blue">
-                <TextBlock Text="Column 2" Margin="2" />
-              </c:Cell>
-              <c:Cell Background="Yellow">
-                <TextBlock Text="Column 3" Margin="2" />
-              </c:Cell>
-            </c:CellsPresenter>
+            <c:CellsPresenter Background="LightGray" />
           </DataTemplate>
         </c:RowsListBox.ItemTemplate>
       </c:RowsListBox>

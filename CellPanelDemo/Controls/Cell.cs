@@ -3,7 +3,7 @@ using Avalonia.Controls;
 
 namespace CellPanelDemo.Controls
 {
-    public class Cell : Panel
+    public class Cell : Decorator
     {
         internal static readonly AttachedProperty<double> ItemWidthProperty = 
             AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("ItemWidth", typeof(Cell));

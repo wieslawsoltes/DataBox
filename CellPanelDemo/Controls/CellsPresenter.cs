@@ -1,25 +1,53 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Layout;
 
 namespace CellPanelDemo.Controls
 {
     public class CellsPresenter : Panel
     {
-        public static readonly StyledProperty<ListData?> ListDataProperty = 
-            AvaloniaProperty.Register<CellsPresenter, ListData?>(nameof(ListData));
-
-        public ListData? ListData
+        public CellsPresenter()
         {
-            get => GetValue(ListDataProperty);
-            set => SetValue(ListDataProperty, value);
+            this.GetObservable(RowsPresenter.ItemDataProperty).Subscribe(itemData =>
+            {
+                foreach (var child in Children)
+                {
+                    child.DataContext = itemData;
+                }
+            });
+        }
+        
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnAttachedToVisualTree(e);
+   
+            var rowIndex = RowsPresenter.GetItemIndex(this);
+            var itemData = RowsPresenter.GetItemData(this);
+            var listData = RowsPresenter.GetRoot(this);
+
+            if (listData is not null)
+            {
+                foreach (var column in listData.Columns)
+                {
+                    var cell = new Cell 
+                    { 
+                        Child = column.CellTemplate.Build(itemData), 
+                        DataContext = itemData,
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch
+                    };
+                    cell.ApplyTemplate();
+                    Children.Add(cell);
+                }
+            }
         }
 
         protected override Size MeasureOverride(Size availableSize)
         {
+            var listData = RowsPresenter.GetRoot(this);
             var rowIndex = RowsPresenter.GetItemIndex(this);
 
-            var listData = ListData;
             if (listData is null)
             {
                 return availableSize;
@@ -106,9 +134,9 @@ namespace CellPanelDemo.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
+            var listData = RowsPresenter.GetRoot(this);
             var rowIndex = RowsPresenter.GetItemIndex(this);
-            
-            var listData = ListData;
+
             if (listData is null)
             {
                 return arrangeSize;

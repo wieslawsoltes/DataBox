@@ -6,11 +6,24 @@ namespace CellPanelDemo.Controls
 {
     public class RowsPresenter : VirtualizingStackPanel
     {
+        internal static readonly AttachedProperty<RowsListBox?> RootProperty = 
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, RowsListBox?>("Root", typeof(RowsPresenter), default, true);
+
         internal static readonly AttachedProperty<int> ItemIndexProperty = 
             AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(RowsPresenter), -1, true);
 
         internal static readonly AttachedProperty<object?> ItemDataProperty = 
             AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(RowsPresenter), default, true);
+
+        internal static RowsListBox? GetRoot(IAvaloniaObject obj)
+        {
+            return obj.GetValue(RootProperty);
+        }
+
+        internal static void SetRoot(IAvaloniaObject obj, RowsListBox? value)
+        {
+            obj.SetValue(RootProperty, value);
+        }
 
         internal static int GetItemIndex(IAvaloniaObject obj)
         {
@@ -32,7 +45,7 @@ namespace CellPanelDemo.Controls
             obj.SetValue(ItemDataProperty, value);
         }
 
-        public static double UpdateActualWidths(Avalonia.Controls.Controls children, ListData listData)
+        internal static double UpdateActualWidths(Avalonia.Controls.Controls children, RowsListBox listData)
         {
             var accumulatedWidth = 0.0;
 
@@ -118,7 +131,7 @@ namespace CellPanelDemo.Controls
             return control as CellsPresenter;
         }
 
-        private Size MeasureRows(Size availableSize, ListData listData)
+        private Size MeasureRows(Size availableSize, RowsListBox listData)
         {
             var children = Children;
 
@@ -142,7 +155,7 @@ namespace CellPanelDemo.Controls
             return panelSize;
         }
 
-        private Size ArrangeRows(Size finalSize, ListData listData)
+        private Size ArrangeRows(Size finalSize, RowsListBox listData)
         {
             var children = Children;
 
@@ -173,7 +186,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var listData = DataContext as ListData;
+            var listData = DataContext as RowsListBox;
             if (listData is null)
             {
                 return availableSize;
@@ -184,7 +197,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var listData = DataContext as ListData;
+            var listData = DataContext as RowsListBox;
             if (listData is null)
             {
                 return finalSize;

@@ -8,7 +8,7 @@ namespace CellPanelDemo
 {
     public partial class MainWindow : Window
     {
-        public ListData ListData { get; set; }
+        // public ListData ListData { get; set; }
 
         public List<string> Items { get; set; } 
 
@@ -34,7 +34,7 @@ namespace CellPanelDemo
                 Items.Add($"Item {i+5}");
             }
 
-            ListData = new ListData();
+            //ListData = new ListData();
 
             /*
             ListData.Columns = new List<ColumnData>()
@@ -124,7 +124,7 @@ namespace CellPanelDemo
             };
             //*/
 
-            //*
+            /*
             ListData.Columns = new List<ColumnData>()
             {
                 new()
