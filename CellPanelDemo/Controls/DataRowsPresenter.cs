@@ -4,13 +4,26 @@ using Avalonia.Controls;
 
 namespace CellPanelDemo.Controls
 {
-    public class RowsPresenter : VirtualizingStackPanel
+    public class DataRowsPresenter : VirtualizingStackPanel
     {
+        internal static readonly AttachedProperty<DataListBox?> RootProperty = 
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, DataListBox?>("Root", typeof(DataRowsPresenter), default, true);
+
         internal static readonly AttachedProperty<int> ItemIndexProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(RowsPresenter), -1, true);
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(DataRowsPresenter), -1, true);
 
         internal static readonly AttachedProperty<object?> ItemDataProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(RowsPresenter), default, true);
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(DataRowsPresenter), default, true);
+
+        internal static DataListBox? GetRoot(IAvaloniaObject obj)
+        {
+            return obj.GetValue(RootProperty);
+        }
+
+        internal static void SetRoot(IAvaloniaObject obj, DataListBox? value)
+        {
+            obj.SetValue(RootProperty, value);
+        }
 
         internal static int GetItemIndex(IAvaloniaObject obj)
         {
@@ -32,13 +45,13 @@ namespace CellPanelDemo.Controls
             obj.SetValue(ItemDataProperty, value);
         }
 
-        public static double UpdateActualWidths(Avalonia.Controls.Controls children, ListData listData)
+        private static double UpdateActualWidths(Avalonia.Controls.Controls children, DataListBox root)
         {
             var accumulatedWidth = 0.0;
 
-            for (var c = 0; c < listData.Columns.Count; c++)
+            for (var c = 0; c < root.Columns.Count; c++)
             {
-                var column = listData.Columns[c];
+                var column = root.Columns[c];
                 var type = column.Width.GridUnitType;
 
                 switch (type)
@@ -48,10 +61,13 @@ namespace CellPanelDemo.Controls
                         foreach (var child in children)
                         {
                             var cellPresenter = GetCellsPresenter(child);
-                            var cells = cellPresenter.Children;
-                            var cell = cells[c];
-                            var width = Cell.GetItemWidth(cell);
-                            column.ActualWidth = Math.Max(column.ActualWidth, width);
+                            if (cellPresenter is { })
+                            {
+                                var cells = cellPresenter.Children;
+                                var cell = cells[c];
+                                var width = DataCell.GetItemWidth(cell);
+                                column.ActualWidth = Math.Max(column.ActualWidth, width);
+                            }
                         }
                         accumulatedWidth += column.ActualWidth;
                         break;
@@ -61,10 +77,13 @@ namespace CellPanelDemo.Controls
                         foreach (var child in children)
                         {
                             var cellPresenter = GetCellsPresenter(child);
-                            var cells = cellPresenter.Children;
-                            var cell = cells[c];
-                            var width = Cell.GetItemWidth(cell);
-                            column.ActualWidth = Math.Max(column.ActualWidth, width);
+                            if (cellPresenter is { })
+                            {
+                                var cells = cellPresenter.Children;
+                                var cell = cells[c];
+                                var width = DataCell.GetItemWidth(cell);
+                                column.ActualWidth = Math.Max(column.ActualWidth, width);
+                            }
                         }
                         accumulatedWidth += column.ActualWidth;
                         break;
@@ -76,12 +95,12 @@ namespace CellPanelDemo.Controls
                 }
             }
 
-            var totalWidthForStars = listData.AvailableWidth - accumulatedWidth;
+            var totalWidthForStars = root.AvailableWidth - accumulatedWidth;
             var totalStarValue = 0.0;
 
-            for (var c = 0; c < listData.Columns.Count; c++)
+            for (var c = 0; c < root.Columns.Count; c++)
             {
-                var column = listData.Columns[c];
+                var column = root.Columns[c];
                 var type = column.Width.GridUnitType;
                 if (type == GridUnitType.Star)
                 {
@@ -89,9 +108,9 @@ namespace CellPanelDemo.Controls
                 }
             }
 
-            for (var c = 0; c < listData.Columns.Count; c++)
+            for (var c = 0; c < root.Columns.Count; c++)
             {
-                var column = listData.Columns[c];
+                var column = root.Columns[c];
                 var type = column.Width.GridUnitType;
                 var value = column.Width.Value;
                 switch (type)
@@ -109,21 +128,21 @@ namespace CellPanelDemo.Controls
             return accumulatedWidth;
         }
 
-        public static CellsPresenter GetCellsPresenter(IControl control)
+        private static DataCellsPresenter? GetCellsPresenter(IControl? control)
         {
             if (control is ListBoxItem)
             {
-                return control.LogicalChildren[0] as CellsPresenter;
+                return control.LogicalChildren[0] as DataCellsPresenter;
             }
-            return control as CellsPresenter;
+            return control as DataCellsPresenter;
         }
 
-        private Size MeasureRows(Size availableSize, ListData listData)
+        private Size MeasureRows(Size availableSize, DataListBox root)
         {
             var children = Children;
 
-            listData.AvailableWidth = availableSize.Width;
-            listData.AvailableHeight = availableSize.Height;
+            root.AvailableWidth = availableSize.Width;
+            root.AvailableHeight = availableSize.Height;
 
             // TODO: Measure children only when column ActualWidth changes.
             for (int i = 0, count = children.Count; i < count; ++i)
@@ -132,25 +151,25 @@ namespace CellPanelDemo.Controls
                 child.Measure(availableSize);
             }
 
-            var accumulatedWidth = RowsPresenter.UpdateActualWidths(children, listData);
+            var accumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
 
             var panelSize = base.MeasureOverride(availableSize.WithWidth(accumulatedWidth));
 
-            accumulatedWidth = RowsPresenter.UpdateActualWidths(children, listData);
+            accumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
             panelSize = panelSize.WithWidth(accumulatedWidth);
 
             return panelSize;
         }
 
-        private Size ArrangeRows(Size finalSize, ListData listData)
+        private Size ArrangeRows(Size finalSize, DataListBox root)
         {
             var children = Children;
 
-            listData.AvailableWidth = finalSize.Width;
-            listData.AvailableHeight = finalSize.Height;
+            root.AvailableWidth = finalSize.Width;
+            root.AvailableHeight = finalSize.Height;
 
-            listData.AccumulatedWidth = RowsPresenter.UpdateActualWidths(children, listData);
-            finalSize = finalSize.WithWidth(listData.AccumulatedWidth);
+            root.AccumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
+            finalSize = finalSize.WithWidth(root.AccumulatedWidth);
 
             // TODO: InvalidateArrange children only when column ActualWidth changes.
             foreach (var child in children)
@@ -158,12 +177,15 @@ namespace CellPanelDemo.Controls
                 child.InvalidateArrange();
 
                 var cellPresenter = GetCellsPresenter(child);
-                cellPresenter.InvalidateArrange();
-
-                var cells = cellPresenter.Children;
-                foreach (var cell in cells)
+                if (cellPresenter is { })
                 {
-                    cell.InvalidateArrange();
+                    cellPresenter.InvalidateArrange();
+
+                    var cells = cellPresenter.Children;
+                    foreach (var cell in cells)
+                    {
+                        cell.InvalidateArrange();
+                    }
                 }
             }
 
@@ -173,24 +195,24 @@ namespace CellPanelDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var listData = DataContext as ListData;
-            if (listData is null)
+            var root = DataContext as DataListBox;
+            if (root is null)
             {
                 return availableSize;
             }
 
-            return MeasureRows(availableSize, listData);
+            return MeasureRows(availableSize, root);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var listData = DataContext as ListData;
-            if (listData is null)
+            var root = DataContext as DataListBox;
+            if (root is null)
             {
                 return finalSize;
             }
 
-            return ArrangeRows(finalSize, listData);
+            return ArrangeRows(finalSize, root);
         }
     }
 }
