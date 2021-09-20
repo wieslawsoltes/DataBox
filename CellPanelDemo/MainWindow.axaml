@@ -2,7 +2,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:c="clr-namespace:CellPanelDemo.Controls"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
         WindowStartupLocation="CenterScreen"
         Width="600" Height="350"
@@ -36,38 +35,38 @@
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
 
-      <c:RowsListBox Items="{Binding Items}">
-        <c:RowsListBox.Columns>
-          <c:Column Width="2*">
+      <RowsListBox Items="{Binding Items}">
+        <RowsListBox.Columns>
+          <Column Width="2*">
             <DataTemplate DataType="x:String">
               <Panel Background="Red">
                 <TextBlock Text="Column 0" Margin="2" />
               </Panel>
             </DataTemplate>
-          </c:Column>
-          <c:Column Width="Auto">
+          </Column>
+          <Column Width="Auto">
             <DataTemplate DataType="x:String">
               <Panel Background="Green">
                 <TextBlock Text="{Binding}" Margin="2" />
               </Panel>
             </DataTemplate>
-          </c:Column>
-          <c:Column Width="200">
+          </Column>
+          <Column Width="200">
             <DataTemplate DataType="x:String">
               <Panel Background="Blue">
                 <TextBlock Text="Column 2" Margin="2" />
               </Panel>
             </DataTemplate>
-          </c:Column>
-          <c:Column Width="1*">
+          </Column>
+          <Column Width="1*">
             <DataTemplate DataType="x:String">
               <Panel Background="Yellow">
                 <TextBlock Text="Column 3" Margin="2" />
               </Panel>
             </DataTemplate>
-          </c:Column>
-        </c:RowsListBox.Columns>
-        <c:RowsListBox.Styles>
+          </Column>
+        </RowsListBox.Columns>
+        <RowsListBox.Styles>
           <Style Selector="ListBox">
             <Setter Property="VirtualizationMode" Value="Simple" />
             <Setter Property="Background" Value="Transparent" />
@@ -76,7 +75,7 @@
             <Setter Property="ItemsPanel">
               <Setter.Value>
                 <ItemsPanelTemplate>
-                  <c:RowsPresenter DataContext="{Binding $parent[ListBox]}" Orientation="Vertical"/>
+                  <RowsPresenter DataContext="{Binding $parent[ListBox]}" Orientation="Vertical"/>
                 </ItemsPanelTemplate>
               </Setter.Value>
             </Setter>
@@ -85,13 +84,13 @@
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
           </Style>
-        </c:RowsListBox.Styles>
-        <c:RowsListBox.ItemTemplate>
+        </RowsListBox.Styles>
+        <RowsListBox.ItemTemplate>
           <DataTemplate>
-            <c:CellsPresenter Background="LightGray" />
+            <CellsPresenter Background="LightGray" />
           </DataTemplate>
-        </c:RowsListBox.ItemTemplate>
-      </c:RowsListBox>
+        </RowsListBox.ItemTemplate>
+      </RowsListBox>
 
     </Border>
   </DockPanel>
