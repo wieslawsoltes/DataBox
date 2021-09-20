@@ -7,28 +7,26 @@ namespace CellPanelDemo.Controls
 {
     public class CellsPresenter : Panel
     {
-        public CellsPresenter()
+        private IDisposable? _itemDataDisposable;
+        
+        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
-            this.GetObservable(RowsPresenter.ItemDataProperty).Subscribe(itemData =>
+            base.OnAttachedToVisualTree(e);
+
+            _itemDataDisposable = this.GetObservable(RowsPresenter.ItemDataProperty).Subscribe(itemData =>
             {
                 foreach (var child in Children)
                 {
                     child.DataContext = itemData;
                 }
             });
-        }
-        
-        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-        {
-            base.OnAttachedToVisualTree(e);
-   
-            var rowIndex = RowsPresenter.GetItemIndex(this);
-            var itemData = RowsPresenter.GetItemData(this);
-            var listData = RowsPresenter.GetRoot(this);
 
-            if (listData is not null)
+            // var itemIndex = RowsPresenter.GetItemIndex(this);
+            var itemData = RowsPresenter.GetItemData(this);
+            var root = RowsPresenter.GetRoot(this);
+            if (root is not null)
             {
-                foreach (var column in listData.Columns)
+                foreach (var column in root.Columns)
                 {
                     var cell = new Cell 
                     { 
@@ -43,12 +41,20 @@ namespace CellPanelDemo.Controls
             }
         }
 
+        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnDetachedFromVisualTree(e);
+
+            Children.Clear();
+            
+            _itemDataDisposable?.Dispose();
+        }
+
         protected override Size MeasureOverride(Size availableSize)
         {
-            var listData = RowsPresenter.GetRoot(this);
-            var rowIndex = RowsPresenter.GetItemIndex(this);
-
-            if (listData is null)
+            // var itemIndex = RowsPresenter.GetItemIndex(this);
+            var root = RowsPresenter.GetRoot(this);
+            if (root is null)
             {
                 return availableSize;
             }
@@ -56,21 +62,16 @@ namespace CellPanelDemo.Controls
             var children = Children;
             var parentWidth = 0.0;
             var parentHeight = 0.0;
-            var accumulatedWidth = 0.0;
-            var accumulatedHeight = 0.0;
 
             for (int c = 0, count = children.Count; c < count; ++c)
             {
                 var child = children[c];
-                Size childConstraint;
-                Size childDesiredSize;
-
                 if (child is not Cell cell)
                 {
                     continue;
                 }
 
-                var column = listData.Columns[c];
+                var column = root.Columns[c];
                 var type = column.Width.GridUnitType;
                 var value = column.Width.Value;
                 
@@ -82,9 +83,9 @@ namespace CellPanelDemo.Controls
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
-                childConstraint = new Size(width, double.PositiveInfinity);
+                var childConstraint = new Size(width, double.PositiveInfinity);
                 cell.Measure(childConstraint);
-                childDesiredSize = cell.DesiredSize;
+                var childDesiredSize = cell.DesiredSize;
 
                 switch (type)
                 {
@@ -93,10 +94,7 @@ namespace CellPanelDemo.Controls
                         Cell.SetItemWidth(cell, width);
 
                         parentWidth += width;
-                        accumulatedWidth += width;
-
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
-                        accumulatedHeight += childDesiredSize.Height;
 
                         break;
                     }
@@ -105,10 +103,7 @@ namespace CellPanelDemo.Controls
                         Cell.SetItemWidth(cell, childDesiredSize.Width);
 
                         parentWidth += childDesiredSize.Width;
-                        accumulatedWidth += childDesiredSize.Width;
-
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
-                        accumulatedHeight += childDesiredSize.Height;
 
                         break;
                     }
@@ -117,10 +112,7 @@ namespace CellPanelDemo.Controls
                         Cell.SetItemWidth(cell, 0.0);
 
                         parentWidth += column.ActualWidth;
-                        accumulatedWidth += column.ActualWidth;
-                        
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
-                        accumulatedHeight += childDesiredSize.Height;
 
                         break;
                     }
@@ -134,10 +126,9 @@ namespace CellPanelDemo.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var listData = RowsPresenter.GetRoot(this);
-            var rowIndex = RowsPresenter.GetItemIndex(this);
-
-            if (listData is null)
+            // var itemIndex = RowsPresenter.GetItemIndex(this);
+            var root = RowsPresenter.GetRoot(this);
+            if (root is null)
             {
                 return arrangeSize;
             }
@@ -155,7 +146,7 @@ namespace CellPanelDemo.Controls
                 }
 
                 var childDesiredSize = cell.DesiredSize;
-                var column = listData.Columns[c];
+                var column = root.Columns[c];
                 var width = Math.Max(0.0, column.ActualWidth);
 
                 var rcChild = new Rect(
