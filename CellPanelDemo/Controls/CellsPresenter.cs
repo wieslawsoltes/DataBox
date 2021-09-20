@@ -32,7 +32,7 @@ namespace CellPanelDemo.Controls
                 {
                     var cell = new Cell 
                     { 
-                        Child = column.CellTemplate.Build(itemData), 
+                        Child = itemData is { } ? column.CellTemplate?.Build(itemData) : null, 
                         DataContext = itemData,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch
