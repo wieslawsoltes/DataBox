@@ -81,17 +81,19 @@
                 </ItemsPanelTemplate>
               </Setter.Value>
             </Setter>
+            <Setter Property="ItemTemplate">
+              <Setter.Value>
+                <DataTemplate>
+                  <DataCellsPresenter Background="LightGray" />
+                </DataTemplate>
+              </Setter.Value>
+            </Setter>
           </Style>
           <Style Selector="ListBoxItem">
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
           </Style>
         </DataListBox.Styles>
-        <DataListBox.ItemTemplate>
-          <DataTemplate>
-            <DataCellsPresenter Background="LightGray" />
-          </DataTemplate>
-        </DataListBox.ItemTemplate>
       </DataListBox>
 
     </Border>
