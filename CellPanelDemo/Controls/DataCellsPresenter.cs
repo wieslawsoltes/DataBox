@@ -5,7 +5,7 @@ using Avalonia.Layout;
 
 namespace CellPanelDemo.Controls
 {
-    public class CellsPresenter : Panel
+    public class DataCellsPresenter : Panel
     {
         private IDisposable? _itemDataDisposable;
         
@@ -13,7 +13,7 @@ namespace CellPanelDemo.Controls
         {
             base.OnAttachedToVisualTree(e);
 
-            _itemDataDisposable = this.GetObservable(RowsPresenter.ItemDataProperty).Subscribe(itemData =>
+            _itemDataDisposable = this.GetObservable(DataRowsPresenter.ItemDataProperty).Subscribe(itemData =>
             {
                 foreach (var child in Children)
                 {
@@ -22,13 +22,13 @@ namespace CellPanelDemo.Controls
             });
 
             // var itemIndex = RowsPresenter.GetItemIndex(this);
-            var itemData = RowsPresenter.GetItemData(this);
-            var root = RowsPresenter.GetRoot(this);
+            var itemData = DataRowsPresenter.GetItemData(this);
+            var root = DataRowsPresenter.GetRoot(this);
             if (root is not null)
             {
                 foreach (var column in root.Columns)
                 {
-                    var cell = new Cell 
+                    var cell = new DataCell 
                     { 
                         Child = itemData is { } ? column.CellTemplate?.Build(itemData) : null, 
                         DataContext = itemData,
@@ -53,7 +53,7 @@ namespace CellPanelDemo.Controls
         protected override Size MeasureOverride(Size availableSize)
         {
             // var itemIndex = RowsPresenter.GetItemIndex(this);
-            var root = RowsPresenter.GetRoot(this);
+            var root = DataRowsPresenter.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -66,7 +66,7 @@ namespace CellPanelDemo.Controls
             for (int c = 0, count = children.Count; c < count; ++c)
             {
                 var child = children[c];
-                if (child is not Cell cell)
+                if (child is not DataCell cell)
                 {
                     continue;
                 }
@@ -91,7 +91,7 @@ namespace CellPanelDemo.Controls
                 {
                     case GridUnitType.Pixel:
                     {
-                        Cell.SetItemWidth(cell, width);
+                        DataCell.SetItemWidth(cell, width);
 
                         parentWidth += width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
@@ -100,7 +100,7 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Auto:
                     {
-                        Cell.SetItemWidth(cell, childDesiredSize.Width);
+                        DataCell.SetItemWidth(cell, childDesiredSize.Width);
 
                         parentWidth += childDesiredSize.Width;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
@@ -109,7 +109,7 @@ namespace CellPanelDemo.Controls
                     }
                     case GridUnitType.Star:
                     {
-                        Cell.SetItemWidth(cell, 0.0);
+                        DataCell.SetItemWidth(cell, 0.0);
 
                         parentWidth += column.ActualWidth;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
@@ -127,7 +127,7 @@ namespace CellPanelDemo.Controls
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             // var itemIndex = RowsPresenter.GetItemIndex(this);
-            var root = RowsPresenter.GetRoot(this);
+            var root = DataRowsPresenter.GetRoot(this);
             if (root is null)
             {
                 return arrangeSize;
@@ -140,7 +140,7 @@ namespace CellPanelDemo.Controls
             for (int c = 0, count = children.Count; c < count; ++c)
             {
                 var child = children[c];
-                if (child is not Cell cell)
+                if (child is not DataCell cell)
                 {
                     continue;
                 }

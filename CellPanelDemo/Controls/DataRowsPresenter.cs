@@ -4,23 +4,23 @@ using Avalonia.Controls;
 
 namespace CellPanelDemo.Controls
 {
-    public class RowsPresenter : VirtualizingStackPanel
+    public class DataRowsPresenter : VirtualizingStackPanel
     {
-        internal static readonly AttachedProperty<RowsListBox?> RootProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, RowsListBox?>("Root", typeof(RowsPresenter), default, true);
+        internal static readonly AttachedProperty<DataListBox?> RootProperty = 
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, DataListBox?>("Root", typeof(DataRowsPresenter), default, true);
 
         internal static readonly AttachedProperty<int> ItemIndexProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(RowsPresenter), -1, true);
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(DataRowsPresenter), -1, true);
 
         internal static readonly AttachedProperty<object?> ItemDataProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(RowsPresenter), default, true);
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(DataRowsPresenter), default, true);
 
-        internal static RowsListBox? GetRoot(IAvaloniaObject obj)
+        internal static DataListBox? GetRoot(IAvaloniaObject obj)
         {
             return obj.GetValue(RootProperty);
         }
 
-        internal static void SetRoot(IAvaloniaObject obj, RowsListBox? value)
+        internal static void SetRoot(IAvaloniaObject obj, DataListBox? value)
         {
             obj.SetValue(RootProperty, value);
         }
@@ -45,7 +45,7 @@ namespace CellPanelDemo.Controls
             obj.SetValue(ItemDataProperty, value);
         }
 
-        private static double UpdateActualWidths(Avalonia.Controls.Controls children, RowsListBox root)
+        private static double UpdateActualWidths(Avalonia.Controls.Controls children, DataListBox root)
         {
             var accumulatedWidth = 0.0;
 
@@ -65,7 +65,7 @@ namespace CellPanelDemo.Controls
                             {
                                 var cells = cellPresenter.Children;
                                 var cell = cells[c];
-                                var width = Cell.GetItemWidth(cell);
+                                var width = DataCell.GetItemWidth(cell);
                                 column.ActualWidth = Math.Max(column.ActualWidth, width);
                             }
                         }
@@ -81,7 +81,7 @@ namespace CellPanelDemo.Controls
                             {
                                 var cells = cellPresenter.Children;
                                 var cell = cells[c];
-                                var width = Cell.GetItemWidth(cell);
+                                var width = DataCell.GetItemWidth(cell);
                                 column.ActualWidth = Math.Max(column.ActualWidth, width);
                             }
                         }
@@ -128,16 +128,16 @@ namespace CellPanelDemo.Controls
             return accumulatedWidth;
         }
 
-        private static CellsPresenter? GetCellsPresenter(IControl? control)
+        private static DataCellsPresenter? GetCellsPresenter(IControl? control)
         {
             if (control is ListBoxItem)
             {
-                return control.LogicalChildren[0] as CellsPresenter;
+                return control.LogicalChildren[0] as DataCellsPresenter;
             }
-            return control as CellsPresenter;
+            return control as DataCellsPresenter;
         }
 
-        private Size MeasureRows(Size availableSize, RowsListBox root)
+        private Size MeasureRows(Size availableSize, DataListBox root)
         {
             var children = Children;
 
@@ -151,24 +151,24 @@ namespace CellPanelDemo.Controls
                 child.Measure(availableSize);
             }
 
-            var accumulatedWidth = RowsPresenter.UpdateActualWidths(children, root);
+            var accumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
 
             var panelSize = base.MeasureOverride(availableSize.WithWidth(accumulatedWidth));
 
-            accumulatedWidth = RowsPresenter.UpdateActualWidths(children, root);
+            accumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
             panelSize = panelSize.WithWidth(accumulatedWidth);
 
             return panelSize;
         }
 
-        private Size ArrangeRows(Size finalSize, RowsListBox root)
+        private Size ArrangeRows(Size finalSize, DataListBox root)
         {
             var children = Children;
 
             root.AvailableWidth = finalSize.Width;
             root.AvailableHeight = finalSize.Height;
 
-            root.AccumulatedWidth = RowsPresenter.UpdateActualWidths(children, root);
+            root.AccumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
             finalSize = finalSize.WithWidth(root.AccumulatedWidth);
 
             // TODO: InvalidateArrange children only when column ActualWidth changes.
@@ -195,7 +195,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = DataContext as RowsListBox;
+            var root = DataContext as DataListBox;
             if (root is null)
             {
                 return availableSize;
@@ -206,7 +206,7 @@ namespace CellPanelDemo.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var root = DataContext as RowsListBox;
+            var root = DataContext as DataListBox;
             if (root is null)
             {
                 return finalSize;

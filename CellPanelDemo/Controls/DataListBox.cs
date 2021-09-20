@@ -7,23 +7,23 @@ using Avalonia.Styling;
 
 namespace CellPanelDemo.Controls
 {
-    public class RowsListBox : ListBox, IStyleable
+    public class DataListBox : ListBox, IStyleable
     {
-        public static readonly DirectProperty<RowsListBox, AvaloniaList<Column>> ColumnsProperty =
-            AvaloniaProperty.RegisterDirect<RowsListBox, AvaloniaList<Column>>(
+        public static readonly DirectProperty<DataListBox, AvaloniaList<DataColumn>> ColumnsProperty =
+            AvaloniaProperty.RegisterDirect<DataListBox, AvaloniaList<DataColumn>>(
                 nameof(Columns), 
                 o => o.Columns);
 
-        private AvaloniaList<Column> _columns;
+        private AvaloniaList<DataColumn> _columns;
 
-        public RowsListBox()
+        public DataListBox()
         {
-            _columns = new AvaloniaList<Column>();
+            _columns = new AvaloniaList<DataColumn>();
         }
 
         Type IStyleable.StyleKey => typeof(ListBox);
 
-        public AvaloniaList<Column> Columns
+        public AvaloniaList<DataColumn> Columns
         {
             get => _columns;
             private set => SetAndRaise(ColumnsProperty, ref _columns, value);
@@ -37,7 +37,7 @@ namespace CellPanelDemo.Controls
 
         protected override IItemContainerGenerator CreateItemContainerGenerator()
         {
-            var generator = new ItemContainerGenerator<RowListBoxItem>(
+            var generator = new ItemContainerGenerator<DataListBoxItem>(
                 this,
                 ContentControl.ContentProperty,
                 ContentControl.ContentTemplateProperty);
@@ -46,9 +46,9 @@ namespace CellPanelDemo.Controls
             {
                 foreach (var container in args.Containers)
                 {
-                    RowsPresenter.SetRoot(container.ContainerControl, this);
-                    RowsPresenter.SetItemIndex(container.ContainerControl, container.Index);
-                    RowsPresenter.SetItemData(container.ContainerControl, container.Item);
+                    DataRowsPresenter.SetRoot(container.ContainerControl, this);
+                    DataRowsPresenter.SetItemIndex(container.ContainerControl, container.Index);
+                    DataRowsPresenter.SetItemData(container.ContainerControl, container.Item);
                 }
             };
 
@@ -56,9 +56,9 @@ namespace CellPanelDemo.Controls
             {
                 foreach (var container in args.Containers)
                 {
-                    RowsPresenter.SetRoot(container.ContainerControl, default);
-                    RowsPresenter.SetItemIndex(container.ContainerControl, -1);
-                    RowsPresenter.SetItemData(container.ContainerControl, default);
+                    DataRowsPresenter.SetRoot(container.ContainerControl, default);
+                    DataRowsPresenter.SetItemIndex(container.ContainerControl, -1);
+                    DataRowsPresenter.SetItemData(container.ContainerControl, default);
                 }
             };
 
@@ -66,9 +66,9 @@ namespace CellPanelDemo.Controls
             {
                 foreach (var container in args.Containers)
                 {
-                    RowsPresenter.SetRoot(container.ContainerControl, this);
-                    RowsPresenter.SetItemIndex(container.ContainerControl, container.Index);
-                    RowsPresenter.SetItemData(container.ContainerControl, container.Item);
+                    DataRowsPresenter.SetRoot(container.ContainerControl, this);
+                    DataRowsPresenter.SetItemIndex(container.ContainerControl, container.Index);
+                    DataRowsPresenter.SetItemData(container.ContainerControl, container.Item);
                 }
             };
 

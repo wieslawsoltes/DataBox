@@ -5,13 +5,13 @@ using Avalonia.Metadata;
 
 namespace CellPanelDemo.Controls
 {
-    public class Column : AvaloniaObject
+    public class DataColumn : AvaloniaObject
     {
         public static readonly StyledProperty<IDataTemplate?> CellTemplateProperty = 
-            AvaloniaProperty.Register<Column, IDataTemplate?>(nameof(CellTemplate));
+            AvaloniaProperty.Register<DataColumn, IDataTemplate?>(nameof(CellTemplate));
         
         public static readonly StyledProperty<GridLength> WidthProperty = 
-            AvaloniaProperty.Register<Column, GridLength>(nameof(Width), new GridLength(0, GridUnitType.Auto));
+            AvaloniaProperty.Register<DataColumn, GridLength>(nameof(Width), new GridLength(0, GridUnitType.Auto));
 
         [Content]
         public IDataTemplate? CellTemplate

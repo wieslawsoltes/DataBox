@@ -14,7 +14,8 @@
            DockPanel.Dock="Top">
       
     </Panel>
-<!--
+
+    <!--
     <Grid ColumnDefinitions="2*,Auto,200,1*" Background="LightGray" DockPanel.Dock="Top">
       <Panel Grid.Column="0" Background="Red">
         <TextBlock Text="Column 0" Margin="2" />
@@ -29,44 +30,45 @@
         <TextBlock Text="Column 3" Margin="2" />
       </Panel>
     </Grid>
--->
+    -->
+
     <Border BorderBrush="Black" 
             BorderThickness="1" 
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
 
-      <RowsListBox Items="{Binding Items}">
-        <RowsListBox.Columns>
-          <Column Width="2*">
+      <DataListBox Items="{Binding Items}">
+        <DataListBox.Columns>
+          <DataColumn Width="2*">
             <DataTemplate DataType="x:String">
               <Panel Background="Red">
                 <TextBlock Text="Column 0" Margin="2" />
               </Panel>
             </DataTemplate>
-          </Column>
-          <Column Width="Auto">
+          </DataColumn>
+          <DataColumn Width="Auto">
             <DataTemplate DataType="x:String">
               <Panel Background="Green">
                 <TextBlock Text="{Binding}" Margin="2" />
               </Panel>
             </DataTemplate>
-          </Column>
-          <Column Width="200">
+          </DataColumn>
+          <DataColumn Width="200">
             <DataTemplate DataType="x:String">
               <Panel Background="Blue">
                 <TextBlock Text="Column 2" Margin="2" />
               </Panel>
             </DataTemplate>
-          </Column>
-          <Column Width="1*">
+          </DataColumn>
+          <DataColumn Width="1*">
             <DataTemplate DataType="x:String">
               <Panel Background="Yellow">
                 <TextBlock Text="Column 3" Margin="2" />
               </Panel>
             </DataTemplate>
-          </Column>
-        </RowsListBox.Columns>
-        <RowsListBox.Styles>
+          </DataColumn>
+        </DataListBox.Columns>
+        <DataListBox.Styles>
           <Style Selector="ListBox">
             <Setter Property="VirtualizationMode" Value="Simple" />
             <Setter Property="Background" Value="Transparent" />
@@ -75,7 +77,7 @@
             <Setter Property="ItemsPanel">
               <Setter.Value>
                 <ItemsPanelTemplate>
-                  <RowsPresenter DataContext="{Binding $parent[ListBox]}" Orientation="Vertical"/>
+                  <DataRowsPresenter DataContext="{Binding $parent[ListBox]}" Orientation="Vertical"/>
                 </ItemsPanelTemplate>
               </Setter.Value>
             </Setter>
@@ -84,14 +86,15 @@
             <Setter Property="Margin" Value="0" />
             <Setter Property="Padding" Value="0" />
           </Style>
-        </RowsListBox.Styles>
-        <RowsListBox.ItemTemplate>
+        </DataListBox.Styles>
+        <DataListBox.ItemTemplate>
           <DataTemplate>
-            <CellsPresenter Background="LightGray" />
+            <DataCellsPresenter Background="LightGray" />
           </DataTemplate>
-        </RowsListBox.ItemTemplate>
-      </RowsListBox>
+        </DataListBox.ItemTemplate>
+      </DataListBox>
 
     </Border>
+
   </DockPanel>
 </Window>
