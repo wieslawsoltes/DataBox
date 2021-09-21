@@ -33,6 +33,7 @@
     -->
 
     <DataColumnHeadersPresenter Name="HeadersPresenter" 
+                                Background="LightGray"
                                 DockPanel.Dock="Top"/>
 
       <DataListBox Name="DataListBox" Items="{Binding Items}">
