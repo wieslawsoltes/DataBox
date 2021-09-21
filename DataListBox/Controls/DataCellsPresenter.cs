@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
 
-namespace CellPanelDemo.Controls
+namespace DataListBoxDemo.Controls
 {
     public class DataCellsPresenter : Panel
     {

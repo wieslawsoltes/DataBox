@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 
-namespace CellPanelDemo.Controls
+namespace DataListBoxDemo.Controls
 {
     public class DataCell : Decorator
     {

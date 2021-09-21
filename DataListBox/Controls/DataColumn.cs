@@ -3,7 +3,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Metadata;
 
-namespace CellPanelDemo.Controls
+namespace DataListBoxDemo.Controls
 {
     public class DataColumn : AvaloniaObject
     {

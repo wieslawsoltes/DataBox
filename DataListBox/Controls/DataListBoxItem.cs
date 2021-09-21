@@ -2,7 +2,7 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Styling;
 
-namespace CellPanelDemo.Controls
+namespace DataListBoxDemo.Controls
 {
     public class DataListBoxItem : ListBoxItem, IStyleable
     {

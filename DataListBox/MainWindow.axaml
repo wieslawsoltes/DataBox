@@ -6,8 +6,8 @@
         WindowStartupLocation="CenterScreen"
         Width="600" Height="350"
         UseLayoutRounding="True"
-        x:Class="CellPanelDemo.MainWindow"
-        Title="CellPanelDemo">
+        x:Class="DataListBoxDemo.MainWindow"
+        Title="DataListBoxDemo">
   <DockPanel>
     
     <Panel Height="32"

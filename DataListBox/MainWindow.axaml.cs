@@ -3,7 +3,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 
-namespace CellPanelDemo
+namespace DataListBoxDemo
 {
     public partial class MainWindow : Window
     {

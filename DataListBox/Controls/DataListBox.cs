@@ -5,7 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Generators;
 using Avalonia.Styling;
 
-namespace CellPanelDemo.Controls
+namespace DataListBoxDemo.Controls
 {
     public class DataListBox : ListBox, IStyleable
     {

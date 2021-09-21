@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellPanelDemo", "CellPanelDemo\CellPanelDemo.csproj", "{D9D964C6-72D8-4009-910D-6DA99BA9D30F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataListBox", "DataListBox\DataListBox.csproj", "{D9D964C6-72D8-4009-910D-6DA99BA9D30F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

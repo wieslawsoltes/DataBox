@@ -2,7 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace CellPanelDemo
+namespace DataListBoxDemo
 {
     public class App : Application
     {
