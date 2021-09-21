@@ -21,6 +21,13 @@ namespace DataListBoxDemo.Controls
                 }
             });
 
+            Invalidate();
+        }
+
+        private void Invalidate()
+        {
+            Children.Clear();
+
             var itemIndex = DataProperties.GetItemIndex(this);
             var itemData = DataProperties.GetItemData(this);
             var root = DataProperties.GetRoot(this);
@@ -28,13 +35,14 @@ namespace DataListBoxDemo.Controls
             {
                 foreach (var column in root.Columns)
                 {
-                    var cell = new DataCell 
-                    { 
-                        Child = itemData is { } ? column.CellTemplate?.Build(itemData) : null, 
+                    var cell = new DataCell
+                    {
+                        Child = itemData is { } ? column.CellTemplate?.Build(itemData) : null,
                         DataContext = itemData,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch
                     };
+
                     cell.ApplyTemplate();
                     Children.Add(cell);
                 }
@@ -46,7 +54,7 @@ namespace DataListBoxDemo.Controls
             base.OnDetachedFromVisualTree(e);
 
             Children.Clear();
-            
+
             _itemDataDisposable?.Dispose();
         }
 
