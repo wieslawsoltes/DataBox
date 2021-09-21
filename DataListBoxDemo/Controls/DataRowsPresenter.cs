@@ -6,46 +6,7 @@ namespace DataListBoxDemo.Controls
 {
     public class DataRowsPresenter : VirtualizingStackPanel
     {
-        internal static readonly AttachedProperty<DataListBox?> RootProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, DataListBox?>("Root", typeof(DataRowsPresenter), default, true);
-
-        internal static readonly AttachedProperty<int> ItemIndexProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(DataRowsPresenter), -1, true);
-
-        internal static readonly AttachedProperty<object?> ItemDataProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(DataRowsPresenter), default, true);
-
-        internal static DataListBox? GetRoot(IAvaloniaObject obj)
-        {
-            return obj.GetValue(RootProperty);
-        }
-
-        internal static void SetRoot(IAvaloniaObject obj, DataListBox? value)
-        {
-            obj.SetValue(RootProperty, value);
-        }
-
-        internal static int GetItemIndex(IAvaloniaObject obj)
-        {
-            return obj.GetValue(ItemIndexProperty);
-        }
-
-        internal static void SetItemIndex(IAvaloniaObject obj, int value)
-        {
-            obj.SetValue(ItemIndexProperty, value);
-        }
-
-        internal static object? GetItemData(IAvaloniaObject obj)
-        {
-            return obj.GetValue(ItemDataProperty);
-        }
-
-        internal static void SetItemData(IAvaloniaObject obj, object? value)
-        {
-            obj.SetValue(ItemDataProperty, value);
-        }
-
-        private static double UpdateActualWidths(Avalonia.Controls.Controls children, DataListBox root)
+        private double UpdateActualWidths(Avalonia.Controls.Controls children, DataListBox root)
         {
             var accumulatedWidth = 0.0;
 
@@ -128,7 +89,7 @@ namespace DataListBoxDemo.Controls
             return accumulatedWidth;
         }
 
-        private static DataCellsPresenter? GetCellsPresenter(IControl? control)
+        private DataCellsPresenter? GetCellsPresenter(IControl? control)
         {
             if (control is ListBoxItem)
             {
@@ -151,11 +112,11 @@ namespace DataListBoxDemo.Controls
                 child.Measure(availableSize);
             }
 
-            var accumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
+            var accumulatedWidth = UpdateActualWidths(children, root);
 
             var panelSize = base.MeasureOverride(availableSize.WithWidth(accumulatedWidth));
 
-            accumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
+            accumulatedWidth = UpdateActualWidths(children, root);
             panelSize = panelSize.WithWidth(accumulatedWidth);
 
             return panelSize;
@@ -168,7 +129,7 @@ namespace DataListBoxDemo.Controls
             root.AvailableWidth = finalSize.Width;
             root.AvailableHeight = finalSize.Height;
 
-            root.AccumulatedWidth = DataRowsPresenter.UpdateActualWidths(children, root);
+            root.AccumulatedWidth = UpdateActualWidths(children, root);
             finalSize = finalSize.WithWidth(root.AccumulatedWidth);
 
             // TODO: InvalidateArrange children only when column ActualWidth changes.
@@ -195,7 +156,7 @@ namespace DataListBoxDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = GetRoot(this);
+            var root = DataProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -206,7 +167,7 @@ namespace DataListBoxDemo.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var root = GetRoot(this);
+            var root = DataProperties.GetRoot(this);
             if (root is null)
             {
                 return finalSize;

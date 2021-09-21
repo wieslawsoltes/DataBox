@@ -13,7 +13,7 @@ namespace DataListBoxDemo.Controls
         {
             base.OnAttachedToVisualTree(e);
 
-            _itemDataDisposable = this.GetObservable(DataRowsPresenter.ItemDataProperty).Subscribe(itemData =>
+            _itemDataDisposable = this.GetObservable(DataProperties.ItemDataProperty).Subscribe(itemData =>
             {
                 foreach (var child in Children)
                 {
@@ -21,9 +21,9 @@ namespace DataListBoxDemo.Controls
                 }
             });
 
-            // var itemIndex = RowsPresenter.GetItemIndex(this);
-            var itemData = DataRowsPresenter.GetItemData(this);
-            var root = DataRowsPresenter.GetRoot(this);
+            var itemIndex = DataProperties.GetItemIndex(this);
+            var itemData = DataProperties.GetItemData(this);
+            var root = DataProperties.GetRoot(this);
             if (root is not null)
             {
                 foreach (var column in root.Columns)
@@ -52,8 +52,8 @@ namespace DataListBoxDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            // var itemIndex = RowsPresenter.GetItemIndex(this);
-            var root = DataRowsPresenter.GetRoot(this);
+            var itemIndex = DataProperties.GetItemIndex(this);
+            var root = DataProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -126,8 +126,8 @@ namespace DataListBoxDemo.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            // var itemIndex = RowsPresenter.GetItemIndex(this);
-            var root = DataRowsPresenter.GetRoot(this);
+            var itemIndex = DataProperties.GetItemIndex(this);
+            var root = DataProperties.GetRoot(this);
             if (root is null)
             {
                 return arrangeSize;

@@ -40,7 +40,7 @@ namespace DataListBoxDemo.Controls
         {
             base.OnApplyTemplate(e);
 
-            DataRowsPresenter.SetRoot(this, this);
+            DataProperties.SetRoot(this, this);
         }
 
         protected override IItemContainerGenerator CreateItemContainerGenerator()
@@ -54,9 +54,9 @@ namespace DataListBoxDemo.Controls
             {
                 foreach (var container in args.Containers)
                 {
-                    DataRowsPresenter.SetRoot(container.ContainerControl, this);
-                    DataRowsPresenter.SetItemIndex(container.ContainerControl, container.Index);
-                    DataRowsPresenter.SetItemData(container.ContainerControl, container.Item);
+                    DataProperties.SetRoot(container.ContainerControl, this);
+                    DataProperties.SetItemIndex(container.ContainerControl, container.Index);
+                    DataProperties.SetItemData(container.ContainerControl, container.Item);
                 }
             };
 
@@ -64,9 +64,9 @@ namespace DataListBoxDemo.Controls
             {
                 foreach (var container in args.Containers)
                 {
-                    DataRowsPresenter.SetRoot(container.ContainerControl, default);
-                    DataRowsPresenter.SetItemIndex(container.ContainerControl, -1);
-                    DataRowsPresenter.SetItemData(container.ContainerControl, default);
+                    DataProperties.SetRoot(container.ContainerControl, default);
+                    DataProperties.SetItemIndex(container.ContainerControl, -1);
+                    DataProperties.SetItemData(container.ContainerControl, default);
                 }
             };
 
@@ -74,9 +74,9 @@ namespace DataListBoxDemo.Controls
             {
                 foreach (var container in args.Containers)
                 {
-                    DataRowsPresenter.SetRoot(container.ContainerControl, this);
-                    DataRowsPresenter.SetItemIndex(container.ContainerControl, container.Index);
-                    DataRowsPresenter.SetItemData(container.ContainerControl, container.Item);
+                    DataProperties.SetRoot(container.ContainerControl, this);
+                    DataProperties.SetItemIndex(container.ContainerControl, container.Index);
+                    DataProperties.SetItemData(container.ContainerControl, container.Item);
                 }
             };
 
