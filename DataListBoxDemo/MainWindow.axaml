@@ -32,45 +32,42 @@
     </Grid>
     -->
 
-    <Border BorderBrush="Black" 
-            BorderThickness="1" 
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center">
+    <DataColumnHeadersPresenter Name="HeadersPresenter" 
+                                Background="LightGray"
+                                DockPanel.Dock="Top"/>
 
-      <DataListBox Items="{Binding Items}">
-        <DataListBox.Columns>
-          <DataColumn Width="2*">
-            <DataTemplate DataType="x:String">
-              <Panel Background="Red">
-                <TextBlock Text="Column 0" Margin="2" />
-              </Panel>
-            </DataTemplate>
-          </DataColumn>
-          <DataColumn Width="Auto">
-            <DataTemplate DataType="x:String">
-              <Panel Background="Green">
-                <TextBlock Text="{Binding}" Margin="2" />
-              </Panel>
-            </DataTemplate>
-          </DataColumn>
-          <DataColumn Width="200">
-            <DataTemplate DataType="x:String">
-              <Panel Background="Blue">
-                <TextBlock Text="Column 2" Margin="2" />
-              </Panel>
-            </DataTemplate>
-          </DataColumn>
-          <DataColumn Width="1*">
-            <DataTemplate DataType="x:String">
-              <Panel Background="Yellow">
-                <TextBlock Text="Column 3" Margin="2" />
-              </Panel>
-            </DataTemplate>
-          </DataColumn>
-        </DataListBox.Columns>
-      </DataListBox>
-
-    </Border>
+    <DataListBox Name="DataListBox" Items="{Binding Items}">
+      <DataListBox.Columns>
+        <DataColumn Header="Column 0" Width="2*">
+          <DataTemplate DataType="x:String">
+            <Panel Background="Red">
+              <TextBlock Text="Column 0" Margin="2" />
+            </Panel>
+          </DataTemplate>
+        </DataColumn>
+        <DataColumn Header="Column 1" Width="Auto">
+          <DataTemplate DataType="x:String">
+            <Panel Background="Green">
+              <TextBlock Text="{Binding}" Margin="2" />
+            </Panel>
+          </DataTemplate>
+        </DataColumn>
+        <DataColumn Header="Column 2" Width="200">
+          <DataTemplate DataType="x:String">
+            <Panel Background="Blue">
+              <TextBlock Text="Column 2" Margin="2" />
+            </Panel>
+          </DataTemplate>
+        </DataColumn>
+        <DataColumn Header="Column 3" Width="1*">
+          <DataTemplate DataType="x:String">
+            <Panel Background="Yellow">
+              <TextBlock Text="Column 3" Margin="2" />
+            </Panel>
+          </DataTemplate>
+        </DataColumn>
+      </DataListBox.Columns>
+    </DataListBox>
 
   </DockPanel>
 </Window>
