@@ -119,7 +119,7 @@ namespace DataListBoxDemo.Controls
                 }
             }
 
-            var parentSize = new Size(parentWidth, parentHeight);
+            var parentSize = new Size(availableSize.Width, parentHeight);
 
             return parentSize;
         }
