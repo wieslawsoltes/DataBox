@@ -9,6 +9,13 @@ namespace DataListBoxDemo.Controls
         private double UpdateActualWidths(Avalonia.Controls.Controls children, DataListBox root)
         {
             var accumulatedWidth = 0.0;
+            var actualWidths = new double[root.Columns.Count];
+
+            for (var c = 0; c < root.Columns.Count; c++)
+            {
+                var column = root.Columns[c];
+                actualWidths[c] = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
+            }
 
             for (var c = 0; c < root.Columns.Count; c++)
             {
@@ -27,10 +34,10 @@ namespace DataListBoxDemo.Controls
                                 var cells = cellPresenter.Children;
                                 var cell = cells[c];
                                 var width = DataCell.GetItemWidth(cell);
-                                column.ActualWidth = Math.Max(column.ActualWidth, width);
+                                actualWidths[c] = Math.Max(actualWidths[c], width);
                             }
                         }
-                        accumulatedWidth += column.ActualWidth;
+                        accumulatedWidth += actualWidths[c];
                         break;
                     }
                     case GridUnitType.Auto:
@@ -43,10 +50,10 @@ namespace DataListBoxDemo.Controls
                                 var cells = cellPresenter.Children;
                                 var cell = cells[c];
                                 var width = DataCell.GetItemWidth(cell);
-                                column.ActualWidth = Math.Max(column.ActualWidth, width);
+                                actualWidths[c] = Math.Max(actualWidths[c], width);
                             }
                         }
-                        accumulatedWidth += column.ActualWidth;
+                        accumulatedWidth += actualWidths[c];
                         break;
                     }
                     case GridUnitType.Star:
@@ -79,13 +86,19 @@ namespace DataListBoxDemo.Controls
                     case GridUnitType.Star:
                     {
                         var width = (value / totalStarValue) * totalWidthForStars;
-                        column.ActualWidth = width;
-                        accumulatedWidth += column.ActualWidth;
+                        actualWidths[c] = width;
+                        accumulatedWidth += actualWidths[c];
                         break;
                     }
                 }
             }
             
+            for (var c = 0; c < root.Columns.Count; c++)
+            {
+                var column = root.Columns[c];
+                column.ActualWidth = actualWidths[c];
+            }
+
             return accumulatedWidth;
         }
 

@@ -16,6 +16,9 @@ namespace DataListBoxDemo.Controls
         public static readonly StyledProperty<GridLength> WidthProperty = 
             AvaloniaProperty.Register<DataColumn, GridLength>(nameof(Width), new GridLength(0, GridUnitType.Auto));
 
+        internal static readonly StyledProperty<double> ActualWidthProperty = 
+            AvaloniaProperty.Register<DataColumn, double>(nameof(ActualWidth), double.NaN);
+
         [Content]
         public IDataTemplate? CellTemplate
         {
@@ -35,6 +38,10 @@ namespace DataListBoxDemo.Controls
             set => SetValue(WidthProperty, value);
         }
 
-        internal double ActualWidth { get; set; }
+        internal double ActualWidth
+        {
+            get => GetValue(ActualWidthProperty);
+            set => SetValue(ActualWidthProperty, value);
+        }
     }
 }

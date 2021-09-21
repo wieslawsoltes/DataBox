@@ -119,7 +119,7 @@ namespace DataListBoxDemo.Controls
                     {
                         DataCell.SetItemWidth(cell, 0.0);
 
-                        parentWidth += column.ActualWidth;
+                        parentWidth += double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
                         parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
 
                         break;
@@ -155,7 +155,7 @@ namespace DataListBoxDemo.Controls
 
                 var childDesiredSize = cell.DesiredSize;
                 var column = root.Columns[c];
-                var width = Math.Max(0.0, column.ActualWidth);
+                var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
 
                 var rcChild = new Rect(
                     accumulatedWidth,
