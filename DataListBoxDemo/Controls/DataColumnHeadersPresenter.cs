@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
@@ -9,6 +10,7 @@ namespace DataListBoxDemo.Controls
     public class DataColumnHeadersPresenter : Panel
     {
         private IDisposable? _rootDisposable;
+        private List<IDisposable>? _columnActualWidthDisposables;
         
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
@@ -24,15 +26,37 @@ namespace DataListBoxDemo.Controls
             Children.Clear();
             
             _rootDisposable?.Dispose();
+
+            if (_columnActualWidthDisposables is { })
+            {
+                foreach (var disposable in _columnActualWidthDisposables)
+                {
+                    disposable.Dispose();
+                }
+                _columnActualWidthDisposables.Clear();
+                _columnActualWidthDisposables = null;
+            }
         }
 
         private void Invalidate()
         {
+            if (_columnActualWidthDisposables is { })
+            {
+                foreach (var disposable in _columnActualWidthDisposables)
+                {
+                    disposable.Dispose();
+                }
+                _columnActualWidthDisposables.Clear();
+                _columnActualWidthDisposables = null;
+            }
+
             Children.Clear();
 
             var root = DataProperties.GetRoot(this);
             if (root is not null)
             {
+                _columnActualWidthDisposables = new List<IDisposable>();
+
                 foreach (var column in root.Columns)
                 {
                     var contentPresenter = new ContentPresenter
@@ -51,6 +75,13 @@ namespace DataListBoxDemo.Controls
 
                     columnHeader.ApplyTemplate();
                     Children.Add(columnHeader);
+
+                    var disposable = column.GetObservable(DataColumn.ActualWidthProperty).Subscribe(_ =>
+                    {
+                        InvalidateMeasure();
+                        InvalidateVisual();
+                    });
+                    _columnActualWidthDisposables.Add(disposable);
                 }
             }
         }
@@ -77,7 +108,7 @@ namespace DataListBoxDemo.Controls
 
                 var column = root.Columns[c];
 
-                var childConstraint = new Size(column.ActualWidth, double.PositiveInfinity);
+                var childConstraint = new Size(double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth, double.PositiveInfinity);
                 columnHeader.Measure(childConstraint);
                 var childDesiredSize = columnHeader.DesiredSize;
 
@@ -112,7 +143,7 @@ namespace DataListBoxDemo.Controls
 
                 var childDesiredSize = columnHeader.DesiredSize;
                 var column = root.Columns[c];
-                var width = Math.Max(0.0, column.ActualWidth);
+                var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
 
                 var rcChild = new Rect(
                     accumulatedWidth,
