@@ -119,7 +119,8 @@ namespace DataListBoxDemo.Controls
                 }
             }
 
-            var parentSize = new Size(availableSize.Width, parentHeight);
+            var parentSize = new Size(parentWidth, parentHeight);
+            //var parentSize = new Size(Math.Max(parentWidth, availableSize.Width), parentHeight);
 
             return parentSize;
         }
@@ -162,6 +163,7 @@ namespace DataListBoxDemo.Controls
             }
 
             var accumulatedSize = new Size(accumulatedWidth, accumulatedHeight);
+            //var accumulatedSize = new Size(Math.Max(accumulatedWidth, arrangeSize.Width), accumulatedHeight);
 
             return accumulatedSize;
         }
