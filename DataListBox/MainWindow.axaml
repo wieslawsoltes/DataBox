@@ -68,32 +68,6 @@
             </DataTemplate>
           </DataColumn>
         </DataListBox.Columns>
-        <DataListBox.Styles>
-          <Style Selector="ListBox">
-            <Setter Property="VirtualizationMode" Value="Simple" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="(ScrollViewer.HorizontalScrollBarVisibility)" Value="Disabled" />
-            <Setter Property="(ScrollViewer.VerticalScrollBarVisibility)" Value="Auto" />
-            <Setter Property="ItemsPanel">
-              <Setter.Value>
-                <ItemsPanelTemplate>
-                  <DataRowsPresenter DataContext="{Binding $parent[ListBox]}" Orientation="Vertical"/>
-                </ItemsPanelTemplate>
-              </Setter.Value>
-            </Setter>
-            <Setter Property="ItemTemplate">
-              <Setter.Value>
-                <DataTemplate>
-                  <DataCellsPresenter Background="LightGray" />
-                </DataTemplate>
-              </Setter.Value>
-            </Setter>
-          </Style>
-          <Style Selector="ListBoxItem">
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="Padding" Value="0" />
-          </Style>
-        </DataListBox.Styles>
       </DataListBox>
 
     </Border>
