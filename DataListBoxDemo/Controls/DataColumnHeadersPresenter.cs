@@ -8,30 +8,13 @@ namespace DataListBoxDemo.Controls
 {
     public class DataColumnHeadersPresenter : Panel
     {
+        private IDisposable? _rootDisposable;
+        
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnAttachedToVisualTree(e);
 
-            var root = DataProperties.GetRoot(this);
-            if (root is not null)
-            {
-                foreach (var column in root.Columns)
-                {
-                    var columnHeader = new DataColumnHeader 
-                    { 
-                        Child = new ContentPresenter
-                        {
-                            Content = column.Header,
-                            Margin = new Thickness(2)
-                        },
-                        DataContext = column,
-                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Stretch
-                    };
-                    columnHeader.ApplyTemplate();
-                    Children.Add(columnHeader);
-                }
-            }
+            _rootDisposable = this.GetObservable(DataProperties.RootProperty).Subscribe(root => Invalidate());
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
@@ -39,6 +22,37 @@ namespace DataListBoxDemo.Controls
             base.OnDetachedFromVisualTree(e);
 
             Children.Clear();
+            
+            _rootDisposable?.Dispose();
+        }
+
+        private void Invalidate()
+        {
+            Children.Clear();
+
+            var root = DataProperties.GetRoot(this);
+            if (root is not null)
+            {
+                foreach (var column in root.Columns)
+                {
+                    var contentPresenter = new ContentPresenter
+                    {
+                        Content = column.Header,
+                        Margin = new Thickness(2)
+                    };
+
+                    var columnHeader = new DataColumnHeader
+                    {
+                        Child = contentPresenter,
+                        DataContext = column,
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch
+                    };
+
+                    columnHeader.ApplyTemplate();
+                    Children.Add(columnHeader);
+                }
+            }
         }
 
         protected override Size MeasureOverride(Size availableSize)
