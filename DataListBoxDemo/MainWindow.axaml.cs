@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using DataListBoxDemo.Controls;
 
 namespace DataListBoxDemo
 {
@@ -60,6 +61,11 @@ namespace DataListBoxDemo
             //
 
             DataContext = this;
+
+            var headersPresenter = this.FindControl<DataColumnHeadersPresenter>("HeadersPresenter");
+            var dataListBox = this.FindControl<DataListBox>("DataListBox");
+            
+            DataProperties.SetRoot(headersPresenter, dataListBox);
         }
 
         private void InitializeComponent()
