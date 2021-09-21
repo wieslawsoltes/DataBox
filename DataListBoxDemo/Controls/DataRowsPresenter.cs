@@ -195,7 +195,7 @@ namespace DataListBoxDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = DataContext as DataListBox;
+            var root = GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -206,7 +206,7 @@ namespace DataListBoxDemo.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var root = DataContext as DataListBox;
+            var root = GetRoot(this);
             if (root is null)
             {
                 return finalSize;

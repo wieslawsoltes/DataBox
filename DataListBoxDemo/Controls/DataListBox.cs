@@ -3,6 +3,7 @@ using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Generators;
+using Avalonia.Controls.Primitives;
 using Avalonia.Styling;
 
 namespace DataListBoxDemo.Controls
@@ -34,6 +35,13 @@ namespace DataListBoxDemo.Controls
         internal double AvailableWidth { get; set; }
 
         internal double AvailableHeight { get; set; }
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+
+            DataRowsPresenter.SetRoot(this, this);
+        }
 
         protected override IItemContainerGenerator CreateItemContainerGenerator()
         {

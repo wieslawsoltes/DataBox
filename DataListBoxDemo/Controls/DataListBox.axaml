@@ -9,8 +9,7 @@
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
-          <DataRowsPresenter DataContext="{Binding $parent[ListBox]}" 
-                             Orientation="Vertical" />
+          <DataRowsPresenter Orientation="Vertical" />
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
