@@ -10,6 +10,9 @@ namespace DataListBoxDemo.Controls
         public static readonly StyledProperty<IDataTemplate?> CellTemplateProperty = 
             AvaloniaProperty.Register<DataColumn, IDataTemplate?>(nameof(CellTemplate));
         
+        public static readonly StyledProperty<object?> HeaderProperty = 
+            AvaloniaProperty.Register<DataColumn, object?>(nameof(Header));
+
         public static readonly StyledProperty<GridLength> WidthProperty = 
             AvaloniaProperty.Register<DataColumn, GridLength>(nameof(Width), new GridLength(0, GridUnitType.Auto));
 
@@ -18,6 +21,12 @@ namespace DataListBoxDemo.Controls
         {
             get => GetValue(CellTemplateProperty);
             set => SetValue(CellTemplateProperty, value);
+        }
+
+        public object? Header
+        {
+            get => GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
         }
 
         public GridLength Width
