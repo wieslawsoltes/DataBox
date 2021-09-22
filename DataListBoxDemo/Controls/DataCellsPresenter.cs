@@ -91,6 +91,9 @@ namespace DataListBoxDemo.Controls
                     _ => throw new ArgumentOutOfRangeException()
                 };
 
+                width = Math.Max(column.MinWidth, width);
+                width = Math.Min(column.MaxWidth, width);
+
                 var childConstraint = new Size(width, double.PositiveInfinity);
                 cell.Measure(childConstraint);
                 var childDesiredSize = cell.DesiredSize;

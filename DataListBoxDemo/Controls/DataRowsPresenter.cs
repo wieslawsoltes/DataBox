@@ -26,6 +26,8 @@ namespace DataListBoxDemo.Controls
                 {
                     case GridUnitType.Pixel:
                     {
+                        var actualWidth = actualWidths[c];
+
                         foreach (var child in children)
                         {
                             var cellPresenter = GetCellsPresenter(child);
@@ -34,14 +36,22 @@ namespace DataListBoxDemo.Controls
                                 var cells = cellPresenter.Children;
                                 var cell = cells[c];
                                 var width = DataCell.GetItemWidth(cell);
-                                actualWidths[c] = Math.Max(actualWidths[c], width);
+                                actualWidth = Math.Max(actualWidth, width);
                             }
                         }
+
+                        actualWidth = Math.Max(column.MinWidth, actualWidth);
+                        actualWidth = Math.Min(column.MaxWidth, actualWidth);
+                        
+                        actualWidths[c] = actualWidth;
                         accumulatedWidth += actualWidths[c];
+
                         break;
                     }
                     case GridUnitType.Auto:
                     {
+                        var actualWidth = actualWidths[c];
+  
                         foreach (var child in children)
                         {
                             var cellPresenter = GetCellsPresenter(child);
@@ -50,10 +60,16 @@ namespace DataListBoxDemo.Controls
                                 var cells = cellPresenter.Children;
                                 var cell = cells[c];
                                 var width = DataCell.GetItemWidth(cell);
-                                actualWidths[c] = Math.Max(actualWidths[c], width);
+                                actualWidth = Math.Max(actualWidth, width);
                             }
                         }
+
+                        actualWidth = Math.Max(column.MinWidth, actualWidth);
+                        actualWidth = Math.Min(column.MaxWidth, actualWidth);
+
+                        actualWidths[c] = actualWidth;
                         accumulatedWidth += actualWidths[c];
+
                         break;
                     }
                     case GridUnitType.Star:
@@ -85,9 +101,17 @@ namespace DataListBoxDemo.Controls
                 {
                     case GridUnitType.Star:
                     {
-                        var width = (value / totalStarValue) * totalWidthForStars;
-                        actualWidths[c] = width;
+                        var actualWidth = (value / totalStarValue) * totalWidthForStars;
+
+                        actualWidth = Math.Max(column.MinWidth, actualWidth);
+                        actualWidth = Math.Min(column.MaxWidth, actualWidth);
+
+                        totalWidthForStars -= actualWidth;
+                        totalStarValue -= value;
+
+                        actualWidths[c] = actualWidth;
                         accumulatedWidth += actualWidths[c];
+
                         break;
                     }
                 }

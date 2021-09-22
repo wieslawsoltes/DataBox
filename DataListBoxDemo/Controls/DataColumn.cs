@@ -16,6 +16,12 @@ namespace DataListBoxDemo.Controls
         public static readonly StyledProperty<GridLength> WidthProperty = 
             AvaloniaProperty.Register<DataColumn, GridLength>(nameof(Width), new GridLength(0, GridUnitType.Auto));
 
+        public static readonly StyledProperty<double> MinWidthProperty = 
+            AvaloniaProperty.Register<DataColumn, double>(nameof(MinWidth), 0.0);
+
+        public static readonly StyledProperty<double> MaxWidthProperty = 
+            AvaloniaProperty.Register<DataColumn, double>(nameof(MaxWidth), double.PositiveInfinity);
+
         internal static readonly StyledProperty<double> ActualWidthProperty = 
             AvaloniaProperty.Register<DataColumn, double>(nameof(ActualWidth), double.NaN);
 
@@ -36,6 +42,18 @@ namespace DataListBoxDemo.Controls
         {
             get => GetValue(WidthProperty);
             set => SetValue(WidthProperty, value);
+        }
+
+        public double MinWidth
+        {
+            get => GetValue(MinWidthProperty);
+            set => SetValue(MinWidthProperty, value);
+        }
+
+        public double MaxWidth
+        {
+            get => GetValue(MaxWidthProperty);
+            set => SetValue(MaxWidthProperty, value);
         }
 
         internal double ActualWidth
