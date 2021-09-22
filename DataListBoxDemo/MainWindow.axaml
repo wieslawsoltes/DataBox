@@ -33,6 +33,7 @@
     -->
 
     <DataColumnHeadersPresenter Name="HeadersPresenter" 
+                                HorizontalAlignment="Left"
                                 Background="LightGray"
                                 DockPanel.Dock="Top"/>
 
