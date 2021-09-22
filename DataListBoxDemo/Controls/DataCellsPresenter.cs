@@ -24,6 +24,15 @@ namespace DataListBoxDemo.Controls
             Invalidate();
         }
 
+        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        {
+            base.OnDetachedFromVisualTree(e);
+
+            Children.Clear();
+
+            _itemDataDisposable?.Dispose();
+        }
+
         private void Invalidate()
         {
             Children.Clear();
@@ -49,13 +58,28 @@ namespace DataListBoxDemo.Controls
             }
         }
 
-        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+        internal void MeasureCells()
         {
-            base.OnDetachedFromVisualTree(e);
+            var root = DataProperties.GetRoot(this);
+            if (root is null)
+            {
+                return;
+            }
 
-            Children.Clear();
+            var children = Children;
 
-            _itemDataDisposable?.Dispose();
+            for (int c = 0, count = children.Count; c < count; ++c)
+            {
+                var child = children[c];
+                if (child is not DataCell cell)
+                {
+                    continue;
+                }
+
+                cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+
+                DataCell.SetItemWidth(cell, cell.DesiredSize.Width);
+            }
         }
 
         protected override Size MeasureOverride(Size availableSize)
@@ -80,54 +104,17 @@ namespace DataListBoxDemo.Controls
                 }
 
                 var column = root.Columns[c];
-                var type = column.Width.GridUnitType;
-                var value = column.Width.Value;
-                
-                var width = type switch
-                {
-                    GridUnitType.Pixel => value,
-                    GridUnitType.Auto => double.PositiveInfinity,
-                    GridUnitType.Star => double.PositiveInfinity,
-                    _ => throw new ArgumentOutOfRangeException()
-                };
+                var width = column.ActualWidth;
 
                 width = Math.Max(column.MinWidth, width);
                 width = Math.Min(column.MaxWidth, width);
 
                 var childConstraint = new Size(width, double.PositiveInfinity);
                 cell.Measure(childConstraint);
-                var childDesiredSize = cell.DesiredSize;
 
-                switch (type)
-                {
-                    case GridUnitType.Pixel:
-                    {
-                        DataCell.SetItemWidth(cell, width);
-
-                        parentWidth += width;
-                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
-
-                        break;
-                    }
-                    case GridUnitType.Auto:
-                    {
-                        DataCell.SetItemWidth(cell, childDesiredSize.Width);
-
-                        parentWidth += childDesiredSize.Width;
-                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
-
-                        break;
-                    }
-                    case GridUnitType.Star:
-                    {
-                        DataCell.SetItemWidth(cell, 0.0);
-
-                        parentWidth += double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
-                        parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
-
-                        break;
-                    }
-                }
+                // TODO: parentWidth += cell.DesiredSize.Width;
+                parentWidth += width;
+                parentHeight = Math.Max(parentHeight, cell.DesiredSize.Height);
             }
 
             var parentSize = new Size(parentWidth, parentHeight);

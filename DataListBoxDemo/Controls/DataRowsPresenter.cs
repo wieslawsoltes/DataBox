@@ -6,6 +6,15 @@ namespace DataListBoxDemo.Controls
 {
     public class DataRowsPresenter : VirtualizingStackPanel
     {
+        private DataCellsPresenter? GetCellsPresenter(IControl? control)
+        {
+            if (control is ListBoxItem)
+            {
+                return control.LogicalChildren[0] as DataCellsPresenter;
+            }
+            return control as DataCellsPresenter;
+        }
+
         private double UpdateActualWidths(Avalonia.Controls.Controls children, DataListBox root)
         {
             var accumulatedWidth = 0.0;
@@ -21,6 +30,7 @@ namespace DataListBoxDemo.Controls
             {
                 var column = root.Columns[c];
                 var type = column.Width.GridUnitType;
+                var value = column.Width.Value;
 
                 switch (type)
                 {
@@ -33,10 +43,11 @@ namespace DataListBoxDemo.Controls
                             var cellPresenter = GetCellsPresenter(child);
                             if (cellPresenter is { })
                             {
-                                var cells = cellPresenter.Children;
-                                var cell = cells[c];
-                                var width = DataCell.GetItemWidth(cell);
-                                actualWidth = Math.Max(actualWidth, width);
+                                // var cells = cellPresenter.Children;
+                                // var cell = cells[c];
+                                // var width = DataCell.GetItemWidth(cell);
+                                var width = value;
+                                actualWidth = width;
                             }
                         }
 
@@ -126,15 +137,6 @@ namespace DataListBoxDemo.Controls
             return accumulatedWidth;
         }
 
-        private DataCellsPresenter? GetCellsPresenter(IControl? control)
-        {
-            if (control is ListBoxItem)
-            {
-                return control.LogicalChildren[0] as DataCellsPresenter;
-            }
-            return control as DataCellsPresenter;
-        }
-
         private Size MeasureRows(Size availableSize, DataListBox root)
         {
             var children = Children;
@@ -146,7 +148,11 @@ namespace DataListBoxDemo.Controls
             for (int i = 0, count = children.Count; i < count; ++i)
             {
                 var child = children[i];
-                child.Measure(availableSize);
+                var cellPresenter = GetCellsPresenter(child);
+                if (cellPresenter is { })
+                {
+                    cellPresenter.MeasureCells();
+                }
             }
 
             var accumulatedWidth = UpdateActualWidths(children, root);
