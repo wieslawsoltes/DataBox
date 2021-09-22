@@ -189,7 +189,9 @@ namespace DataListBoxDemo.Controls
             }
 
             panelSize = base.ArrangeOverride(panelSize);
-            return panelSize.WithWidth(root.AccumulatedWidth);
+            panelSize = panelSize.WithWidth(root.AccumulatedWidth);
+
+            return panelSize;
         }
 
         protected override Size MeasureOverride(Size availableSize)
