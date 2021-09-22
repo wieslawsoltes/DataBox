@@ -17,7 +17,9 @@
     <Setter Property="ItemTemplate">
       <Setter.Value>
         <DataTemplate>
-          <DataCellsPresenter Background="LightGray" />
+          <DataCellsPresenter HorizontalAlignment="Left" 
+                              VerticalAlignment="Top" 
+                              Background="LightGray" />
         </DataTemplate>
       </Setter.Value>
     </Setter>
