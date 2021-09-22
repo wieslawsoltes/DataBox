@@ -150,8 +150,9 @@ namespace DataListBoxDemo.Controls
             }
 
             var accumulatedWidth = UpdateActualWidths(children, root);
+            availableSize = availableSize.WithWidth(accumulatedWidth);
 
-            var panelSize = base.MeasureOverride(availableSize.WithWidth(accumulatedWidth));
+            var panelSize = base.MeasureOverride(availableSize);
 
             accumulatedWidth = UpdateActualWidths(children, root);
             panelSize = panelSize.WithWidth(accumulatedWidth);
@@ -167,7 +168,7 @@ namespace DataListBoxDemo.Controls
             root.AvailableHeight = finalSize.Height;
 
             root.AccumulatedWidth = UpdateActualWidths(children, root);
-            finalSize = finalSize.WithWidth(root.AccumulatedWidth);
+            var panelSize = finalSize.WithWidth(root.AccumulatedWidth);
 
             // TODO: InvalidateArrange children only when column ActualWidth changes.
             foreach (var child in children)
@@ -187,8 +188,8 @@ namespace DataListBoxDemo.Controls
                 }
             }
 
-            var panelSize = base.ArrangeOverride(finalSize);
-            return panelSize;
+            panelSize = base.ArrangeOverride(panelSize);
+            return panelSize.WithWidth(root.AccumulatedWidth);
         }
 
         protected override Size MeasureOverride(Size availableSize)
