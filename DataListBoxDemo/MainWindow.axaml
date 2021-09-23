@@ -43,6 +43,7 @@
           <DataTemplate DataType="x:String">
             <Panel Background="Red">
               <TextBlock Text="Column 0" Margin="2" />
+              <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
         </DataColumn>
@@ -57,6 +58,7 @@
           <DataTemplate DataType="x:String">
             <Panel Background="Blue">
               <TextBlock Text="Column 2" Margin="2" />
+              <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
         </DataColumn>
@@ -64,6 +66,7 @@
           <DataTemplate DataType="x:String">
             <Panel Background="Yellow">
               <TextBlock Text="Column 3" Margin="2" />
+              <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
         </DataColumn>
