@@ -137,14 +137,8 @@ namespace DataListBoxDemo.Controls
             return accumulatedWidth;
         }
 
-        private Size MeasureRows(Size availableSize, DataListBox root)
+        private void MeasureCells(Avalonia.Controls.Controls children)
         {
-            var children = Children;
-
-            root.AvailableWidth = availableSize.Width;
-            root.AvailableHeight = availableSize.Height;
-
-            // TODO: Measure children only when column ActualWidth changes.
             for (int i = 0, count = children.Count; i < count; ++i)
             {
                 var child = children[i];
@@ -154,29 +148,34 @@ namespace DataListBoxDemo.Controls
                     cellPresenter.MeasureCells();
                 }
             }
-
-            var accumulatedWidth = UpdateActualWidths(children, root);
-            availableSize = availableSize.WithWidth(accumulatedWidth);
-
-            var panelSize = base.MeasureOverride(availableSize);
-
-            accumulatedWidth = UpdateActualWidths(children, root);
-            panelSize = panelSize.WithWidth(accumulatedWidth);
-
-            return panelSize;
         }
 
-        private Size ArrangeRows(Size finalSize, DataListBox root)
+        private void InvalidateMeasureChildren(Avalonia.Controls.Controls children)
         {
-            var children = Children;
+            // Parent?.InvalidateMeasure();
+            InvalidateMeasure();
+            /*
+            foreach (var child in children)
+            {
+                child.InvalidateMeasure();
 
-            root.AvailableWidth = finalSize.Width;
-            root.AvailableHeight = finalSize.Height;
+                var cellPresenter = GetCellsPresenter(child);
+                if (cellPresenter is { })
+                {
+                    cellPresenter.InvalidateMeasure();
 
-            root.AccumulatedWidth = UpdateActualWidths(children, root);
-            var panelSize = finalSize.WithWidth(root.AccumulatedWidth);
+                    var cells = cellPresenter.Children;
+                    foreach (var cell in cells)
+                    {
+                        cell.InvalidateMeasure();
+                    }
+                }
+            }
+            */
+        }
 
-            // TODO: InvalidateArrange children only when column ActualWidth changes.
+        private void InvalidateArrangeChildren(Avalonia.Controls.Controls children)
+        {
             foreach (var child in children)
             {
                 child.InvalidateArrange();
@@ -193,6 +192,42 @@ namespace DataListBoxDemo.Controls
                     }
                 }
             }
+        }
+
+        private Size MeasureRows(Size availableSize, DataListBox root)
+        {
+            var children = Children;
+
+            root.AvailableWidth = availableSize.Width;
+            root.AvailableHeight = availableSize.Height;
+
+            // TODO: Measure children only when column ActualWidth changes.
+            MeasureCells(children);
+
+            var accumulatedWidth = UpdateActualWidths(children, root);
+            var panelSize = availableSize.WithWidth(accumulatedWidth);
+
+            // TODO: InvalidateMeasure children only when column ActualWidth changes.
+            InvalidateMeasureChildren(children);
+
+            panelSize = base.MeasureOverride(panelSize);
+            panelSize = panelSize.WithWidth(accumulatedWidth);
+
+            return panelSize;
+        }
+
+        private Size ArrangeRows(Size finalSize, DataListBox root)
+        {
+            var children = Children;
+
+            root.AvailableWidth = finalSize.Width;
+            root.AvailableHeight = finalSize.Height;
+
+            root.AccumulatedWidth = UpdateActualWidths(children, root);
+            var panelSize = finalSize.WithWidth(root.AccumulatedWidth);
+
+            // TODO: InvalidateArrange children only when column ActualWidth changes.
+            InvalidateArrangeChildren(children);
 
             panelSize = base.ArrangeOverride(panelSize);
             panelSize = panelSize.WithWidth(root.AccumulatedWidth);
