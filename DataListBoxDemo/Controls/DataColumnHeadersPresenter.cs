@@ -99,22 +99,26 @@ namespace DataListBoxDemo.Controls
             var parentWidth = 0.0;
             var parentHeight = 0.0;
 
-            for (int c = 0, count = children.Count; c < count; ++c)
+            var c = 0;
+            for (int i = 0, count = children.Count; i < count; ++i)
             {
-                var child = children[c];
+                var child = children[i];
                 if (child is not DataColumnHeader columnHeader)
                 {
                     continue;
                 }
 
-                var column = root.Columns[c];
+                if (c < root.Columns.Count)
+                {
+                    var column = root.Columns[c++];
 
-                var childConstraint = new Size(double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth, double.PositiveInfinity);
-                columnHeader.Measure(childConstraint);
-                var childDesiredSize = columnHeader.DesiredSize;
+                    var childConstraint = new Size(double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth, double.PositiveInfinity);
+                    columnHeader.Measure(childConstraint);
+                    var childDesiredSize = columnHeader.DesiredSize;
 
-                parentWidth += childConstraint.Width;
-                parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
+                    parentWidth += childConstraint.Width;
+                    parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
+                }
             }
 
             var parentSize = new Size(parentWidth, parentHeight);
