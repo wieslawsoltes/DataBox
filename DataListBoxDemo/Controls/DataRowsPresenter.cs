@@ -152,7 +152,6 @@ namespace DataListBoxDemo.Controls
 
         private void InvalidateMeasureChildren(Avalonia.Controls.Controls children)
         {
-            // Parent?.InvalidateMeasure();
             InvalidateMeasure();
             /*
             foreach (var child in children)
