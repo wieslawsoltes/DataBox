@@ -57,11 +57,12 @@ namespace DataListBoxDemo.Controls
             {
                 _columnActualWidthDisposables = new List<IDisposable>();
 
-                foreach (var column in root.Columns)
+                for (var c = 0; c < root.Columns.Count; c++)
                 {
+                    var column = root.Columns[c];
                     var contentPresenter = new ContentPresenter
                     {
-                        Content = column.Header,
+                        Content = column.Header, 
                         Margin = new Thickness(2)
                     };
 
