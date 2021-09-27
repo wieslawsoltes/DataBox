@@ -37,7 +37,7 @@
                                 Background="LightGray"
                                 DockPanel.Dock="Top"/>
 
-    <DataListBox Name="DataListBox" Items="{Binding Items}">
+    <DataListBox Name="DataListBox" Items="{Binding Items}" Classes="data">
       <DataListBox.Columns>
         <DataColumn Header="Column 0" Width="2*">
           <DataTemplate DataType="x:String">
