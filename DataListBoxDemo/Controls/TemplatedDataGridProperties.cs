@@ -2,23 +2,23 @@
 
 namespace DataListBoxDemo.Controls
 {
-    internal class DataProperties : AvaloniaObject
+    internal class TemplatedDataGridProperties : AvaloniaObject
     {
-        internal static readonly AttachedProperty<DataListBox?> RootProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, DataListBox?>("Root", typeof(DataProperties), default, true);
+        internal static readonly AttachedProperty<TemplatedDataGrid?> RootProperty = 
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, TemplatedDataGrid?>("Root", typeof(TemplatedDataGridProperties), default, true);
 
         internal static readonly AttachedProperty<int> ItemIndexProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(DataProperties), -1, true);
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, int>("ItemIndex", typeof(TemplatedDataGridProperties), -1, true);
 
         internal static readonly AttachedProperty<object?> ItemDataProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(DataProperties), default, true);
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, object?>("ItemData", typeof(TemplatedDataGridProperties), default, true);
 
-        internal static DataListBox? GetRoot(IAvaloniaObject obj)
+        internal static TemplatedDataGrid? GetRoot(IAvaloniaObject obj)
         {
             return obj.GetValue(RootProperty);
         }
 
-        internal static void SetRoot(IAvaloniaObject obj, DataListBox? value)
+        internal static void SetRoot(IAvaloniaObject obj, TemplatedDataGrid? value)
         {
             obj.SetValue(RootProperty, value);
         }

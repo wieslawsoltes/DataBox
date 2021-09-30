@@ -5,7 +5,7 @@ using Avalonia.Layout;
 
 namespace DataListBoxDemo.Controls
 {
-    public class DataCellsPresenter : Panel
+    public class TemplatedDataGridCellsPresenter : Panel
     {
         private IDisposable? _itemDataDisposable;
         
@@ -13,7 +13,7 @@ namespace DataListBoxDemo.Controls
         {
             base.OnAttachedToVisualTree(e);
 
-            _itemDataDisposable = this.GetObservable(DataProperties.ItemDataProperty).Subscribe(itemData =>
+            _itemDataDisposable = this.GetObservable(TemplatedDataGridProperties.ItemDataProperty).Subscribe(itemData =>
             {
                 foreach (var child in Children)
                 {
@@ -37,14 +37,14 @@ namespace DataListBoxDemo.Controls
         {
             Children.Clear();
 
-            var itemIndex = DataProperties.GetItemIndex(this);
-            var itemData = DataProperties.GetItemData(this);
-            var root = DataProperties.GetRoot(this);
+            var itemIndex = TemplatedDataGridProperties.GetItemIndex(this);
+            var itemData = TemplatedDataGridProperties.GetItemData(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is not null)
             {
                 foreach (var column in root.Columns)
                 {
-                    var cell = new DataCell
+                    var cell = new TemplatedDataGridCell
                     {
                         Child = itemData is { } ? column.CellTemplate?.Build(itemData) : null,
                         DataContext = itemData,
@@ -60,7 +60,7 @@ namespace DataListBoxDemo.Controls
 
         internal void MeasureCells()
         {
-            var root = DataProperties.GetRoot(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is null)
             {
                 return;
@@ -71,21 +71,21 @@ namespace DataListBoxDemo.Controls
             for (int c = 0, count = children.Count; c < count; ++c)
             {
                 var child = children[c];
-                if (child is not DataCell cell)
+                if (child is not TemplatedDataGridCell cell)
                 {
                     continue;
                 }
 
                 cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 
-                DataCell.SetItemWidth(cell, cell.DesiredSize.Width);
+                TemplatedDataGridCell.SetItemWidth(cell, cell.DesiredSize.Width);
             }
         }
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var itemIndex = DataProperties.GetItemIndex(this);
-            var root = DataProperties.GetRoot(this);
+            var itemIndex = TemplatedDataGridProperties.GetItemIndex(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -98,7 +98,7 @@ namespace DataListBoxDemo.Controls
             for (int c = 0, count = children.Count; c < count; ++c)
             {
                 var child = children[c];
-                if (child is not DataCell cell)
+                if (child is not TemplatedDataGridCell cell)
                 {
                     continue;
                 }
@@ -124,8 +124,8 @@ namespace DataListBoxDemo.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var itemIndex = DataProperties.GetItemIndex(this);
-            var root = DataProperties.GetRoot(this);
+            var itemIndex = TemplatedDataGridProperties.GetItemIndex(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is null)
             {
                 return arrangeSize;
@@ -138,7 +138,7 @@ namespace DataListBoxDemo.Controls
             for (int c = 0, count = children.Count; c < count; ++c)
             {
                 var child = children[c];
-                if (child is not DataCell cell)
+                if (child is not TemplatedDataGridCell cell)
                 {
                     continue;
                 }

@@ -10,65 +10,41 @@
         Title="DataListBoxDemo">
   <DockPanel>
     
-    <Panel Height="32"
-           DockPanel.Dock="Top">
-      
-    </Panel>
+    <Panel Height="32" 
+           DockPanel.Dock="Top" />
 
-    <!--
-    <Grid ColumnDefinitions="2*,Auto,200,1*" Background="LightGray" DockPanel.Dock="Top">
-      <Panel Grid.Column="0" Background="Red">
-        <TextBlock Text="Column 0" Margin="2" />
-      </Panel>
-      <Panel Grid.Column="1" Background="Green">
-        <TextBlock Text="Item 3 Auto Auto" Margin="2" />
-      </Panel>
-      <Panel Grid.Column="2" Background="Blue">
-        <TextBlock Text="Column 2" Margin="2" />
-      </Panel>
-      <Panel Grid.Column="3" Background="Yellow">
-        <TextBlock Text="Column 3" Margin="2" />
-      </Panel>
-    </Grid>
-    -->
-
-    <DataColumnHeadersPresenter Name="HeadersPresenter" 
-                                HorizontalAlignment="Left"
-                                Background="LightGray"
-                                DockPanel.Dock="Top"/>
-
-    <DataListBox Name="DataListBox" Items="{Binding Items}" Classes="data">
-      <DataListBox.Columns>
-        <DataColumn Header="Column 0" Width="2*">
+    <TemplatedDataGrid Items="{Binding Items}">
+      <TemplatedDataGrid.Columns>
+        <TemplatedDataGridColumn Header="Column 0" Width="2*">
           <DataTemplate DataType="x:String">
             <Panel Background="Red">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </DataColumn>
-        <DataColumn Header="Column 1" Width="Auto">
+        </TemplatedDataGridColumn>
+        <TemplatedDataGridColumn Header="Column 1" Width="Auto">
           <DataTemplate DataType="x:String">
             <Panel Background="Green">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </DataColumn>
-        <DataColumn Header="Column 2" Width="200">
+        </TemplatedDataGridColumn>
+        <TemplatedDataGridColumn Header="Column 2" Width="200">
           <DataTemplate DataType="x:String">
             <Panel Background="Blue">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </DataColumn>
-        <DataColumn Header="Column 3" Width="1*">
+        </TemplatedDataGridColumn>
+        <TemplatedDataGridColumn Header="Column 3" Width="1*">
           <DataTemplate DataType="x:String">
             <Panel Background="Yellow">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </DataColumn>
-      </DataListBox.Columns>
-    </DataListBox>
+        </TemplatedDataGridColumn>
+      </TemplatedDataGrid.Columns>
+    </TemplatedDataGrid>
 
   </DockPanel>
 </Window>

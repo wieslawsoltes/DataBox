@@ -3,10 +3,10 @@ using Avalonia.Controls;
 
 namespace DataListBoxDemo.Controls
 {
-    public class DataCell : Decorator
+    public class TemplatedDataGridCell : Decorator
     {
         internal static readonly AttachedProperty<double> ItemWidthProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("ItemWidth", typeof(DataCell));
+            AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("ItemWidth", typeof(TemplatedDataGridCell));
 
         internal static double GetItemWidth(IAvaloniaObject obj)
         {

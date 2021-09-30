@@ -4,18 +4,18 @@ using Avalonia.Controls;
 
 namespace DataListBoxDemo.Controls
 {
-    public class DataRowsPresenter : VirtualizingStackPanel
+    public class TemplatedDataGridRowsPresenter : VirtualizingStackPanel
     {
-        private DataCellsPresenter? GetCellsPresenter(IControl? control)
+        private TemplatedDataGridCellsPresenter? GetCellsPresenter(IControl? control)
         {
             if (control is ListBoxItem)
             {
-                return control.LogicalChildren[0] as DataCellsPresenter;
+                return control.LogicalChildren[0] as TemplatedDataGridCellsPresenter;
             }
-            return control as DataCellsPresenter;
+            return control as TemplatedDataGridCellsPresenter;
         }
 
-        private double UpdateActualWidths(Avalonia.Controls.Controls children, DataListBox root)
+        private double UpdateActualWidths(Avalonia.Controls.Controls children, TemplatedDataGrid root)
         {
             var accumulatedWidth = 0.0;
             var actualWidths = new double[root.Columns.Count];
@@ -70,7 +70,7 @@ namespace DataListBoxDemo.Controls
                             {
                                 var cells = cellPresenter.Children;
                                 var cell = cells[c];
-                                var width = DataCell.GetItemWidth(cell);
+                                var width = TemplatedDataGridCell.GetItemWidth(cell);
                                 actualWidth = Math.Max(actualWidth, width);
                             }
                         }
@@ -193,7 +193,7 @@ namespace DataListBoxDemo.Controls
             }
         }
 
-        private Size MeasureRows(Size availableSize, DataListBox root)
+        private Size MeasureRows(Size availableSize, TemplatedDataGrid root)
         {
             var children = Children;
 
@@ -215,7 +215,7 @@ namespace DataListBoxDemo.Controls
             return panelSize;
         }
 
-        private Size ArrangeRows(Size finalSize, DataListBox root)
+        private Size ArrangeRows(Size finalSize, TemplatedDataGrid root)
         {
             var children = Children;
 
@@ -236,7 +236,7 @@ namespace DataListBoxDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = DataProperties.GetRoot(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -247,7 +247,7 @@ namespace DataListBoxDemo.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var root = DataProperties.GetRoot(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is null)
             {
                 return finalSize;
