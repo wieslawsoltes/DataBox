@@ -5,25 +5,25 @@ using Avalonia.Metadata;
 
 namespace DataListBoxDemo.Controls
 {
-    public class DataColumn : AvaloniaObject
+    public class TemplatedDataGridColumn : AvaloniaObject
     {
         public static readonly StyledProperty<IDataTemplate?> CellTemplateProperty = 
-            AvaloniaProperty.Register<DataColumn, IDataTemplate?>(nameof(CellTemplate));
+            AvaloniaProperty.Register<TemplatedDataGridColumn, IDataTemplate?>(nameof(CellTemplate));
         
         public static readonly StyledProperty<object?> HeaderProperty = 
-            AvaloniaProperty.Register<DataColumn, object?>(nameof(Header));
+            AvaloniaProperty.Register<TemplatedDataGridColumn, object?>(nameof(Header));
 
         public static readonly StyledProperty<GridLength> WidthProperty = 
-            AvaloniaProperty.Register<DataColumn, GridLength>(nameof(Width), new GridLength(0, GridUnitType.Auto));
+            AvaloniaProperty.Register<TemplatedDataGridColumn, GridLength>(nameof(Width), new GridLength(0, GridUnitType.Auto));
 
         public static readonly StyledProperty<double> MinWidthProperty = 
-            AvaloniaProperty.Register<DataColumn, double>(nameof(MinWidth), 0.0);
+            AvaloniaProperty.Register<TemplatedDataGridColumn, double>(nameof(MinWidth), 0.0);
 
         public static readonly StyledProperty<double> MaxWidthProperty = 
-            AvaloniaProperty.Register<DataColumn, double>(nameof(MaxWidth), double.PositiveInfinity);
+            AvaloniaProperty.Register<TemplatedDataGridColumn, double>(nameof(MaxWidth), double.PositiveInfinity);
 
         internal static readonly StyledProperty<double> ActualWidthProperty = 
-            AvaloniaProperty.Register<DataColumn, double>(nameof(ActualWidth), double.NaN);
+            AvaloniaProperty.Register<TemplatedDataGridColumn, double>(nameof(ActualWidth), double.NaN);
 
         [Content]
         public IDataTemplate? CellTemplate

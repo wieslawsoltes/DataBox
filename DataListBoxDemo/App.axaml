@@ -3,6 +3,6 @@
              x:Class="DataListBoxDemo.App">
   <Application.Styles>
     <FluentTheme Mode="Light" />
-    <StyleInclude Source="/Controls/DataListBox.axaml"></StyleInclude>
+    <StyleInclude Source="/Themes/Fluent.axaml"></StyleInclude>
   </Application.Styles>
 </Application>

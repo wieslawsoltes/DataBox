@@ -7,7 +7,7 @@ using Avalonia.Layout;
 
 namespace DataListBoxDemo.Controls
 {
-    public class DataColumnHeadersPresenter : Panel
+    public class TemplatedDataGridColumnHeadersPresenter : Panel
     {
         private IDisposable? _rootDisposable;
         private List<IDisposable>? _columnActualWidthDisposables;
@@ -16,7 +16,7 @@ namespace DataListBoxDemo.Controls
         {
             base.OnAttachedToVisualTree(e);
 
-            _rootDisposable = this.GetObservable(DataProperties.RootProperty).Subscribe(root => Invalidate());
+            _rootDisposable = this.GetObservable(TemplatedDataGridProperties.RootProperty).Subscribe(root => Invalidate());
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
@@ -52,7 +52,7 @@ namespace DataListBoxDemo.Controls
 
             Children.Clear();
 
-            var root = DataProperties.GetRoot(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is not null)
             {
                 _columnActualWidthDisposables = new List<IDisposable>();
@@ -66,7 +66,7 @@ namespace DataListBoxDemo.Controls
                         Margin = new Thickness(2)
                     };
 
-                    var columnHeader = new DataColumnHeader
+                    var columnHeader = new TemplatedDataGridColumnHeader
                     {
                         Child = contentPresenter,
                         DataContext = column,
@@ -77,7 +77,7 @@ namespace DataListBoxDemo.Controls
                     columnHeader.ApplyTemplate();
                     Children.Add(columnHeader);
 
-                    var disposable = column.GetObservable(DataColumn.ActualWidthProperty).Subscribe(_ =>
+                    var disposable = column.GetObservable(TemplatedDataGridColumn.ActualWidthProperty).Subscribe(_ =>
                     {
                         InvalidateMeasure();
                         InvalidateVisual();
@@ -89,7 +89,7 @@ namespace DataListBoxDemo.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = DataProperties.GetRoot(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -103,7 +103,7 @@ namespace DataListBoxDemo.Controls
             for (int i = 0, count = children.Count; i < count; ++i)
             {
                 var child = children[i];
-                if (child is not DataColumnHeader columnHeader)
+                if (child is not TemplatedDataGridColumnHeader columnHeader)
                 {
                     continue;
                 }
@@ -128,7 +128,7 @@ namespace DataListBoxDemo.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var root = DataProperties.GetRoot(this);
+            var root = TemplatedDataGridProperties.GetRoot(this);
             if (root is null)
             {
                 return arrangeSize;
@@ -141,7 +141,7 @@ namespace DataListBoxDemo.Controls
             for (int c = 0, count = children.Count; c < count; ++c)
             {
                 var child = children[c];
-                if (child is not DataColumnHeader columnHeader)
+                if (child is not TemplatedDataGridColumnHeader columnHeader)
                 {
                     continue;
                 }
