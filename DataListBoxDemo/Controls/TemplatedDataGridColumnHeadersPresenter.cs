@@ -112,12 +112,16 @@ namespace DataListBoxDemo.Controls
                 {
                     var column = root.Columns[c++];
 
-                    var childConstraint = new Size(double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth, double.PositiveInfinity);
-                    columnHeader.Measure(childConstraint);
-                    var childDesiredSize = columnHeader.DesiredSize;
+                    var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
 
-                    parentWidth += childConstraint.Width;
-                    parentHeight = Math.Max(parentHeight, childDesiredSize.Height);
+                    width = Math.Max(column.MinWidth, width);
+                    width = Math.Min(column.MaxWidth, width);
+
+                    var childConstraint = new Size(width, double.PositiveInfinity);
+                    columnHeader.Measure(childConstraint);
+
+                    parentWidth += width;
+                    parentHeight = Math.Max(parentHeight, columnHeader.DesiredSize.Height);
                 }
             }
 
