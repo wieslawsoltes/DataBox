@@ -31,16 +31,14 @@
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
-          <TemplatedDataGridRowsPresenter Orientation="Vertical" />
+          <TemplatedDataGridRowsPresenter />
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
     <Setter Property="ItemTemplate">
       <Setter.Value>
         <DataTemplate>
-          <TemplatedDataGridCellsPresenter HorizontalAlignment="Left" 
-                                           VerticalAlignment="Top" 
-                                           Background="Transparent" />
+          <TemplatedDataGridCellsPresenter />
         </DataTemplate>
       </Setter.Value>
     </Setter>
@@ -51,5 +49,31 @@
     <Setter Property="Padding" Value="0" />
   </Style>
 
-</Styles>
+  <Style Selector="TemplatedDataGridRowsPresenter">
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="Orientation" Value="Vertical" />
+  </Style>
 
+  <Style Selector="TemplatedDataGridCellsPresenter">
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="Background" Value="Transparent" />
+  </Style>
+
+  <Style Selector="TemplatedDataGridCell">
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+  </Style>
+
+  <Style Selector="TemplatedDataGridColumnHeadersPresenter">
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+  </Style>
+
+  <Style Selector="TemplatedDataGridColumnHeader">
+    <Setter Property="HorizontalAlignment" Value="Left" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+  </Style>
+
+</Styles>
