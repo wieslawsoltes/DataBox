@@ -13,6 +13,25 @@
     <Panel Height="32" 
            DockPanel.Dock="Top" />
 
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto"
+                  DockPanel.Dock="Top" >
+      <CustomGrid ColumnDefinitions="2*,Auto,200,1*" Background="LightGray">
+        <Panel Grid.Column="0" Background="Red">
+          <TextBlock Text="Item 0" Margin="2" />
+        </Panel>
+        <Panel Grid.Column="1" Background="Green">
+          <TextBlock Text="Item 1" Margin="2" />
+        </Panel>
+        <Panel Grid.Column="2" Background="Blue">
+          <TextBlock Text="Item 2" Margin="2" />
+        </Panel>
+        <Panel Grid.Column="3" Background="Yellow">
+          <TextBlock Text="Item 3" Margin="2" />
+        </Panel>
+      </CustomGrid>
+    </ScrollViewer>
+
     <TemplatedDataGrid Items="{Binding Items}">
       <TemplatedDataGrid.Columns>
         <TemplatedDataGridColumn Header="Column 0" Width="2*">
