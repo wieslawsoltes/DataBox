@@ -15,7 +15,7 @@ namespace DataListBoxDemo.Controls
             return control as TemplatedDataGridCellsPresenter;
         }
 
-        private double UpdateActualWidths(Avalonia.Controls.Controls children, TemplatedDataGrid root)
+        private double UpdateActualWidths(Avalonia.Controls.Controls children, TemplatedDataGrid root, bool measureStarAsAuto)
         {
             var accumulatedWidth = 0.0;
             var actualWidths = new double[root.Columns.Count];
@@ -32,6 +32,11 @@ namespace DataListBoxDemo.Controls
                 var type = column.Width.GridUnitType;
                 var value = column.Width.Value;
 
+                if (measureStarAsAuto && type is GridUnitType.Star)
+                {
+                    type = GridUnitType.Auto;
+                }
+  
                 switch (type)
                 {
                     case GridUnitType.Pixel:
@@ -90,13 +95,19 @@ namespace DataListBoxDemo.Controls
                 }
             }
 
-            var totalWidthForStars = root.AvailableWidth - accumulatedWidth;
+            var totalWidthForStars = Math.Max(0.0, root.AvailableWidth - accumulatedWidth);
             var totalStarValue = 0.0;
 
             for (var c = 0; c < root.Columns.Count; c++)
             {
                 var column = root.Columns[c];
                 var type = column.Width.GridUnitType;
+
+                if (measureStarAsAuto && type is GridUnitType.Star)
+                {
+                    type = GridUnitType.Auto;
+                }
+
                 if (type == GridUnitType.Star)
                 {
                     totalStarValue += column.Width.Value;
@@ -108,6 +119,12 @@ namespace DataListBoxDemo.Controls
                 var column = root.Columns[c];
                 var type = column.Width.GridUnitType;
                 var value = column.Width.Value;
+
+                if (measureStarAsAuto && type is GridUnitType.Star)
+                {
+                    type = GridUnitType.Auto;
+                }
+
                 switch (type)
                 {
                     case GridUnitType.Star:
@@ -197,13 +214,15 @@ namespace DataListBoxDemo.Controls
         {
             var children = Children;
 
+            var measureStarAsAuto = double.IsPositiveInfinity(availableSize.Width);
+
             root.AvailableWidth = availableSize.Width;
             root.AvailableHeight = availableSize.Height;
 
             // TODO: Measure children only when column ActualWidth changes.
             MeasureCells(children);
 
-            var accumulatedWidth = UpdateActualWidths(children, root);
+            var accumulatedWidth = UpdateActualWidths(children, root, measureStarAsAuto);
             var panelSize = availableSize.WithWidth(accumulatedWidth);
 
             // TODO: InvalidateMeasure children only when column ActualWidth changes.
@@ -222,7 +241,7 @@ namespace DataListBoxDemo.Controls
             root.AvailableWidth = finalSize.Width;
             root.AvailableHeight = finalSize.Height;
 
-            root.AccumulatedWidth = UpdateActualWidths(children, root);
+            root.AccumulatedWidth = UpdateActualWidths(children, root, false);
             var panelSize = finalSize.WithWidth(root.AccumulatedWidth);
 
             // TODO: InvalidateArrange children only when column ActualWidth changes.
