@@ -41,20 +41,7 @@ namespace DataListBoxDemo.Controls
                 {
                     case GridUnitType.Pixel:
                     {
-                        var actualWidth = actualWidths[c];
-
-                        foreach (var child in children)
-                        {
-                            var cellPresenter = GetCellsPresenter(child);
-                            if (cellPresenter is { })
-                            {
-                                // var cells = cellPresenter.Children;
-                                // var cell = cells[c];
-                                // var width = DataCell.GetItemWidth(cell);
-                                var width = value;
-                                actualWidth = width;
-                            }
-                        }
+                        var actualWidth = value;
 
                         actualWidth = Math.Max(column.MinWidth, actualWidth);
                         actualWidth = Math.Min(column.MaxWidth, actualWidth);
@@ -90,6 +77,22 @@ namespace DataListBoxDemo.Controls
                     }
                     case GridUnitType.Star:
                     {
+                        var actualWidth = 0.0;
+  
+                        foreach (var child in children)
+                        {
+                            var cellPresenter = GetCellsPresenter(child);
+                            if (cellPresenter is { })
+                            {
+                                var cells = cellPresenter.Children;
+                                var cell = cells[c];
+                                var width = TemplatedDataGridCell.GetItemWidth(cell);
+                                actualWidth = Math.Max(actualWidth, width);
+                            }
+                        }
+
+                        actualWidths[c] = actualWidth;
+
                         break;
                     }
                 }
@@ -136,6 +139,8 @@ namespace DataListBoxDemo.Controls
 
                         totalWidthForStars -= actualWidth;
                         totalStarValue -= value;
+
+                        actualWidth = Math.Max(actualWidths[c], actualWidth);
 
                         actualWidths[c] = actualWidth;
                         accumulatedWidth += actualWidths[c];
