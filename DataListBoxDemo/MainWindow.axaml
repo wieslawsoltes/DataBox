@@ -18,7 +18,7 @@
                   DockPanel.Dock="Top" >
       <CustomGrid Background="LightGray">
         <CustomGrid.ColumnDefinitions>
-          <ColumnDefinition Width="1*"/>
+          <ColumnDefinition Width="2*"/>
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="200"/>
           <ColumnDefinition Width="1*"/>
