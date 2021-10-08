@@ -9,8 +9,12 @@
     <Setter Property="Template">
       <ControlTemplate>
         <DockPanel>
-          <TemplatedDataGridColumnHeadersPresenter Name="PART_HeadersPresenter"
-                                                   DockPanel.Dock="Top" />
+          <ScrollViewer Name="PART_HeadersPresenterScrollViewer"
+                        HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Disabled"
+                        DockPanel.Dock="Top">
+          <TemplatedDataGridColumnHeadersPresenter Name="PART_HeadersPresenter" />
+          </ScrollViewer>
           <TemplatedListBox Name="PART_DataListBox" />
         </DockPanel>
       </ControlTemplate>

@@ -31,6 +31,7 @@ namespace DataListBoxDemo.Controls
         private IEnumerable? _items = new AvaloniaList<object>();
         private object? _selectedItem;
         private AvaloniaList<TemplatedDataGridColumn> _columns;
+        private ScrollViewer? _headersPresenterScrollViewer;
         private TemplatedDataGridColumnHeadersPresenter? _headersPresenter;
         private TemplatedListBox? _dataListBox;
 
@@ -68,6 +69,7 @@ namespace DataListBoxDemo.Controls
         {
             base.OnApplyTemplate(e);
 
+            _headersPresenterScrollViewer = e.NameScope.Find<ScrollViewer>("PART_HeadersPresenterScrollViewer");
             _headersPresenter = e.NameScope.Find<TemplatedDataGridColumnHeadersPresenter>("PART_HeadersPresenter");
             _dataListBox = e.NameScope.Find<TemplatedListBox>("PART_DataListBox");
 
@@ -82,6 +84,21 @@ namespace DataListBoxDemo.Controls
 
                 _dataListBox[!!ItemsControl.ItemsProperty] = this[!!ItemsProperty];
                 this[!!SelectedItemProperty] = _dataListBox[!!SelectingItemsControl.SelectedItemProperty];
+
+                _dataListBox.TemplateApplied += (_, _) =>
+                {
+                    if (_dataListBox.Scroll is ScrollViewer scrollViewer)
+                    {
+                        scrollViewer.ScrollChanged += (_, _) =>
+                        {
+                            var (x, _) = scrollViewer.Offset;
+                            if (_headersPresenterScrollViewer is { })
+                            {
+                                _headersPresenterScrollViewer.Offset = new Vector(x, 0);
+                            }
+                        };
+                    }
+                };
             }
         }
     }
