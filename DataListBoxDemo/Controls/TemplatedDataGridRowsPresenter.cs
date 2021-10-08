@@ -220,8 +220,19 @@ namespace DataListBoxDemo.Controls
             }
         }
 
+        private double AdjustWidth(double accumulatedWidth, double availableWidth)
+        {
+            if (double.IsPositiveInfinity(availableWidth))
+            {
+                return accumulatedWidth;
+            }
+            return accumulatedWidth < availableWidth ? availableWidth : accumulatedWidth;
+        }
+
         private Size MeasureRows(Size availableSize, TemplatedDataGrid root)
         {
+            var availableSizeWidth = availableSize.Width;
+            
             var children = Children;
 
             var measureStarAsAuto = double.IsPositiveInfinity(availableSize.Width);
@@ -239,13 +250,15 @@ namespace DataListBoxDemo.Controls
             InvalidateMeasureChildren(children);
 
             panelSize = base.MeasureOverride(panelSize);
-            panelSize = panelSize.WithWidth(accumulatedWidth);
+            panelSize = panelSize.WithWidth(AdjustWidth(accumulatedWidth, availableSizeWidth));
 
             return panelSize;
         }
 
         private Size ArrangeRows(Size finalSize, TemplatedDataGrid root)
         {
+            var finalSizeWidth = finalSize.Width;
+            
             var children = Children;
 
             root.AvailableWidth = finalSize.Width;
@@ -258,7 +271,7 @@ namespace DataListBoxDemo.Controls
             InvalidateArrangeChildren(children);
 
             panelSize = base.ArrangeOverride(panelSize);
-            panelSize = panelSize.WithWidth(root.AccumulatedWidth);
+            panelSize = panelSize.WithWidth(AdjustWidth(root.AccumulatedWidth, finalSizeWidth));
 
             return panelSize;
         }
