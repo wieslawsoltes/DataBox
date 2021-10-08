@@ -140,7 +140,12 @@ namespace DataListBoxDemo.Controls
                         totalWidthForStars -= actualWidth;
                         totalStarValue -= value;
 
-                        actualWidth = Math.Max(actualWidths[c], actualWidth);
+                        if (actualWidths[c] > actualWidth)
+                        {
+                            actualWidth = actualWidths[c];
+                            actualWidth = Math.Max(column.MinWidth, actualWidth);
+                            actualWidth = Math.Min(column.MaxWidth, actualWidth);
+                        }
 
                         actualWidths[c] = actualWidth;
                         accumulatedWidth += actualWidths[c];
