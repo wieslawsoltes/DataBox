@@ -6,7 +6,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Metadata;
 
-namespace DataListBoxDemo.Controls
+namespace DataListBox.Controls
 {
     public class TemplatedDataGrid : TemplatedControl
     {

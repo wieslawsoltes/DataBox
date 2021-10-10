@@ -2,6 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="using:DataListBoxDemo"
         mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="350"
         WindowStartupLocation="CenterScreen"
         Width="600" Height="350"
@@ -16,13 +17,13 @@
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto"
                   DockPanel.Dock="Top" >
-      <CustomGrid Background="LightGray">
-        <CustomGrid.ColumnDefinitions>
+      <local:CustomGrid Background="LightGray">
+        <local:CustomGrid.ColumnDefinitions>
           <ColumnDefinition Width="2*"/>
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="200"/>
           <ColumnDefinition Width="1*"/>
-        </CustomGrid.ColumnDefinitions>
+        </local:CustomGrid.ColumnDefinitions>
         <Panel Grid.Column="0" Background="Red">
           <TextBlock Text="Item 12" Margin="2" />
         </Panel>
@@ -35,7 +36,7 @@
         <Panel Grid.Column="3" Background="Yellow">
           <TextBlock Text="Item 12" Margin="2" />
         </Panel>
-      </CustomGrid>
+      </local:CustomGrid>
     </ScrollViewer>
 
     <TemplatedDataGrid Items="{Binding Items}">

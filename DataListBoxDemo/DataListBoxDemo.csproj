@@ -10,4 +10,10 @@
     <PackageReference Include="Avalonia.Desktop" Version="0.10.7" />
     <PackageReference Include="Avalonia.Diagnostics" Version="0.10.7" />
   </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Themes\Fluent.axaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataListBox\DataListBox.csproj" />
+  </ItemGroup>
 </Project>

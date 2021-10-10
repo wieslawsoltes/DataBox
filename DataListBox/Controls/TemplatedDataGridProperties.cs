@@ -1,6 +1,6 @@
 ﻿using Avalonia;
 
-namespace DataListBoxDemo.Controls
+namespace DataListBox.Controls
 {
     internal class TemplatedDataGridProperties : AvaloniaObject
     {
