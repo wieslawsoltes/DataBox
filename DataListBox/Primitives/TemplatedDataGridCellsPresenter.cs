@@ -112,7 +112,6 @@ namespace DataListBox.Primitives
                 var childConstraint = new Size(width, double.PositiveInfinity);
                 cell.Measure(childConstraint);
 
-                // TODO: parentWidth += cell.DesiredSize.Width;
                 parentWidth += width;
                 parentHeight = Math.Max(parentHeight, cell.DesiredSize.Height);
             }
