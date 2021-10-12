@@ -5,6 +5,52 @@
     <TemplatedDataGrid />
   </Design.PreviewWith>
 
+  <Styles.Resources>
+
+    <x:Double x:Key="ListAccentLowOpacity">0.6</x:Double>
+    <x:Double x:Key="ListAccentMediumOpacity">0.8</x:Double>
+
+    <StreamGeometry x:Key="DataGridSortIconDescendingPath">M1875 1011l-787 787v-1798h-128v1798l-787 -787l-90 90l941 941l941 -941z</StreamGeometry>
+    <StreamGeometry x:Key="DataGridSortIconAscendingPath">M1965 947l-941 -941l-941 941l90 90l787 -787v1798h128v-1798l787 787z</StreamGeometry>
+
+    <SolidColorBrush x:Key="DataGridGridLinesBrush" Color="{StaticResource SystemBaseMediumLowColor}" Opacity="0.4" />
+    <SolidColorBrush x:Key="DataGridDropLocationIndicatorBackground" Color="#3F4346" />
+    <SolidColorBrush x:Key="DataGridDisabledVisualElementBackground" Color="#8CFFFFFF" />
+    <SolidColorBrush x:Key="DataGridFillerGridLinesBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="DataGridCurrencyVisualPrimaryBrush" Color="Transparent" />
+    <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemAltHighColor" />
+    <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="{StaticResource DataGridColumnHeaderBackgroundColor}" />
+    <StaticResource x:Key="DataGridScrollBarsSeparatorBackground" ResourceKey="SystemChromeLowColor" />
+    <StaticResource x:Key="DataGridColumnHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseMediumBrush" />
+    <StaticResource x:Key="DataGridColumnHeaderHoveredBackgroundColor" ResourceKey="SystemListLowColor" />
+    <StaticResource x:Key="DataGridColumnHeaderPressedBackgroundColor" ResourceKey="SystemListMediumColor" />
+    <StaticResource x:Key="DataGridColumnHeaderDraggedBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
+    <StaticResource x:Key="DataGridColumnHeaderPointerOverBrush" ResourceKey="SystemControlHighlightListLowBrush" />
+    <StaticResource x:Key="DataGridColumnHeaderPressedBrush" ResourceKey="SystemControlHighlightListMediumBrush" />
+    <StaticResource x:Key="DataGridDetailsPresenterBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumLowBrush" />
+    <StaticResource x:Key="DataGridFillerColumnGridLinesBrush" ResourceKey="DataGridFillerGridLinesBrush" />
+    <StaticResource x:Key="DataGridRowSelectedBackgroundColor" ResourceKey="SystemAccentColor" />
+    <StaticResource x:Key="DataGridRowSelectedBackgroundOpacity" ResourceKey="ListAccentLowOpacity" />
+    <StaticResource x:Key="DataGridRowSelectedHoveredBackgroundColor" ResourceKey="SystemAccentColor" />
+    <StaticResource x:Key="DataGridRowSelectedHoveredBackgroundOpacity" ResourceKey="ListAccentMediumOpacity" />
+    <StaticResource x:Key="DataGridRowSelectedUnfocusedBackgroundColor" ResourceKey="SystemAccentColor" />
+    <StaticResource x:Key="DataGridRowSelectedUnfocusedBackgroundOpacity" ResourceKey="ListAccentLowOpacity" />
+    <StaticResource x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundColor" ResourceKey="SystemAccentColor" />
+    <StaticResource x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundOpacity" ResourceKey="ListAccentMediumOpacity" />
+    <StaticResource x:Key="DataGridRowHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseMediumBrush" />
+    <StaticResource x:Key="DataGridRowHeaderBackgroundBrush" ResourceKey="SystemControlBackgroundAltHighBrush" />
+    <StaticResource x:Key="DataGridRowGroupHeaderBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumBrush" />
+    <StaticResource x:Key="DataGridRowGroupHeaderHoveredBackgroundBrush" ResourceKey="SystemControlBackgroundListLowBrush" />
+    <StaticResource x:Key="DataGridRowGroupHeaderPressedBackgroundBrush" ResourceKey="SystemControlBackgroundListMediumBrush" />
+    <StaticResource x:Key="DataGridRowGroupHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseHighBrush" />
+    <StaticResource x:Key="DataGridRowInvalidBrush" ResourceKey="SystemErrorTextColor" />
+    <StaticResource x:Key="DataGridCellBackgroundBrush" ResourceKey="SystemControlTransparentBrush" />
+    <StaticResource x:Key="DataGridCellFocusVisualPrimaryBrush" ResourceKey="SystemControlFocusVisualPrimaryBrush" />
+    <StaticResource x:Key="DataGridCellFocusVisualSecondaryBrush" ResourceKey="SystemControlFocusVisualSecondaryBrush" />
+    <StaticResource x:Key="DataGridCellInvalidBrush" ResourceKey="SystemErrorTextColor" />
+
+  </Styles.Resources>
+
   <Style Selector="TemplatedDataGrid">
     <Setter Property="Template">
       <ControlTemplate>
