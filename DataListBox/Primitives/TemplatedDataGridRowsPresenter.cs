@@ -2,7 +2,7 @@
 using Avalonia;
 using Avalonia.Controls;
 
-namespace DataListBox.Controls
+namespace DataListBox.Primitives
 {
     public class TemplatedDataGridRowsPresenter : VirtualizingStackPanel
     {

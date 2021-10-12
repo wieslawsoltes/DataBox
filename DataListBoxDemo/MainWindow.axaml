@@ -41,34 +41,34 @@
 
     <TemplatedDataGrid Items="{Binding Items}">
       <TemplatedDataGrid.Columns>
-        <TemplatedDataGridColumn Header="Column 0" Width="2*">
+        <TemplatedDataGridTemplateColumn Header="Column 0" Width="2*">
           <DataTemplate DataType="x:String">
             <Panel Background="Red">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </TemplatedDataGridColumn>
-        <TemplatedDataGridColumn Header="Column 1" Width="Auto">
+        </TemplatedDataGridTemplateColumn>
+        <TemplatedDataGridTemplateColumn Header="Column 1" Width="Auto">
           <DataTemplate DataType="x:String">
             <Panel Background="Green">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </TemplatedDataGridColumn>
-        <TemplatedDataGridColumn Header="Column 2" Width="200">
+        </TemplatedDataGridTemplateColumn>
+        <TemplatedDataGridTemplateColumn Header="Column 2" Width="200">
           <DataTemplate DataType="x:String">
             <Panel Background="Blue">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </TemplatedDataGridColumn>
-        <TemplatedDataGridColumn Header="Column 3" Width="1*">
+        </TemplatedDataGridTemplateColumn>
+        <TemplatedDataGridTemplateColumn Header="Column 3" Width="1*">
           <DataTemplate DataType="x:String">
             <Panel Background="Yellow">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </TemplatedDataGridColumn>
+        </TemplatedDataGridTemplateColumn>
       </TemplatedDataGrid.Columns>
     </TemplatedDataGrid>
 

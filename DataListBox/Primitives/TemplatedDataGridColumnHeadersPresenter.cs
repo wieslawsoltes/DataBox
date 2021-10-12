@@ -5,7 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Controls.Presenters;
 using Avalonia.Layout;
 
-namespace DataListBox.Controls
+namespace DataListBox.Primitives
 {
     public class TemplatedDataGridColumnHeadersPresenter : Panel
     {

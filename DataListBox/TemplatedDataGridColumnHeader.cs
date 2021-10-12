@@ -1,6 +1,6 @@
 using Avalonia.Controls;
 
-namespace DataListBox.Controls
+namespace DataListBox
 {
     public class TemplatedDataGridColumnHeader : Decorator
     {

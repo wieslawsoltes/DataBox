@@ -5,8 +5,10 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Metadata;
+using DataListBox.Controls;
+using DataListBox.Primitives;
 
-namespace DataListBox.Controls
+namespace DataListBox
 {
     public class TemplatedDataGrid : TemplatedControl
     {

@@ -3,9 +3,9 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Metadata;
 
-namespace DataListBox.Controls
+namespace DataListBox
 {
-    public class TemplatedDataGridColumn : AvaloniaObject
+    public abstract class TemplatedDataGridColumn : AvaloniaObject
     {
         public static readonly StyledProperty<IDataTemplate?> CellTemplateProperty = 
             AvaloniaProperty.Register<TemplatedDataGridColumn, IDataTemplate?>(nameof(CellTemplate));
