@@ -46,10 +46,16 @@ namespace DataListBox.Primitives
                 {
                     var cell = new TemplatedDataGridCell
                     {
-                        [!TemplatedDataGridCell.ContentProperty] = this[!DataContextProperty],
-                        [!TemplatedDataGridCell.CellTemplateProperty] = column[!TemplatedDataGridColumn.CellTemplateProperty]
+                        // TODO:
+                        // [!TemplatedDataGridCell.ContentProperty] = this[!DataContextProperty],
+                        // [!TemplatedDataGridCell.CellTemplateProperty] = column[!TemplatedDataGridColumn.CellTemplateProperty]
+                        Child = itemData is { } ? column.CellTemplate?.Build(itemData) : null,
+                        DataContext = itemData,
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch
                     };
-                    
+  
+                    // TODO:
                     cell.ApplyTemplate();
 
                     Children.Add(cell);

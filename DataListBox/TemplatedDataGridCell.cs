@@ -7,7 +7,9 @@ using Avalonia.Metadata;
 
 namespace DataListBox
 {
-    public class TemplatedDataGridCell : TemplatedControl
+    // TODO:
+    // public class TemplatedDataGridCell : TemplatedControl
+    public class TemplatedDataGridCell : Decorator
     {
         public static readonly StyledProperty<IDataTemplate?> CellTemplateProperty = 
             AvaloniaProperty.Register<TemplatedDataGridCell, IDataTemplate?>(nameof(CellTemplate));

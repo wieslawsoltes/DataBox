@@ -126,6 +126,8 @@
     <Setter Property="VerticalAlignment" Value="Top" />
   </Style>
 
+  <!-- TODO: -->
+  <!--
   <Style Selector="TemplatedDataGridCell">
     <Setter Property="Background" Value="{DynamicResource DataGridCellBackgroundBrush}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -149,5 +151,6 @@
       </ControlTemplate>
     </Setter>
   </Style>
-  
+  -->
+
 </Styles>
