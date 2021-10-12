@@ -49,6 +49,8 @@ namespace DataListBox.Primitives
                         [!TemplatedDataGridCell.ContentProperty] = this[!DataContextProperty],
                         [!TemplatedDataGridCell.CellTemplateProperty] = column[!TemplatedDataGridColumn.CellTemplateProperty]
                     };
+                    
+                    cell.ApplyTemplate();
 
                     Children.Add(cell);
                 }
