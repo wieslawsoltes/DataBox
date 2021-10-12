@@ -134,6 +134,7 @@ namespace DataListBox.Primitives
             var children = Children;
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
+            var maxHeight = 0.0;
 
             for (int c = 0, count = children.Count; c < count; ++c)
             {
@@ -143,18 +144,29 @@ namespace DataListBox.Primitives
                     continue;
                 }
 
-                var childDesiredSize = cell.DesiredSize;
+                maxHeight = Math.Max(maxHeight, cell.DesiredSize.Height);
+            } 
+
+            for (int c = 0, count = children.Count; c < count; ++c)
+            {
+                var child = children[c];
+                if (child is not TemplatedDataGridCell cell)
+                {
+                    continue;
+                }
+
                 var column = root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
+                var height = maxHeight;
 
                 var rcChild = new Rect(
                     accumulatedWidth,
                     0.0,
                     width,
-                    childDesiredSize.Height);
+                    height);
 
                 accumulatedWidth += width;
-                accumulatedHeight = Math.Max(accumulatedHeight, childDesiredSize.Height);
+                accumulatedHeight = Math.Max(accumulatedHeight, height);
 
                 cell.Arrange(rcChild);
             }
