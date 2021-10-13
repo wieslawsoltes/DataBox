@@ -180,6 +180,7 @@ namespace DataListBox.Primitives
         private void InvalidateMeasureChildren(Avalonia.Controls.Controls children)
         {
             InvalidateMeasure();
+            // TODO:
             /*
             foreach (var child in children)
             {
