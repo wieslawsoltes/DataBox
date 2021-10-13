@@ -126,8 +126,6 @@
     <Setter Property="VerticalAlignment" Value="Top" />
   </Style>
 
-  <!-- TODO: -->
-  <!--
   <Style Selector="TemplatedDataGridCell">
     <Setter Property="Background" Value="{DynamicResource DataGridCellBackgroundBrush}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -141,16 +139,15 @@
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"
               Background="{TemplateBinding Background}">
-          <ContentControl Grid.Column="0"  
-                          ContentTemplate="{TemplateBinding CellTemplate}"
-                          Content="{TemplateBinding Content}"
-                          Margin="{TemplateBinding Padding}"
-                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+          <ContentPresenter Grid.Column="0"  
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Content="{TemplateBinding Content}"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
         </Grid>
       </ControlTemplate>
     </Setter>
   </Style>
-  -->
 
 </Styles>

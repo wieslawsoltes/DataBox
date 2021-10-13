@@ -19,7 +19,7 @@ namespace DataListBox.Primitives
                 
                 foreach (var cell in cells)
                 {
-                    cell.DataContext = itemData;
+                    //cell.DataContext = itemData;
                 }
             });
 
@@ -49,10 +49,8 @@ namespace DataListBox.Primitives
                     var cell = new TemplatedDataGridCell
                     {
                         // TODO:
-                        // [!TemplatedDataGridCell.ContentProperty] = this[!DataContextProperty],
-                        // [!TemplatedDataGridCell.CellTemplateProperty] = column[!TemplatedDataGridColumn.CellTemplateProperty]
-                        Child = itemData is { } ? column.CellTemplate?.Build(itemData) : null,
-                        DataContext = itemData,
+                        [!ContentControl.ContentProperty] = this[!DataContextProperty],
+                        [!ContentControl.ContentTemplateProperty] = column[!TemplatedDataGridColumn.CellTemplateProperty],
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch
                     };
