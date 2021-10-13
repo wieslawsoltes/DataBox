@@ -23,18 +23,7 @@ namespace DataListBox
         public static readonly StyledProperty<VerticalAlignment> VerticalContentAlignmentProperty =
             AvaloniaProperty.Register<TemplatedDataGridCell, VerticalAlignment>(nameof(VerticalContentAlignment));
 
-        internal static readonly AttachedProperty<double> ItemWidthProperty = 
-            AvaloniaProperty.RegisterAttached<IAvaloniaObject, double>("ItemWidth", typeof(TemplatedDataGridCell));
-
-        internal static double GetItemWidth(IAvaloniaObject obj)
-        {
-            return obj.GetValue(ItemWidthProperty);
-        }
-
-        internal static void SetItemWidth(IAvaloniaObject obj, double value)
-        {
-            obj.SetValue(ItemWidthProperty, value);
-        }
+        internal double MeasuredWidth;
 
         [Content]
         public IDataTemplate? CellTemplate

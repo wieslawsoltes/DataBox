@@ -95,15 +95,14 @@ namespace DataListBox.Primitives
                 return availableSize;
             }
 
-            var children = Children;
+            var columnHeaders = Children;
             var parentWidth = 0.0;
             var parentHeight = 0.0;
 
             var c = 0;
-            for (int i = 0, count = children.Count; i < count; ++i)
+            for (int h = 0, count = columnHeaders.Count; h < count; ++h)
             {
-                var child = children[i];
-                if (child is not TemplatedDataGridColumnHeader columnHeader)
+                if (columnHeaders[h] is not TemplatedDataGridColumnHeader columnHeader)
                 {
                     continue;
                 }
@@ -111,7 +110,6 @@ namespace DataListBox.Primitives
                 if (c < root.Columns.Count)
                 {
                     var column = root.Columns[c++];
-
                     var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
 
                     width = Math.Max(column.MinWidth, width);
@@ -138,30 +136,24 @@ namespace DataListBox.Primitives
                 return arrangeSize;
             }
 
-            var children = Children;
+            var columnHeaders = Children;
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
 
-            for (int c = 0, count = children.Count; c < count; ++c)
+            for (int h = 0, count = columnHeaders.Count; h < count; ++h)
             {
-                var child = children[c];
-                if (child is not TemplatedDataGridColumnHeader columnHeader)
+                if (columnHeaders[h] is not TemplatedDataGridColumnHeader columnHeader)
                 {
                     continue;
                 }
 
-                var childDesiredSize = columnHeader.DesiredSize;
-                var column = root.Columns[c];
+                var column = root.Columns[h];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
-
-                var rcChild = new Rect(
-                    accumulatedWidth,
-                    0.0,
-                    width,
-                    childDesiredSize.Height);
+                var height = columnHeader.DesiredSize.Height;
+                var rcChild = new Rect(accumulatedWidth, 0.0, width, height);
 
                 accumulatedWidth += width;
-                accumulatedHeight = Math.Max(accumulatedHeight, childDesiredSize.Height);
+                accumulatedHeight = Math.Max(accumulatedHeight, height);
 
                 columnHeader.Arrange(rcChild);
             }

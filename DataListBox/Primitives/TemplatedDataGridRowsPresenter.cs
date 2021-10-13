@@ -15,7 +15,7 @@ namespace DataListBox.Primitives
             return control as TemplatedDataGridCellsPresenter;
         }
 
-        private double UpdateActualWidths(Avalonia.Controls.Controls children, TemplatedDataGrid root, bool measureStarAsAuto)
+        private double SetColumnsActualWidth(Avalonia.Controls.Controls rows, TemplatedDataGrid root, bool measureStarAsAuto)
         {
             var accumulatedWidth = 0.0;
             var actualWidths = new double[root.Columns.Count];
@@ -55,15 +55,17 @@ namespace DataListBox.Primitives
                     {
                         var actualWidth = actualWidths[c];
   
-                        foreach (var child in children)
+                        foreach (var row in rows)
                         {
-                            var cellPresenter = GetCellsPresenter(child);
+                            var cellPresenter = GetCellsPresenter(row);
                             if (cellPresenter is { })
                             {
                                 var cells = cellPresenter.Children;
-                                var cell = cells[c];
-                                var width = TemplatedDataGridCell.GetItemWidth(cell);
-                                actualWidth = Math.Max(actualWidth, width);
+                                if (cells[c] is TemplatedDataGridCell cell)
+                                {
+                                    var width = cell.MeasuredWidth;
+                                    actualWidth = Math.Max(actualWidth, width);
+                                }
                             }
                         }
 
@@ -79,15 +81,17 @@ namespace DataListBox.Primitives
                     {
                         var actualWidth = 0.0;
   
-                        foreach (var child in children)
+                        foreach (var row in rows)
                         {
-                            var cellPresenter = GetCellsPresenter(child);
+                            var cellPresenter = GetCellsPresenter(row);
                             if (cellPresenter is { })
                             {
                                 var cells = cellPresenter.Children;
-                                var cell = cells[c];
-                                var width = TemplatedDataGridCell.GetItemWidth(cell);
-                                actualWidth = Math.Max(actualWidth, width);
+                                if (cells[c] is TemplatedDataGridCell cell)
+                                {
+                                    var width = cell.MeasuredWidth;
+                                    actualWidth = Math.Max(actualWidth, width);
+                                }
                             }
                         }
 
@@ -164,64 +168,60 @@ namespace DataListBox.Primitives
             return accumulatedWidth;
         }
 
-        private void MeasureCells(Avalonia.Controls.Controls children)
+        private void MeasureCells(Avalonia.Controls.Controls rows,  TemplatedDataGrid root)
         {
-            for (int i = 0, count = children.Count; i < count; ++i)
+            for (int r = 0, rowsCount = rows.Count; r < rowsCount; ++r)
             {
-                var child = children[i];
-                var cellPresenter = GetCellsPresenter(child);
-                if (cellPresenter is { })
+                var row = rows[r];
+                var cellPresenter = GetCellsPresenter(row);
+                if (cellPresenter is null)
                 {
-                    cellPresenter.MeasureCells();
+                    continue;
+                }
+
+                var cells = cellPresenter.Children;
+
+                for (int c = 0, cellsCount = cells.Count; c < cellsCount; ++c)
+                {
+                    if (cells[c] is not TemplatedDataGridCell cell)
+                    {
+                        continue;
+                    }
+
+                    cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    cell.MeasuredWidth = cell.DesiredSize.Width;
                 }
             }
         }
 
-        private void InvalidateMeasureChildren(Avalonia.Controls.Controls children)
+        private void InvalidateMeasureChildren(Avalonia.Controls.Controls rows)
         {
             InvalidateMeasure();
-            // TODO:
-            /*
-            foreach (var child in children)
-            {
-                child.InvalidateMeasure();
-
-                var cellPresenter = GetCellsPresenter(child);
-                if (cellPresenter is { })
-                {
-                    cellPresenter.InvalidateMeasure();
-
-                    var cells = cellPresenter.Children;
-                    foreach (var cell in cells)
-                    {
-                        cell.InvalidateMeasure();
-                    }
-                }
-            }
-            */
         }
 
-        private void InvalidateArrangeChildren(Avalonia.Controls.Controls children)
+        private void InvalidateArrangeChildren(Avalonia.Controls.Controls rows)
         {
-            foreach (var child in children)
+            foreach (var row in rows)
             {
-                child.InvalidateArrange();
+                row.InvalidateArrange();
 
-                var cellPresenter = GetCellsPresenter(child);
-                if (cellPresenter is { })
+                var cellPresenter = GetCellsPresenter(row);
+                if (cellPresenter is null)
                 {
-                    cellPresenter.InvalidateArrange();
+                    continue;
+                }
 
-                    var cells = cellPresenter.Children;
-                    foreach (var cell in cells)
-                    {
-                        cell.InvalidateArrange();
-                    }
+                cellPresenter.InvalidateArrange();
+
+                var cells = cellPresenter.Children;
+                foreach (var cell in cells)
+                {
+                    cell.InvalidateArrange();
                 }
             }
         }
 
-        private double AdjustWidth(double accumulatedWidth, double availableWidth)
+        private double AdjustAccumulatedWidth(double accumulatedWidth, double availableWidth)
         {
             if (double.IsPositiveInfinity(availableWidth))
             {
@@ -233,25 +233,21 @@ namespace DataListBox.Primitives
         private Size MeasureRows(Size availableSize, TemplatedDataGrid root)
         {
             var availableSizeWidth = availableSize.Width;
-            
-            var children = Children;
-
+            var rows = Children;
             var measureStarAsAuto = double.IsPositiveInfinity(availableSize.Width);
 
             root.AvailableWidth = availableSize.Width;
             root.AvailableHeight = availableSize.Height;
 
-            // TODO: Measure children only when column ActualWidth changes.
-            MeasureCells(children);
+            MeasureCells(rows, root);
 
-            var accumulatedWidth = UpdateActualWidths(children, root, measureStarAsAuto);
+            var accumulatedWidth = SetColumnsActualWidth(rows, root, measureStarAsAuto);
             var panelSize = availableSize.WithWidth(accumulatedWidth);
 
-            // TODO: InvalidateMeasure children only when column ActualWidth changes.
-            InvalidateMeasureChildren(children);
+            InvalidateMeasureChildren(rows);
 
             panelSize = base.MeasureOverride(panelSize);
-            panelSize = panelSize.WithWidth(AdjustWidth(accumulatedWidth, availableSizeWidth));
+            panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(accumulatedWidth, availableSizeWidth));
 
             return panelSize;
         }
@@ -259,20 +255,17 @@ namespace DataListBox.Primitives
         private Size ArrangeRows(Size finalSize, TemplatedDataGrid root)
         {
             var finalSizeWidth = finalSize.Width;
-            
-            var children = Children;
+            var rows = Children;
 
             root.AvailableWidth = finalSize.Width;
             root.AvailableHeight = finalSize.Height;
-
-            root.AccumulatedWidth = UpdateActualWidths(children, root, false);
+            root.AccumulatedWidth = SetColumnsActualWidth(rows, root, false);
             var panelSize = finalSize.WithWidth(root.AccumulatedWidth);
 
-            // TODO: InvalidateArrange children only when column ActualWidth changes.
-            InvalidateArrangeChildren(children);
+            InvalidateArrangeChildren(rows);
 
             panelSize = base.ArrangeOverride(panelSize);
-            panelSize = panelSize.WithWidth(AdjustWidth(root.AccumulatedWidth, finalSizeWidth));
+            panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(root.AccumulatedWidth, finalSizeWidth));
 
             return panelSize;
         }

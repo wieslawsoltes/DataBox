@@ -15,9 +15,11 @@ namespace DataListBox.Primitives
 
             _itemDataDisposable = this.GetObservable(TemplatedDataGridProperties.ItemDataProperty).Subscribe(itemData =>
             {
-                foreach (var child in Children)
+                var cells = Children;
+                
+                foreach (var cell in cells)
                 {
-                    child.DataContext = itemData;
+                    cell.DataContext = itemData;
                 }
             });
 
@@ -63,30 +65,6 @@ namespace DataListBox.Primitives
             }
         }
 
-        internal void MeasureCells()
-        {
-            var root = TemplatedDataGridProperties.GetRoot(this);
-            if (root is null)
-            {
-                return;
-            }
-
-            var children = Children;
-
-            for (int c = 0, count = children.Count; c < count; ++c)
-            {
-                var child = children[c];
-                if (child is not TemplatedDataGridCell cell)
-                {
-                    continue;
-                }
-
-                cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-
-                TemplatedDataGridCell.SetItemWidth(cell, cell.DesiredSize.Width);
-            }
-        }
-
         protected override Size MeasureOverride(Size availableSize)
         {
             var itemIndex = TemplatedDataGridProperties.GetItemIndex(this);
@@ -96,24 +74,19 @@ namespace DataListBox.Primitives
                 return availableSize;
             }
 
-            var children = Children;
+            var cells = Children;
             var parentWidth = 0.0;
             var parentHeight = 0.0;
 
-            for (int c = 0, count = children.Count; c < count; ++c)
+            for (int c = 0, count = cells.Count; c < count; ++c)
             {
-                var child = children[c];
-                if (child is not TemplatedDataGridCell cell)
+                if (cells[c] is not TemplatedDataGridCell cell)
                 {
                     continue;
                 }
 
                 var column = root.Columns[c];
                 var width = column.ActualWidth;
-
-                width = Math.Max(column.MinWidth, width);
-                width = Math.Min(column.MaxWidth, width);
-
                 var childConstraint = new Size(width, double.PositiveInfinity);
                 cell.Measure(childConstraint);
 
@@ -135,15 +108,14 @@ namespace DataListBox.Primitives
                 return arrangeSize;
             }
 
-            var children = Children;
+            var cells = Children;
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
             var maxHeight = 0.0;
 
-            for (int c = 0, count = children.Count; c < count; ++c)
+            for (int c = 0, count = cells.Count; c < count; ++c)
             {
-                var child = children[c];
-                if (child is not TemplatedDataGridCell cell)
+                if (cells[c] is not TemplatedDataGridCell cell)
                 {
                     continue;
                 }
@@ -151,10 +123,9 @@ namespace DataListBox.Primitives
                 maxHeight = Math.Max(maxHeight, cell.DesiredSize.Height);
             } 
 
-            for (int c = 0, count = children.Count; c < count; ++c)
+            for (int c = 0, count = cells.Count; c < count; ++c)
             {
-                var child = children[c];
-                if (child is not TemplatedDataGridCell cell)
+                if (cells[c] is not TemplatedDataGridCell cell)
                 {
                     continue;
                 }
