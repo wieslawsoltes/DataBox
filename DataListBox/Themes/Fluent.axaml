@@ -122,8 +122,50 @@
   </Style>
 
   <Style Selector="TemplatedDataGridColumnHeader">
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="Foreground" Value="{DynamicResource DataGridColumnHeaderForegroundBrush}" />
+    <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderBackgroundBrush}" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid Name="PART_ColumnHeaderRoot" 
+              Background="{TemplateBinding Background}">
+          <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                Margin="{TemplateBinding Padding}">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition MinWidth="32" Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ContentPresenter Grid.Column="0" Content="{TemplateBinding Header}" />
+            <Path Name="SortIcon"
+                  Grid.Column="1"
+                  Fill="{TemplateBinding Foreground}"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Stretch="Uniform"
+                  Height="12" />
+          </Grid>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+  </Style>
+  <Style Selector="TemplatedDataGridColumnHeader:pointerover /template/ Grid#PART_ColumnHeaderRoot">
+    <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderHoveredBackgroundColor}" />
+  </Style>
+  <Style Selector="TemplatedDataGridColumnHeader:pressed /template/ Grid#PART_ColumnHeaderRoot">
+    <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderPressedBackgroundColor}" />
+  </Style>
+  <Style Selector="TemplatedDataGridColumnHeader /template/ Path#SortIcon">
+    <Setter Property="IsVisible" Value="False" />
+  </Style>
+  <Style Selector="TemplatedDataGridColumnHeader:sortascending /template/ Path#SortIcon">
+    <Setter Property="IsVisible" Value="True" />
+    <Setter Property="Data" Value="{StaticResource DataGridSortIconAscendingPath}" />
+  </Style>
+  <Style Selector="TemplatedDataGridColumnHeader:sortdescending /template/ Path#SortIcon">
+    <Setter Property="IsVisible" Value="True" />
+    <Setter Property="Data" Value="{StaticResource DataGridSortIconDescendingPath}" />
   </Style>
 
   <Style Selector="TemplatedDataGridCell">

@@ -60,15 +60,10 @@ namespace DataListBox.Primitives
                 for (var c = 0; c < root.Columns.Count; c++)
                 {
                     var column = root.Columns[c];
-                    var contentPresenter = new ContentPresenter
-                    {
-                        Content = column.Header, 
-                        Margin = new Thickness(2)
-                    };
 
                     var columnHeader = new TemplatedDataGridColumnHeader
                     {
-                        Child = contentPresenter,
+                        [!TemplatedDataGridColumnHeader.HeaderProperty] = column[!TemplatedDataGridColumn.HeaderProperty],
                         DataContext = column,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch
