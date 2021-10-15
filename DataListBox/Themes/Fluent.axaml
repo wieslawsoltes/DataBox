@@ -59,7 +59,7 @@
                         HorizontalScrollBarVisibility="Hidden"
                         VerticalScrollBarVisibility="Disabled"
                         DockPanel.Dock="Top">
-          <TemplatedDataGridColumnHeadersPresenter Name="PART_HeadersPresenter" />
+            <TemplatedDataGridColumnHeadersPresenter Name="PART_HeadersPresenter" />
           </ScrollViewer>
           <TemplatedListBox Name="PART_DataListBox" />
         </DockPanel>
