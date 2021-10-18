@@ -6,6 +6,6 @@ namespace DataListBox
 {
     public class DataBoxRow : ListBoxItem, IStyleable
     {
-        Type IStyleable.StyleKey => typeof(ListBoxItem);
+        Type IStyleable.StyleKey => typeof(DataBoxRow);
     }
 }

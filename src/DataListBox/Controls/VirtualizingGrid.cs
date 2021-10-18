@@ -9,7 +9,7 @@ namespace DataListBox.Controls
     {
         private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
         {
-            if (control is ListBoxItem)
+            if (control is DataBoxRow)
             {
                 return control.LogicalChildren[0] as DataBoxCellsPresenter;
             }

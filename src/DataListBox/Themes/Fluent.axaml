@@ -100,7 +100,7 @@
     </Setter>
   </Style>
 
-  <Style Selector="DataBox /template/ DataBoxRowsPresenter#PART_RowsPresenter ListBoxItem">
+  <Style Selector="DataBox /template/ DataBoxRowsPresenter#PART_RowsPresenter DataBoxRow">
     <Setter Property="Margin" Value="0" />
     <Setter Property="Padding" Value="0" />
   </Style>
@@ -135,7 +135,77 @@
       </ControlTemplate>
     </Setter>
   </Style>
-  
+
+  <Style Selector="DataBoxRow">
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Padding" Value="{DynamicResource ListBoxItemPadding}" />
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="Template">
+      <ControlTemplate>
+        <ContentPresenter Name="PART_ContentPresenter"
+                          Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          CornerRadius="{TemplateBinding CornerRadius}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Content="{TemplateBinding Content}"
+                          Padding="{TemplateBinding Padding}"
+                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+      </ControlTemplate>
+    </Setter>
+  </Style>
+  <Style Selector="DataBoxRow /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="TextBlock.FontWeight" Value="Normal" />
+    <Setter Property="TextBlock.FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+  </Style>
+  <!--  Disabled State  -->
+  <Style Selector="DataBoxRow:disabled /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+  </Style>
+  <!--  PointerOver State  -->
+  <Style Selector="DataBoxRow:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListLowBrush}" />
+  </Style>
+  <Style Selector="DataBoxRow:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  </Style>
+  <!--  Pressed State  -->
+  <Style Selector="DataBoxRow:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+  </Style>
+  <Style Selector="DataBoxRow:pressed /template/ ContentPresenter">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  </Style>
+  <!--  Selected State  -->
+  <Style Selector="DataBoxRow:selected /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}" />
+  </Style>
+  <Style Selector="DataBoxRow:selected /template/ ContentPresenter">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  </Style>
+  <!--  Selected Unfocused State  -->
+  <Style Selector="DataBoxRow:selected:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}" />
+  </Style>
+  <Style Selector="DataBoxRow:selected:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  </Style>
+  <!--  Selected PointerOver State  -->
+  <Style Selector="DataBoxRow:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentMediumBrush}" />
+  </Style>
+  <Style Selector="DataBoxRow:selected:pointerover /template/ ContentPresenter">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  </Style>
+  <!--  Selected Pressed State  -->
+  <Style Selector="DataBoxRow:selected:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentHighBrush}" />
+  </Style>
+  <Style Selector="DataBoxRow:selected:pressed /template/ ContentPresenter#PART_ContentPresenter">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  </Style>
+
   <Style Selector="DataBoxCellsPresenter">
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Top" />
