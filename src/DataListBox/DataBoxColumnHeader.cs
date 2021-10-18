@@ -3,10 +3,10 @@ using Avalonia.Controls.Primitives;
 
 namespace DataListBox
 {
-    public class TemplatedDataGridColumnHeader : TemplatedControl
+    public class DataBoxColumnHeader : TemplatedControl
     {
         public static readonly StyledProperty<object?> HeaderProperty = 
-            AvaloniaProperty.Register<TemplatedDataGridColumnHeader, object?>(nameof(Header));
+            AvaloniaProperty.Register<DataBoxColumnHeader, object?>(nameof(Header));
 
         public object? Header
         {

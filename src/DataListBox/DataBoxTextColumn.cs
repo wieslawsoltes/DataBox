@@ -4,9 +4,9 @@ using Avalonia.Controls.Templates;
 
 namespace DataListBox
 {
-    public class TemplatedDataGridTextColumn : TemplatedDataGridBoundColumn
+    public class DataBoxTextColumn : DataBoxBoundColumn
     {
-        public TemplatedDataGridTextColumn()
+        public DataBoxTextColumn()
         {
             CellTemplate = new FuncDataTemplate(
                 _ => true,

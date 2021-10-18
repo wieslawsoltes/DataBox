@@ -5,7 +5,7 @@ using Avalonia.Layout;
 
 namespace DataListBox.Primitives
 {
-    public class TemplatedDataGridCellsPresenter : Panel
+    public class DataBoxCellsPresenter : Panel
     {
         private IDisposable? _itemDataDisposable;
         
@@ -13,7 +13,7 @@ namespace DataListBox.Primitives
         {
             base.OnAttachedToVisualTree(e);
 
-            _itemDataDisposable = this.GetObservable(TemplatedDataGridProperties.ItemDataProperty).Subscribe(itemData =>
+            _itemDataDisposable = this.GetObservable(DataBoxProperties.ItemDataProperty).Subscribe(itemData =>
             {
                 var cells = Children;
                 
@@ -39,18 +39,18 @@ namespace DataListBox.Primitives
         {
             Children.Clear();
 
-            var itemIndex = TemplatedDataGridProperties.GetItemIndex(this);
-            var itemData = TemplatedDataGridProperties.GetItemData(this);
-            var root = TemplatedDataGridProperties.GetRoot(this);
+            var itemIndex = DataBoxProperties.GetItemIndex(this);
+            var itemData = DataBoxProperties.GetItemData(this);
+            var root = DataBoxProperties.GetRoot(this);
             if (root is not null)
             {
                 foreach (var column in root.Columns)
                 {
-                    var cell = new TemplatedDataGridCell
+                    var cell = new DataBoxCell
                     {
                         // TODO:
                         [!ContentControl.ContentProperty] = this[!DataContextProperty],
-                        [!ContentControl.ContentTemplateProperty] = column[!TemplatedDataGridColumn.CellTemplateProperty],
+                        [!ContentControl.ContentTemplateProperty] = column[!DataBoxColumn.CellTemplateProperty],
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch
                     };
@@ -65,8 +65,8 @@ namespace DataListBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var itemIndex = TemplatedDataGridProperties.GetItemIndex(this);
-            var root = TemplatedDataGridProperties.GetRoot(this);
+            var itemIndex = DataBoxProperties.GetItemIndex(this);
+            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -78,7 +78,7 @@ namespace DataListBox.Primitives
 
             for (int c = 0, count = cells.Count; c < count; ++c)
             {
-                if (cells[c] is not TemplatedDataGridCell cell)
+                if (cells[c] is not DataBoxCell cell)
                 {
                     continue;
                 }
@@ -103,8 +103,8 @@ namespace DataListBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var itemIndex = TemplatedDataGridProperties.GetItemIndex(this);
-            var root = TemplatedDataGridProperties.GetRoot(this);
+            var itemIndex = DataBoxProperties.GetItemIndex(this);
+            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return arrangeSize;
@@ -117,7 +117,7 @@ namespace DataListBox.Primitives
 
             for (int c = 0, count = cells.Count; c < count; ++c)
             {
-                if (cells[c] is not TemplatedDataGridCell cell)
+                if (cells[c] is not DataBoxCell cell)
                 {
                     continue;
                 }
@@ -127,7 +127,7 @@ namespace DataListBox.Primitives
 
             for (int c = 0, count = cells.Count; c < count; ++c)
             {
-                if (cells[c] is not TemplatedDataGridCell cell)
+                if (cells[c] is not DataBoxCell cell)
                 {
                     continue;
                 }

@@ -10,34 +10,34 @@ using DataListBox.Primitives;
 
 namespace DataListBox
 {
-    public class TemplatedDataGrid : TemplatedControl
+    public class DataBox : TemplatedControl
     {
-        public static readonly DirectProperty<TemplatedDataGrid, IEnumerable?> ItemsProperty =
-            AvaloniaProperty.RegisterDirect<TemplatedDataGrid, IEnumerable?>(
+        public static readonly DirectProperty<DataBox, IEnumerable?> ItemsProperty =
+            AvaloniaProperty.RegisterDirect<DataBox, IEnumerable?>(
                 nameof(Items), 
                 o => o.Items, 
                 (o, v) => o.Items = v);
 
-        public static readonly DirectProperty<TemplatedDataGrid, object?> SelectedItemProperty =
-            AvaloniaProperty.RegisterDirect<TemplatedDataGrid, object?>(
+        public static readonly DirectProperty<DataBox, object?> SelectedItemProperty =
+            AvaloniaProperty.RegisterDirect<DataBox, object?>(
                 nameof(SelectedItem), 
                 o => o.SelectedItem, 
                 (o, v) => o.SelectedItem = v,
                 defaultBindingMode: BindingMode.TwoWay);
 
-        public static readonly DirectProperty<TemplatedDataGrid, AvaloniaList<TemplatedDataGridColumn>> ColumnsProperty =
-            AvaloniaProperty.RegisterDirect<TemplatedDataGrid, AvaloniaList<TemplatedDataGridColumn>>(
+        public static readonly DirectProperty<DataBox, AvaloniaList<DataBoxColumn>> ColumnsProperty =
+            AvaloniaProperty.RegisterDirect<DataBox, AvaloniaList<DataBoxColumn>>(
                 nameof(Columns), 
                 o => o.Columns);
 
         private IEnumerable? _items = new AvaloniaList<object>();
         private object? _selectedItem;
-        private AvaloniaList<TemplatedDataGridColumn> _columns;
+        private AvaloniaList<DataBoxColumn> _columns;
         private ScrollViewer? _headersPresenterScrollViewer;
-        private TemplatedDataGridColumnHeadersPresenter? _headersPresenter;
-        private TemplatedListBox? _dataListBox;
+        private DataBoxColumnHeadersPresenter? _headersPresenter;
+        private DataBoxRowsPresenter? _rowsPresenter;
 
-        public AvaloniaList<TemplatedDataGridColumn> Columns
+        public AvaloniaList<DataBoxColumn> Columns
         {
             get => _columns;
             private set => SetAndRaise(ColumnsProperty, ref _columns, value);
@@ -62,9 +62,9 @@ namespace DataListBox
 
         internal double AvailableHeight { get; set; }
 
-        public TemplatedDataGrid()
+        public DataBox()
         {
-            _columns = new AvaloniaList<TemplatedDataGridColumn>();
+            _columns = new AvaloniaList<DataBoxColumn>();
         }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
@@ -72,24 +72,24 @@ namespace DataListBox
             base.OnApplyTemplate(e);
 
             _headersPresenterScrollViewer = e.NameScope.Find<ScrollViewer>("PART_HeadersPresenterScrollViewer");
-            _headersPresenter = e.NameScope.Find<TemplatedDataGridColumnHeadersPresenter>("PART_HeadersPresenter");
-            _dataListBox = e.NameScope.Find<TemplatedListBox>("PART_DataListBox");
+            _headersPresenter = e.NameScope.Find<DataBoxColumnHeadersPresenter>("PART_HeadersPresenter");
+            _rowsPresenter = e.NameScope.Find<DataBoxRowsPresenter>("PART_RowsPresenter");
 
             if (_headersPresenter is { })
             {
-                TemplatedDataGridProperties.SetRoot(_headersPresenter, this);
+                DataBoxProperties.SetRoot(_headersPresenter, this);
             }
 
-            if (_dataListBox is { })
+            if (_rowsPresenter is { })
             {
-                TemplatedDataGridProperties.SetRoot(_dataListBox, this);
+                DataBoxProperties.SetRoot(_rowsPresenter, this);
 
-                _dataListBox[!!ItemsControl.ItemsProperty] = this[!!ItemsProperty];
-                this[!!SelectedItemProperty] = _dataListBox[!!SelectingItemsControl.SelectedItemProperty];
+                _rowsPresenter[!!ItemsControl.ItemsProperty] = this[!!ItemsProperty];
+                this[!!SelectedItemProperty] = _rowsPresenter[!!SelectingItemsControl.SelectedItemProperty];
 
-                _dataListBox.TemplateApplied += (_, _) =>
+                _rowsPresenter.TemplateApplied += (_, _) =>
                 {
-                    if (_dataListBox.Scroll is ScrollViewer scrollViewer)
+                    if (_rowsPresenter.Scroll is ScrollViewer scrollViewer)
                     {
                         scrollViewer.ScrollChanged += (_, _) =>
                         {

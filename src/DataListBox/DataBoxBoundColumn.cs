@@ -3,10 +3,10 @@ using Avalonia.Data;
 
 namespace DataListBox
 {
-    public abstract class TemplatedDataGridBoundColumn : TemplatedDataGridColumn
+    public abstract class DataBoxBoundColumn : DataBoxColumn
     {
         public static readonly StyledProperty<IBinding?> BindingProperty = 
-            AvaloniaProperty.Register<TemplatedDataGridBoundColumn, IBinding?>(nameof(Binding));
+            AvaloniaProperty.Register<DataBoxBoundColumn, IBinding?>(nameof(Binding));
 
         [AssignBinding]
         public IBinding? Binding

@@ -2,7 +2,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <Design.PreviewWith>
-    <TemplatedDataGrid />
+    <DataBox />
   </Design.PreviewWith>
 
   <Styles.Resources>
@@ -51,7 +51,13 @@
 
   </Styles.Resources>
 
-  <Style Selector="TemplatedDataGrid">
+  <Style Selector="VirtualizingGrid">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="Orientation" Value="Vertical" />
+  </Style>
+
+  <Style Selector="DataBox">
     <Setter Property="Template">
       <ControlTemplate>
         <DockPanel>
@@ -59,20 +65,20 @@
                         HorizontalScrollBarVisibility="Hidden"
                         VerticalScrollBarVisibility="Disabled"
                         DockPanel.Dock="Top">
-            <TemplatedDataGridColumnHeadersPresenter Name="PART_HeadersPresenter" />
+            <DataBoxColumnHeadersPresenter Name="PART_HeadersPresenter" />
           </ScrollViewer>
-          <TemplatedListBox Name="PART_DataListBox" />
+          <DataBoxRowsPresenter Name="PART_RowsPresenter" />
         </DockPanel>
       </ControlTemplate>
     </Setter>
   </Style>
 
-  <Style Selector="TemplatedDataGrid /template/ TemplatedDataGridColumnHeadersPresenter#PART_HeadersPresenter">
+  <Style Selector="DataBox /template/ DataBoxColumnHeadersPresenter#PART_HeadersPresenter">
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="Background" Value="Transparent" />
   </Style>
 
-  <Style Selector="TemplatedDataGrid /template/ ListBox#PART_DataListBox">
+  <Style Selector="DataBox /template/ DataBoxRowsPresenter#PART_RowsPresenter">
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VirtualizationMode" Value="Simple" />
     <Setter Property="Background" Value="Transparent" />
@@ -81,47 +87,72 @@
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
-          <TemplatedDataGridRowsPresenter />
+          <VirtualizingGrid />
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
     <Setter Property="ItemTemplate">
       <Setter.Value>
         <DataTemplate>
-          <TemplatedDataGridCellsPresenter />
+          <DataBoxCellsPresenter />
         </DataTemplate>
       </Setter.Value>
     </Setter>
   </Style>
 
-  <Style Selector="TemplatedDataGrid /template/ ListBox#PART_DataListBox ListBoxItem">
+  <Style Selector="DataBox /template/ DataBoxRowsPresenter#PART_RowsPresenter ListBoxItem">
     <Setter Property="Margin" Value="0" />
     <Setter Property="Padding" Value="0" />
   </Style>
 
-  <Style Selector="TemplatedDataGridRowsPresenter">
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="VerticalAlignment" Value="Top" />
-    <Setter Property="Orientation" Value="Vertical" />
+  <Style Selector="DataBoxRowsPresenter">
+    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
+    <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
+    <Setter Property="BorderThickness" Value="{DynamicResource ListBoxBorderThemeThickness}" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />        
+    <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />    
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Border Name="border"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}">
+          <ScrollViewer Name="PART_ScrollViewer"
+                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
+                        AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}">
+            <ItemsPresenter Name="PART_ItemsPresenter"
+                            Items="{TemplateBinding Items}"
+                            ItemsPanel="{TemplateBinding ItemsPanel}"
+                            ItemTemplate="{TemplateBinding ItemTemplate}"
+                            Margin="{TemplateBinding Padding}"
+                            VirtualizationMode="{TemplateBinding VirtualizationMode}"/>
+          </ScrollViewer>
+        </Border>
+      </ControlTemplate>
+    </Setter>
   </Style>
-
-  <Style Selector="TemplatedDataGridCellsPresenter">
+  
+  <Style Selector="DataBoxCellsPresenter">
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Top" />
     <Setter Property="Background" Value="Transparent" />
   </Style>
 
-  <Style Selector="TemplatedDataGridCell">
+  <Style Selector="DataBoxCell">
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Top" />
   </Style>
 
-  <Style Selector="TemplatedDataGridColumnHeadersPresenter">
+  <Style Selector="DataBoxColumnHeadersPresenter">
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Top" />
   </Style>
 
-  <Style Selector="TemplatedDataGridColumnHeader">
+  <Style Selector="DataBoxColumnHeader">
     <Setter Property="Foreground" Value="{DynamicResource DataGridColumnHeaderForegroundBrush}" />
     <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderBackgroundBrush}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -150,25 +181,25 @@
       </ControlTemplate>
     </Setter>
   </Style>
-  <Style Selector="TemplatedDataGridColumnHeader:pointerover /template/ Grid#PART_ColumnHeaderRoot">
+  <Style Selector="DataBoxColumnHeader:pointerover /template/ Grid#PART_ColumnHeaderRoot">
     <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderHoveredBackgroundColor}" />
   </Style>
-  <Style Selector="TemplatedDataGridColumnHeader:pressed /template/ Grid#PART_ColumnHeaderRoot">
+  <Style Selector="DataBoxColumnHeader:pressed /template/ Grid#PART_ColumnHeaderRoot">
     <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderPressedBackgroundColor}" />
   </Style>
-  <Style Selector="TemplatedDataGridColumnHeader /template/ Path#SortIcon">
+  <Style Selector="DataBoxColumnHeader /template/ Path#SortIcon">
     <Setter Property="IsVisible" Value="False" />
   </Style>
-  <Style Selector="TemplatedDataGridColumnHeader:sortascending /template/ Path#SortIcon">
+  <Style Selector="DataBoxColumnHeader:sortascending /template/ Path#SortIcon">
     <Setter Property="IsVisible" Value="True" />
     <Setter Property="Data" Value="{StaticResource DataGridSortIconAscendingPath}" />
   </Style>
-  <Style Selector="TemplatedDataGridColumnHeader:sortdescending /template/ Path#SortIcon">
+  <Style Selector="DataBoxColumnHeader:sortdescending /template/ Path#SortIcon">
     <Setter Property="IsVisible" Value="True" />
     <Setter Property="Data" Value="{StaticResource DataGridSortIconDescendingPath}" />
   </Style>
 
-  <Style Selector="TemplatedDataGridCell">
+  <Style Selector="DataBoxCell">
     <Setter Property="Background" Value="{DynamicResource DataGridCellBackgroundBrush}" />
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Stretch" />

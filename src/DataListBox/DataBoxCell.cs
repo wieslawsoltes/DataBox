@@ -8,7 +8,7 @@ using Avalonia.Metadata;
 namespace DataListBox
 {
     // TODO:
-    public class TemplatedDataGridCell : ContentControl
+    public class DataBoxCell : ContentControl
     {
         internal double MeasuredWidth;
     }

@@ -2,9 +2,9 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Styling;
 
-namespace DataListBox.Controls
+namespace DataListBox
 {
-    public class DataListBoxItem : ListBoxItem, IStyleable
+    public class DataBoxRow : ListBoxItem, IStyleable
     {
         Type IStyleable.StyleKey => typeof(ListBoxItem);
     }

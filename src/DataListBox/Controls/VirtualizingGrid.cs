@@ -1,21 +1,22 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.Controls;
+using DataListBox.Primitives;
 
-namespace DataListBox.Primitives
+namespace DataListBox.Controls
 {
-    public class TemplatedDataGridRowsPresenter : VirtualizingStackPanel
+    public class VirtualizingGrid : VirtualizingStackPanel
     {
-        private TemplatedDataGridCellsPresenter? GetCellsPresenter(IControl? control)
+        private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
         {
             if (control is ListBoxItem)
             {
-                return control.LogicalChildren[0] as TemplatedDataGridCellsPresenter;
+                return control.LogicalChildren[0] as DataBoxCellsPresenter;
             }
-            return control as TemplatedDataGridCellsPresenter;
+            return control as DataBoxCellsPresenter;
         }
 
-        private double SetColumnsActualWidth(Avalonia.Controls.Controls rows, TemplatedDataGrid root, bool measureStarAsAuto)
+        private double SetColumnsActualWidth(Avalonia.Controls.Controls rows, DataBox root, bool measureStarAsAuto)
         {
             var accumulatedWidth = 0.0;
             var actualWidths = new double[root.Columns.Count];
@@ -61,7 +62,7 @@ namespace DataListBox.Primitives
                             if (cellPresenter is { })
                             {
                                 var cells = cellPresenter.Children;
-                                if (cells[c] is TemplatedDataGridCell cell)
+                                if (cells[c] is DataBoxCell cell)
                                 {
                                     var width = cell.MeasuredWidth;
                                     actualWidth = Math.Max(actualWidth, width);
@@ -87,7 +88,7 @@ namespace DataListBox.Primitives
                             if (cellPresenter is { })
                             {
                                 var cells = cellPresenter.Children;
-                                if (cells[c] is TemplatedDataGridCell cell)
+                                if (cells[c] is DataBoxCell cell)
                                 {
                                     var width = cell.MeasuredWidth;
                                     actualWidth = Math.Max(actualWidth, width);
@@ -168,7 +169,7 @@ namespace DataListBox.Primitives
             return accumulatedWidth;
         }
 
-        private void MeasureCells(Avalonia.Controls.Controls rows,  TemplatedDataGrid root)
+        private void MeasureCells(Avalonia.Controls.Controls rows,  DataBox root)
         {
             for (int r = 0, rowsCount = rows.Count; r < rowsCount; ++r)
             {
@@ -183,7 +184,7 @@ namespace DataListBox.Primitives
 
                 for (int c = 0, cellsCount = cells.Count; c < cellsCount; ++c)
                 {
-                    if (cells[c] is not TemplatedDataGridCell cell)
+                    if (cells[c] is not DataBoxCell cell)
                     {
                         continue;
                     }
@@ -230,7 +231,7 @@ namespace DataListBox.Primitives
             return accumulatedWidth < availableWidth ? availableWidth : accumulatedWidth;
         }
 
-        private Size MeasureRows(Size availableSize, TemplatedDataGrid root)
+        private Size MeasureRows(Size availableSize, DataBox root)
         {
             var availableSizeWidth = availableSize.Width;
             var rows = Children;
@@ -252,7 +253,7 @@ namespace DataListBox.Primitives
             return panelSize;
         }
 
-        private Size ArrangeRows(Size finalSize, TemplatedDataGrid root)
+        private Size ArrangeRows(Size finalSize, DataBox root)
         {
             var finalSizeWidth = finalSize.Width;
             var rows = Children;
@@ -272,7 +273,7 @@ namespace DataListBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = TemplatedDataGridProperties.GetRoot(this);
+            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -283,7 +284,7 @@ namespace DataListBox.Primitives
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var root = TemplatedDataGridProperties.GetRoot(this);
+            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return finalSize;

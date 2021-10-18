@@ -7,7 +7,7 @@ using Avalonia.Layout;
 
 namespace DataListBox.Primitives
 {
-    public class TemplatedDataGridColumnHeadersPresenter : Panel
+    public class DataBoxColumnHeadersPresenter : Panel
     {
         private IDisposable? _rootDisposable;
         private List<IDisposable>? _columnActualWidthDisposables;
@@ -16,7 +16,7 @@ namespace DataListBox.Primitives
         {
             base.OnAttachedToVisualTree(e);
 
-            _rootDisposable = this.GetObservable(TemplatedDataGridProperties.RootProperty).Subscribe(root => Invalidate());
+            _rootDisposable = this.GetObservable(DataBoxProperties.RootProperty).Subscribe(root => Invalidate());
         }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
@@ -52,7 +52,7 @@ namespace DataListBox.Primitives
 
             Children.Clear();
 
-            var root = TemplatedDataGridProperties.GetRoot(this);
+            var root = DataBoxProperties.GetRoot(this);
             if (root is not null)
             {
                 _columnActualWidthDisposables = new List<IDisposable>();
@@ -61,9 +61,9 @@ namespace DataListBox.Primitives
                 {
                     var column = root.Columns[c];
 
-                    var columnHeader = new TemplatedDataGridColumnHeader
+                    var columnHeader = new DataBoxColumnHeader
                     {
-                        [!TemplatedDataGridColumnHeader.HeaderProperty] = column[!TemplatedDataGridColumn.HeaderProperty],
+                        [!DataBoxColumnHeader.HeaderProperty] = column[!DataBoxColumn.HeaderProperty],
                         DataContext = column,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch
@@ -72,7 +72,7 @@ namespace DataListBox.Primitives
                     columnHeader.ApplyTemplate();
                     Children.Add(columnHeader);
 
-                    var disposable = column.GetObservable(TemplatedDataGridColumn.ActualWidthProperty).Subscribe(_ =>
+                    var disposable = column.GetObservable(DataBoxColumn.ActualWidthProperty).Subscribe(_ =>
                     {
                         InvalidateMeasure();
                         InvalidateVisual();
@@ -84,7 +84,7 @@ namespace DataListBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = TemplatedDataGridProperties.GetRoot(this);
+            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -97,7 +97,7 @@ namespace DataListBox.Primitives
             var c = 0;
             for (int h = 0, count = columnHeaders.Count; h < count; ++h)
             {
-                if (columnHeaders[h] is not TemplatedDataGridColumnHeader columnHeader)
+                if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
                 {
                     continue;
                 }
@@ -125,7 +125,7 @@ namespace DataListBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var root = TemplatedDataGridProperties.GetRoot(this);
+            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return arrangeSize;
@@ -137,7 +137,7 @@ namespace DataListBox.Primitives
 
             for (int h = 0, count = columnHeaders.Count; h < count; ++h)
             {
-                if (columnHeaders[h] is not TemplatedDataGridColumnHeader columnHeader)
+                if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
                 {
                     continue;
                 }

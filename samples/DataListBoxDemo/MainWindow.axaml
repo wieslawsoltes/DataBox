@@ -39,38 +39,38 @@
       </local:CustomGrid>
     </ScrollViewer>
 
-    <TemplatedDataGrid Items="{Binding Items}">
-      <TemplatedDataGrid.Columns>
-        <TemplatedDataGridTemplateColumn Header="Column 0" Width="2*">
+    <DataBox Items="{Binding Items}">
+      <DataBox.Columns>
+        <DataBoxTemplateColumn Header="Column 0" Width="2*">
           <DataTemplate DataType="x:String">
             <Panel Background="Red">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </TemplatedDataGridTemplateColumn>
-        <TemplatedDataGridTemplateColumn Header="Column 1" Width="Auto">
+        </DataBoxTemplateColumn>
+        <DataBoxTemplateColumn Header="Column 1" Width="Auto">
           <DataTemplate DataType="x:String">
             <Panel Background="Green">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </TemplatedDataGridTemplateColumn>
-        <TemplatedDataGridTemplateColumn Header="Column 2" Width="200">
+        </DataBoxTemplateColumn>
+        <DataBoxTemplateColumn Header="Column 2" Width="200">
           <DataTemplate DataType="x:String">
             <Panel Background="Blue">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </TemplatedDataGridTemplateColumn>
-        <TemplatedDataGridTemplateColumn Header="Column 3" Width="1*">
+        </DataBoxTemplateColumn>
+        <DataBoxTemplateColumn Header="Column 3" Width="1*">
           <DataTemplate DataType="x:String">
             <Panel Background="Yellow">
               <TextBlock Text="{Binding}" Margin="2" />
             </Panel>
           </DataTemplate>
-        </TemplatedDataGridTemplateColumn>
-      </TemplatedDataGrid.Columns>
-    </TemplatedDataGrid>
+        </DataBoxTemplateColumn>
+      </DataBox.Columns>
+    </DataBox>
 
   </DockPanel>
 </Window>
