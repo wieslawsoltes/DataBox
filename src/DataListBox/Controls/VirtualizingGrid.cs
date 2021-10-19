@@ -1,12 +1,15 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Styling;
 using DataListBox.Primitives;
 
 namespace DataListBox.Controls
 {
-    public class VirtualizingGrid : VirtualizingStackPanel
+    public class VirtualizingGrid : VirtualizingStackPanel, IStyleable
     {
+        Type IStyleable.StyleKey => typeof(VirtualizingGrid);
+
         private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
         {
             if (control is DataBoxRow)
