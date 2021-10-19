@@ -116,13 +116,6 @@
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
-    <Setter Property="ItemTemplate">
-      <Setter.Value>
-        <DataTemplate>
-          <DataBoxCellsPresenter />
-        </DataTemplate>
-      </Setter.Value>
-    </Setter>
   </Style>
 
   <Style Selector="DataBoxColumnHeadersPresenter">
@@ -188,70 +181,55 @@
     <Setter Property="Margin" Value="0" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="TextBlock.FontWeight" Value="Normal" />
+    <Setter Property="TextBlock.FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
     <Setter Property="Template">
       <ControlTemplate>
-        <ContentPresenter Name="PART_ContentPresenter"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}"
-                          CornerRadius="{TemplateBinding CornerRadius}"
-                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                          Content="{TemplateBinding Content}"
-                          Padding="{TemplateBinding Padding}"
-                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" />
+        <Grid Name="PART_Root" RowDefinitions="*,Auto">
+          <Rectangle Grid.Row="0" Name="BackgroundRectangle" />
+          <DataBoxCellsPresenter Grid.Row="0" Name="PART_CellsPresenter"/>
+          <Rectangle Grid.Row="1" Name="PART_BottomGridLine"/>
+        </Grid>
       </ControlTemplate>
     </Setter>
   </Style>
-  <Style Selector="DataBoxRow /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="TextBlock.FontWeight" Value="Normal" />
-    <Setter Property="TextBlock.FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+
+  <Style Selector="DataBoxRow /template/ Rectangle#PART_BottomGridLine">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Height" Value="1" />
+    <Setter Property="Fill" Value="{DynamicResource DataGridGridLinesBrush}" />
+    <Setter Property="Opacity" Value="0.4" />
   </Style>
-  <!--  Disabled State  -->
-  <Style Selector="DataBoxRow:disabled /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlDisabledBaseMediumLowBrush}" />
+  <Style Selector="DataBoxRow /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{DynamicResource SystemControlTransparentBrush}" />
   </Style>
-  <!--  PointerOver State  -->
-  <Style Selector="DataBoxRow:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListLowBrush}" />
+  <Style Selector="DataBoxRow:pointerover /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{DynamicResource SystemListLowColor}" />
   </Style>
-  <Style Selector="DataBoxRow:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  <Style Selector="DataBoxRow:selected /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundColor}" />
+    <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundOpacity}" />
   </Style>
-  <!--  Pressed State  -->
-  <Style Selector="DataBoxRow:pressed /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListMediumBrush}" />
+  <Style Selector="DataBoxRow:selected:pointerover /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedHoveredUnfocusedBackgroundColor}" />
+    <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedHoveredUnfocusedBackgroundOpacity}" />
   </Style>
-  <Style Selector="DataBoxRow:pressed /template/ ContentPresenter">
-    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  <Style Selector="DataBoxRow:selected:focus /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedBackgroundColor}" />
+    <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedBackgroundOpacity}" />
   </Style>
-  <!--  Selected State  -->
-  <Style Selector="DataBoxRow:selected /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}" />
+  <Style Selector="DataBoxRow:selected:pointerover:focus /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedHoveredBackgroundColor}" />
+    <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedHoveredBackgroundOpacity}" />
   </Style>
-  <Style Selector="DataBoxRow:selected /template/ ContentPresenter">
-    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  <Style Selector="DataBoxRow:selected:pressed /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundColor}" />
+    <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundOpacity}" />
   </Style>
-  <!--  Selected Unfocused State  -->
-  <Style Selector="DataBoxRow:selected:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentLowBrush}" />
-  </Style>
-  <Style Selector="DataBoxRow:selected:not(:focus) /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
-  </Style>
-  <!--  Selected PointerOver State  -->
-  <Style Selector="DataBoxRow:selected:pointerover /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentMediumBrush}" />
-  </Style>
-  <Style Selector="DataBoxRow:selected:pointerover /template/ ContentPresenter">
-    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
-  </Style>
-  <!--  Selected Pressed State  -->
-  <Style Selector="DataBoxRow:selected:pressed /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="Background" Value="{DynamicResource SystemControlHighlightListAccentHighBrush}" />
-  </Style>
-  <Style Selector="DataBoxRow:selected:pressed /template/ ContentPresenter#PART_ContentPresenter">
-    <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlHighlightAltBaseHighBrush}" />
+  <Style Selector="DataBoxRow:pressed /template/ Rectangle#BackgroundRectangle">
+    <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundColor}" />
+    <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundOpacity}" />
   </Style>
 
   <Style Selector="DataBoxCell">
