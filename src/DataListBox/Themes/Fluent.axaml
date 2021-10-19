@@ -79,40 +79,15 @@
   </Style>
 
   <Style Selector="DataBox /template/ DataBoxRowsPresenter#PART_RowsPresenter">
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="VirtualizationMode" Value="Simple" />
-    <Setter Property="Background" Value="Transparent" />
-    <Setter Property="(ScrollViewer.HorizontalScrollBarVisibility)" Value="Auto" />
-    <Setter Property="(ScrollViewer.VerticalScrollBarVisibility)" Value="Auto" />
-    <Setter Property="ItemsPanel">
-      <Setter.Value>
-        <ItemsPanelTemplate>
-          <VirtualizingGrid />
-        </ItemsPanelTemplate>
-      </Setter.Value>
-    </Setter>
-    <Setter Property="ItemTemplate">
-      <Setter.Value>
-        <DataTemplate>
-          <DataBoxCellsPresenter />
-        </DataTemplate>
-      </Setter.Value>
-    </Setter>
-  </Style>
-
-  <Style Selector="DataBox /template/ DataBoxRowsPresenter#PART_RowsPresenter DataBoxRow">
-    <Setter Property="Margin" Value="0" />
-    <Setter Property="Padding" Value="0" />
-  </Style>
-
-  <Style Selector="DataBoxRowsPresenter">
     <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-    <Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}" />
-    <Setter Property="BorderBrush" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
-    <Setter Property="BorderThickness" Value="{DynamicResource ListBoxBorderThemeThickness}" />
-    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="BorderBrush" Value="Transparent" />
+    <Setter Property="BorderThickness" Value="0" />
+    <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />        
-    <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />    
+    <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />   
+    <Setter Property="VirtualizationMode" Value="Simple" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" /> 
     <Setter Property="Template">
       <ControlTemplate>
         <Border Name="border"
@@ -134,10 +109,25 @@
         </Border>
       </ControlTemplate>
     </Setter>
+    <Setter Property="ItemsPanel">
+      <Setter.Value>
+        <ItemsPanelTemplate>
+          <VirtualizingGrid />
+        </ItemsPanelTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="ItemTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <DataBoxCellsPresenter />
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
   </Style>
 
   <Style Selector="DataBoxRow">
     <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Margin" Value="0" />
     <Setter Property="Padding" Value="0" />
     <Setter Property="HorizontalContentAlignment" Value="Left" />
     <Setter Property="Template">
