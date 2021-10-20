@@ -51,12 +51,6 @@
 
   </Styles.Resources>
 
-  <Style Selector="VirtualizingGrid">
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="VerticalAlignment" Value="Top" />
-    <Setter Property="Orientation" Value="Vertical" />
-  </Style>
-
   <Style Selector="DataBox">
     <Setter Property="Template">
       <ControlTemplate>
@@ -116,6 +110,12 @@
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
+  </Style>
+
+  <Style Selector="VirtualizingGrid">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="Orientation" Value="Vertical" />
   </Style>
 
   <Style Selector="DataBoxColumnHeadersPresenter">
