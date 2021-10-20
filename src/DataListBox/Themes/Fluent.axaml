@@ -61,10 +61,21 @@
                         DockPanel.Dock="Top">
             <DataBoxColumnHeadersPresenter Name="PART_HeadersPresenter" />
           </ScrollViewer>
-          <DataBoxRowsPresenter Name="PART_RowsPresenter" />
+          <Rectangle Name="PART_ColumnHeadersAndRowsSeparator" DockPanel.Dock="Top" />
+          <Panel>
+            <DataBoxRowsPresenter Name="PART_RowsPresenter" />
+          </Panel>
         </DockPanel>
       </ControlTemplate>
     </Setter>
+  </Style>
+  <Style Selector="DataBox /template/ Rectangle#PART_ColumnHeadersAndRowsSeparator">
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Center" />
+    <Setter Property="Height" Value="1" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="Fill" Value="{DynamicResource DataGridGridLinesBrush}" />
+    <Setter Property="Opacity" Value="0.4" />
   </Style>
 
   <Style Selector="DataBoxColumnHeadersPresenter">
