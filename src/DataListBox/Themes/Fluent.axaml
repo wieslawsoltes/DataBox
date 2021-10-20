@@ -78,11 +78,6 @@
     <Setter Property="Opacity" Value="0.4" />
   </Style>
 
-  <Style Selector="DataBoxColumnHeadersPresenter">
-    <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="Background" Value="Transparent" />
-  </Style>
-
   <Style Selector="DataBoxRowsPresenter">
     <Setter Property="TextBlock.Foreground" Value="{DynamicResource SystemControlForegroundBaseHighBrush}" />
     <Setter Property="Background" Value="Transparent" />
@@ -132,6 +127,7 @@
   <Style Selector="DataBoxColumnHeadersPresenter">
     <Setter Property="HorizontalAlignment" Value="Left" />
     <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="Background" Value="Transparent" />
   </Style>
 
   <Style Selector="DataBoxColumnHeader">
