@@ -223,14 +223,6 @@
     <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedHoveredBackgroundColor}" />
     <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedHoveredBackgroundOpacity}" />
   </Style>
-  <Style Selector="DataBoxRow:selected:pressed /template/ Rectangle#BackgroundRectangle">
-    <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundColor}" />
-    <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundOpacity}" />
-  </Style>
-  <Style Selector="DataBoxRow:pressed /template/ Rectangle#BackgroundRectangle">
-    <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundColor}" />
-    <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundOpacity}" />
-  </Style>
 
   <Style Selector="DataBoxCell">
     <Setter Property="Background" Value="{DynamicResource DataGridCellBackgroundBrush}" />
