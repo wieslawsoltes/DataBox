@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Layout;
 
 namespace DataListBox
 {
@@ -13,7 +14,11 @@ namespace DataListBox
                 _ => true,
                 (_, _) =>
                 {
-                    var checkBox = new CheckBox();
+                    var checkBox = new CheckBox()
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
 
                     if (Binding is { })
                     {
