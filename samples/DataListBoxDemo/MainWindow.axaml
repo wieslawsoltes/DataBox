@@ -16,7 +16,8 @@
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto"
-                  DockPanel.Dock="Top" >
+                  DockPanel.Dock="Top"
+                  IsVisible="False">
       <local:CustomGrid Background="LightGray">
         <local:CustomGrid.ColumnDefinitions>
           <ColumnDefinition Width="2*"/>
@@ -44,28 +45,36 @@
         <DataBoxTemplateColumn Header="Column 0" Width="2*">
           <DataTemplate DataType="x:String">
             <Panel Background="Transparent">
-              <TextBlock Text="{Binding}" Margin="2" />
+              <TextBlock Text="{Binding}" 
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+                         VerticalAlignment="Center" />
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
         <DataBoxTemplateColumn Header="Column 1" Width="Auto">
           <DataTemplate DataType="x:String">
             <Panel Background="Transparent">
-              <TextBlock Text="{Binding}" Margin="2" />
+              <TextBlock Text="{Binding}" 
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+                         VerticalAlignment="Center" />
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
         <DataBoxTemplateColumn Header="Column 2" Width="200">
           <DataTemplate DataType="x:String">
             <Panel Background="Transparent">
-              <TextBlock Text="{Binding}" Margin="2" />
+              <TextBlock Text="{Binding}" 
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+                         VerticalAlignment="Center" />
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
         <DataBoxTemplateColumn Header="Column 3" Width="1*">
           <DataTemplate DataType="x:String">
             <Panel Background="Transparent">
-              <TextBlock Text="{Binding}" Margin="2" />
+              <TextBlock Text="{Binding}" 
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}"
+                         VerticalAlignment="Center" />
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
