@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Presenters;
 using Avalonia.Layout;
 
 namespace DataListBox.Primitives
@@ -63,7 +62,7 @@ namespace DataListBox.Primitives
 
                     var columnHeader = new DataBoxColumnHeader
                     {
-                        [!DataBoxColumnHeader.HeaderProperty] = column[!DataBoxColumn.HeaderProperty],
+                        [!ContentControl.ContentProperty] = column[!DataBoxColumn.HeaderProperty],
                         DataContext = column,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch

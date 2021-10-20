@@ -133,20 +133,26 @@
   <Style Selector="DataBoxColumnHeader">
     <Setter Property="Foreground" Value="{DynamicResource DataGridColumnHeaderForegroundBrush}" />
     <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderBackgroundBrush}" />
-    <Setter Property="HorizontalAlignment" Value="Stretch" />
-    <Setter Property="VerticalAlignment" Value="Stretch" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="SeparatorBrush" Value="{DynamicResource DataGridGridLinesBrush}" />
+    <Setter Property="Padding" Value="12,0,0,0" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="MinHeight" Value="32" />
     <Setter Property="Template">
       <ControlTemplate>
         <Grid Name="PART_ColumnHeaderRoot" 
+              ColumnDefinitions="*,Auto"
               Background="{TemplateBinding Background}">
-          <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+          <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                 Margin="{TemplateBinding Padding}">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
               <ColumnDefinition MinWidth="32" Width="Auto" />
             </Grid.ColumnDefinitions>
-            <ContentPresenter Grid.Column="0" Content="{TemplateBinding Header}" />
+            <ContentPresenter Grid.Column="0" Content="{TemplateBinding Content}" />
             <Path Name="SortIcon"
                   Grid.Column="1"
                   Fill="{TemplateBinding Foreground}"
@@ -155,6 +161,12 @@
                   Stretch="Uniform"
                   Height="12" />
           </Grid>
+          <Rectangle Name="VerticalSeparator"
+                     Grid.Column="1"
+                     Width="1"
+                     VerticalAlignment="Stretch"
+                     Fill="{TemplateBinding SeparatorBrush}"
+                     IsVisible="{TemplateBinding AreSeparatorsVisible}" />
         </Grid>
       </ControlTemplate>
     </Setter>
