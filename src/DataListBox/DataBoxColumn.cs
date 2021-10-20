@@ -22,6 +22,15 @@ namespace DataListBox
         public static readonly StyledProperty<double> MaxWidthProperty = 
             AvaloniaProperty.Register<DataBoxColumn, double>(nameof(MaxWidth), double.PositiveInfinity);
 
+        public static readonly StyledProperty<bool> CanUserSortProperty = 
+            AvaloniaProperty.Register<DataBoxColumn, bool>(nameof(CanUserSort), true);
+
+        public static readonly StyledProperty<bool> CanUserResizeProperty = 
+            AvaloniaProperty.Register<DataBoxColumn, bool>(nameof(CanUserResize));
+
+        public static readonly StyledProperty<bool> CanUserReorderProperty = 
+            AvaloniaProperty.Register<DataBoxColumn, bool>(nameof(CanUserReorder));
+
         internal static readonly StyledProperty<double> ActualWidthProperty = 
             AvaloniaProperty.Register<DataBoxColumn, double>(nameof(ActualWidth), double.NaN);
 
@@ -54,6 +63,24 @@ namespace DataListBox
         {
             get => GetValue(MaxWidthProperty);
             set => SetValue(MaxWidthProperty, value);
+        }
+
+        public bool CanUserSort
+        {
+            get => GetValue(CanUserSortProperty);
+            set => SetValue(CanUserSortProperty, value);
+        }
+
+        public bool CanUserResize
+        {
+            get => GetValue(CanUserSortProperty);
+            set => SetValue(CanUserSortProperty, value);
+        }
+
+        public bool CanUserReorder
+        {
+            get => GetValue(CanUserSortProperty);
+            set => SetValue(CanUserSortProperty, value);
         }
 
         internal double ActualWidth

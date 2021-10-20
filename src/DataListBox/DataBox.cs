@@ -5,7 +5,6 @@ using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Metadata;
-using DataListBox.Controls;
 using DataListBox.Primitives;
 
 namespace DataListBox
@@ -29,6 +28,18 @@ namespace DataListBox
             AvaloniaProperty.RegisterDirect<DataBox, AvaloniaList<DataBoxColumn>>(
                 nameof(Columns), 
                 o => o.Columns);
+
+        public static readonly StyledProperty<bool> CanUserSortColumnsProperty = 
+            AvaloniaProperty.Register<DataBox, bool>(nameof(CanUserSortColumns), true);
+
+        public static readonly StyledProperty<bool> CanUserResizeColumnsProperty = 
+            AvaloniaProperty.Register<DataBox, bool>(nameof(CanUserResizeColumns));
+
+        public static readonly StyledProperty<DataBoxGridLinesVisibility> GridLinesVisibilityProperty = 
+            AvaloniaProperty.Register<DataBox, DataBoxGridLinesVisibility>(nameof(GridLinesVisibility));
+
+        public static readonly StyledProperty<bool> IsReadOnlyProperty = 
+            AvaloniaProperty.Register<DataBox, bool>(nameof(IsReadOnly));
 
         private IEnumerable? _items = new AvaloniaList<object>();
         private object? _selectedItem;
@@ -54,6 +65,30 @@ namespace DataListBox
         {
             get => _selectedItem;
             set => SetAndRaise(SelectedItemProperty, ref _selectedItem, value);
+        }
+
+        public bool CanUserSortColumns
+        {
+            get => GetValue(CanUserSortColumnsProperty);
+            set => SetValue(CanUserSortColumnsProperty, value);
+        }
+
+        public bool CanUserResizeColumns
+        {
+            get => GetValue(CanUserResizeColumnsProperty);
+            set => SetValue(CanUserResizeColumnsProperty, value);
+        }
+
+        public DataBoxGridLinesVisibility GridLinesVisibility
+        {
+            get => GetValue(GridLinesVisibilityProperty);
+            set => SetValue(GridLinesVisibilityProperty, value);
+        }
+
+        public bool IsReadOnly
+        {
+            get => GetValue(IsReadOnlyProperty);
+            set => SetValue(IsReadOnlyProperty, value);
         }
 
         internal double AccumulatedWidth { get; set; }
