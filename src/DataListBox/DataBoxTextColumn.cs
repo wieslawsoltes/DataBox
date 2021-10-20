@@ -1,6 +1,8 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Avalonia.Layout;
+using Avalonia.Markup.Xaml.MarkupExtensions;
 
 namespace DataListBox
 {
@@ -12,7 +14,11 @@ namespace DataListBox
                 _ => true,
                 (_, _) =>
                 {
-                    var textBlock = new TextBlock();
+                    var textBlock = new TextBlock            
+                    {
+                        [!Layoutable.MarginProperty] = new DynamicResourceExtension("DataGridTextColumnCellTextBlockMargin"),
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
 
                     if (Binding is { })
                     {
