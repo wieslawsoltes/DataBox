@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
@@ -5,9 +6,18 @@ using Avalonia.Markup.Xaml;
 
 namespace DataListBoxDemo
 {
+    public class Item
+    {
+        public string Column0 { get; set; }
+        public string Column1 { get; set; }
+        public string Column2 { get; set; }
+        public string Column3 { get; set; }
+        public bool Column4 { get; set; }
+    }
+    
     public partial class MainWindow : Window
     {
-        public ObservableCollection<string> Items { get; set; } 
+        public ObservableCollection<Item> Items { get; set; } 
 
         public MainWindow()
         {
@@ -16,19 +26,22 @@ namespace DataListBoxDemo
             this.AttachDevTools();
 #endif
             Renderer.DrawFps = true;
-            
-            Items = new ObservableCollection<string>()
-            {
-                "Item 0",
-                "Item 1",
-                "Item 2",
-                "Item 3", // "Item 4 Auto Auto"
-                "Item 4"
-            };
 
+            Items = new ObservableCollection<Item>();
+
+            var rand = new Random();
+            
             for (int i = 0; i < 1_000_000; i++)
             {
-                Items.Add($"Item {i+5}");
+                var item = new Item()
+                {
+                    Column0 = $"Item {i}",
+                    Column1 = $"Item {i}",
+                    Column2 = $"Item {i}",
+                    Column3 = $"Item {i}",
+                    Column4 = rand.NextDouble() > 0.5,
+                };
+                Items.Add(item);
             }
 
             // Column Width Tests
