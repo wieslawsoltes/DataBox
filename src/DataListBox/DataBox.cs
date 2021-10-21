@@ -4,6 +4,7 @@ using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
+using Avalonia.Media;
 using Avalonia.Metadata;
 using DataListBox.Primitives;
 
@@ -40,6 +41,12 @@ namespace DataListBox
 
         public static readonly StyledProperty<bool> IsReadOnlyProperty = 
             AvaloniaProperty.Register<DataBox, bool>(nameof(IsReadOnly));
+
+        public static readonly StyledProperty<IBrush> HorizontalGridLinesBrushProperty =
+            AvaloniaProperty.Register<DataBox, IBrush>(nameof(HorizontalGridLinesBrush));
+        
+        public static readonly StyledProperty<IBrush> VerticalGridLinesBrushProperty =
+            AvaloniaProperty.Register<DataBox, IBrush>(nameof(VerticalGridLinesBrush));
 
         private IEnumerable? _items = new AvaloniaList<object>();
         private object? _selectedItem;
@@ -89,6 +96,18 @@ namespace DataListBox
         {
             get => GetValue(IsReadOnlyProperty);
             set => SetValue(IsReadOnlyProperty, value);
+        }
+
+        public IBrush HorizontalGridLinesBrush
+        {
+            get => GetValue(HorizontalGridLinesBrushProperty);
+            set => SetValue(HorizontalGridLinesBrushProperty, value);
+        }
+
+        public IBrush VerticalGridLinesBrush
+        {
+            get => GetValue(VerticalGridLinesBrushProperty);
+            set => SetValue(VerticalGridLinesBrushProperty, value);
         }
 
         internal double AccumulatedWidth { get; set; }
