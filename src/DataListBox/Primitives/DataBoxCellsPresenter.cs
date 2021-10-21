@@ -55,7 +55,7 @@ namespace DataListBox.Primitives
                     };
   
                     // TODO:
-                    cell.ApplyTemplate();
+                    // cell.ApplyTemplate();
 
                     Children.Add(cell);
                 }
