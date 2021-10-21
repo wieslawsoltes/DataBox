@@ -193,7 +193,7 @@
 
   <Style Selector="DataBoxCellsPresenter">
     <Setter Property="HorizontalAlignment" Value="Left" />
-    <Setter Property="VerticalAlignment" Value="Top" />
+    <Setter Property="VerticalAlignment" Value="Center" />
     <Setter Property="Background" Value="Transparent" />
   </Style>
 
