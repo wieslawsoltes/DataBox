@@ -5,6 +5,8 @@
 
 A DataGrid control based on ListBox control.
 
+![image](https://user-images.githubusercontent.com/2297442/138265537-30b33be1-70fd-419f-8f9d-a4d5f6324c32.png)
+
 ## Resources
 
 * [GitHub source code repository.](https://github.com/wieslawsoltes/DataListBox)
