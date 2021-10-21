@@ -48,7 +48,6 @@ namespace DataListBox.Primitives
                 {
                     var cell = new DataBoxCell
                     {
-                        // TODO:
                         [!ContentControl.ContentProperty] = this[!DataContextProperty],
                         [!ContentControl.ContentTemplateProperty] = column[!DataBoxColumn.CellTemplateProperty],
                         HorizontalAlignment = HorizontalAlignment.Stretch,
