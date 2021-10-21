@@ -54,6 +54,9 @@
   </Styles.Resources>
 
   <Style Selector="DataBox">
+    <Setter Property="GridLinesVisibility" Value="None" />
+    <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource DataGridGridLinesBrush}" />
+    <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource DataGridGridLinesBrush}" />
     <Setter Property="Template">
       <ControlTemplate>
         <DockPanel>
