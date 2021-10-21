@@ -13,7 +13,7 @@ variables:
   BuildPlatform: 'Any CPU'
   NetCoreSDK: '5.0.400'
   PublishFramework: 'net5.0'
-  PublishProject: 'DataListBoxDemo'
+  PublishProject: 'DataBoxDemo'
   PublishRuntime: ''
 
 jobs:
