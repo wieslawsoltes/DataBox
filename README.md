@@ -8,7 +8,7 @@
 
 A DataGrid control based on ListBox control.
 
-![image](https://user-images.githubusercontent.com/2297442/138265537-30b33be1-70fd-419f-8f9d-a4d5f6324c32.png)
+![image](https://user-images.githubusercontent.com/2297442/138347025-4b19b0b6-ff4e-4d68-8ec7-6e265b62e396.png)
 
 ## Resources
 
