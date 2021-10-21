@@ -41,7 +41,8 @@
       </local:CustomGrid>
     </ScrollViewer>
 
-    <DataBox Items="{Binding Items}">
+    <DataBox Items="{Binding Items}"
+             GridLinesVisibility="All">
       <DataBox.Columns>
         <DataBoxTemplateColumn Header="Column 0" Width="2*">
           <DataTemplate DataType="local:Item">
