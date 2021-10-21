@@ -15,12 +15,22 @@ namespace DataListBox
         {
             base.OnApplyTemplate(e);
             
+            var root = DataBoxProperties.GetRoot(this);
+            
             _rightGridLine = e.NameScope.Find<Rectangle>("PART_RightGridLine");
 
-            if (_rightGridLine is { })
+            if (_rightGridLine is { } && root is { })
             {
-                // TODO:
-                _rightGridLine.IsVisible = false;
+                bool newVisibility = 
+                    root.GridLinesVisibility == DataBoxGridLinesVisibility.Vertical 
+                    || root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
+
+                if (newVisibility != _rightGridLine.IsVisible)
+                {
+                    _rightGridLine.IsVisible = newVisibility;
+                }
+
+                _rightGridLine.Fill = root.VerticalGridLinesBrush;
             }
         }
     }

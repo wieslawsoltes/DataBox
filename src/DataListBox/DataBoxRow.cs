@@ -19,8 +19,24 @@ namespace DataListBox
         {
             base.OnApplyTemplate(e);
 
+            var root = DataBoxProperties.GetRoot(this);
+
             _bottomGridLine = e.NameScope.Find<Rectangle>("PART_BottomGridLine");
 
+            if (_bottomGridLine is { } && root is { })
+            {
+                bool newVisibility = 
+                    root.GridLinesVisibility == DataBoxGridLinesVisibility.Horizontal 
+                    || root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
+
+                if (newVisibility != _bottomGridLine.IsVisible)
+                {
+                    _bottomGridLine.IsVisible = newVisibility;
+                }
+
+                _bottomGridLine.Fill = root.HorizontalGridLinesBrush;
+            }
+            
             CellsPresenter = e.NameScope.Find<DataBoxCellsPresenter>("PART_CellsPresenter");
         }
     }
