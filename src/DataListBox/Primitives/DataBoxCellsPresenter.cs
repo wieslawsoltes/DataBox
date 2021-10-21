@@ -93,7 +93,9 @@ namespace DataListBox.Primitives
                 width = Math.Max(column.MinWidth, width);
                 width = Math.Min(column.MaxWidth, width);
 
-                var childConstraint = new Size(width, double.PositiveInfinity);
+                // TODO:
+                // var childConstraint = new Size(width, double.PositiveInfinity);
+                var childConstraint = new Size(double.PositiveInfinity, double.PositiveInfinity);
                 cell.Measure(childConstraint);
 
                 parentWidth += width;
@@ -143,12 +145,14 @@ namespace DataListBox.Primitives
 
                 var column = root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
-                var height = maxHeight;
+                // TODO:
+                // var height = maxHeight;
+                var height = cell.DesiredSize.Height;
 
                 var rcChild = new Rect(
                     accumulatedWidth,
                     0.0,
-                    width,
+                    width, // TODO: For testing: Math.Min(cell.MeasuredWidth, width),
                     height);
 
                 accumulatedWidth += width;
