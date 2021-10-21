@@ -11,6 +11,8 @@ namespace DataListBox
 
         internal double MeasuredWidth;
 
+        internal double MeasuredHeight;
+
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
