@@ -146,8 +146,8 @@ namespace DataListBox.Primitives
                 var column = root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
                 // TODO:
-                // var height = maxHeight;
-                var height = cell.DesiredSize.Height;
+                var height = Math.Max(maxHeight, arrangeSize.Height);
+                //var height = cell.DesiredSize.Height;
 
                 var rcChild = new Rect(
                     accumulatedWidth,
