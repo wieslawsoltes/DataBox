@@ -73,6 +73,11 @@ namespace DataListBox.Primitives
             }
 
             var cells = Children;
+            if (cells.Count == 0)
+            {
+                return availableSize;
+            }
+            
             var parentWidth = 0.0;
             var parentHeight = 0.0;
 
@@ -111,6 +116,11 @@ namespace DataListBox.Primitives
             }
 
             var cells = Children;
+            if (cells.Count == 0)
+            {
+                return arrangeSize;
+            }
+
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
             var maxHeight = 0.0;
