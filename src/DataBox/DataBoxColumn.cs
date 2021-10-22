@@ -1,6 +1,9 @@
+using System.ComponentModel;
+using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
+using Avalonia.Data;
 using Avalonia.Metadata;
 
 namespace DataBox
@@ -30,6 +33,15 @@ namespace DataBox
 
         public static readonly StyledProperty<bool> CanUserReorderProperty = 
             AvaloniaProperty.Register<DataBoxColumn, bool>(nameof(CanUserReorder));
+
+        public static readonly StyledProperty<ListSortDirection?> SortingStateProperty = 
+            AvaloniaProperty.Register<DataBoxColumn, ListSortDirection?>(nameof(SortingState), null, false, BindingMode.TwoWay);
+
+        public static readonly StyledProperty<ICommand?> SortCommandProperty = 
+            AvaloniaProperty.Register<DataBoxColumn, ICommand?>(nameof(SortCommand));
+
+        public static readonly StyledProperty<string?> SortMemberPathProperty = 
+            AvaloniaProperty.Register<DataBoxColumn, string?>(nameof(SortMemberPath));
 
         internal static readonly StyledProperty<double> ActualWidthProperty = 
             AvaloniaProperty.Register<DataBoxColumn, double>(nameof(ActualWidth), double.NaN);
@@ -81,6 +93,24 @@ namespace DataBox
         {
             get => GetValue(CanUserSortProperty);
             set => SetValue(CanUserSortProperty, value);
+        }
+
+        public ListSortDirection? SortingState
+        {
+            get => GetValue(SortingStateProperty);
+            set => SetValue(SortingStateProperty, value);
+        }
+
+        public ICommand? SortCommand
+        {
+            get => GetValue(SortCommandProperty);
+            set => SetValue(SortCommandProperty, value);
+        }
+
+        public string? SortMemberPath
+        {
+            get => GetValue(SortMemberPathProperty);
+            set => SetValue(SortMemberPathProperty, value);
         }
 
         internal double ActualWidth
