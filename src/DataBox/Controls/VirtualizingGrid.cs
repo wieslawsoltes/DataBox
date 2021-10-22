@@ -198,33 +198,6 @@ namespace DataBox.Controls
             }
         }
 
-        private void InvalidateMeasureChildren(Avalonia.Controls.Controls rows)
-        {
-            InvalidateMeasure();
-        }
-
-        private void InvalidateArrangeChildren(Avalonia.Controls.Controls rows)
-        {
-            foreach (var row in rows)
-            {
-                row.InvalidateArrange();
-
-                var cellPresenter = GetCellsPresenter(row);
-                if (cellPresenter is null)
-                {
-                    continue;
-                }
-
-                cellPresenter.InvalidateArrange();
-
-                var cells = cellPresenter.Children;
-                foreach (var cell in cells)
-                {
-                    cell.InvalidateArrange();
-                }
-            }
-        }
-
         private double AdjustAccumulatedWidth(double accumulatedWidth, double availableWidth)
         {
             if (double.IsPositiveInfinity(availableWidth))
@@ -248,7 +221,7 @@ namespace DataBox.Controls
             var accumulatedWidth = SetColumnsActualWidth(rows, root, measureStarAsAuto);
             var panelSize = availableSize.WithWidth(accumulatedWidth);
 
-            InvalidateMeasureChildren(rows);
+            InvalidateMeasure();
 
             panelSize = base.MeasureOverride(panelSize);
             panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(accumulatedWidth, availableSizeWidth));
@@ -265,8 +238,6 @@ namespace DataBox.Controls
             root.AvailableHeight = finalSize.Height;
             root.AccumulatedWidth = SetColumnsActualWidth(rows, root, false);
             var panelSize = finalSize.WithWidth(root.AccumulatedWidth);
-
-            InvalidateArrangeChildren(rows);
 
             panelSize = base.ArrangeOverride(panelSize);
             panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(root.AccumulatedWidth, finalSizeWidth));
