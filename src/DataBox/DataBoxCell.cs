@@ -9,9 +9,7 @@ namespace DataBox
     {
         private Rectangle? _rightGridLine;
 
-        internal double MeasuredWidth;
-
-        internal double MeasuredHeight;
+        internal double MeasuredWidth { get; set; }
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {

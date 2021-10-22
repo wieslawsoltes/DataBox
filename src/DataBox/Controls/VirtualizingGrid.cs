@@ -194,7 +194,6 @@ namespace DataBox.Controls
 
                     cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     cell.MeasuredWidth = cell.DesiredSize.Width;
-                    cell.MeasuredHeight = cell.DesiredSize.Height;
                 }
             }
         }
