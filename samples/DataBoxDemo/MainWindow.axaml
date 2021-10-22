@@ -2,14 +2,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="using:DataBoxDemo"
-        mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="350"
+        xmlns:vm="using:DataBoxDemo.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="420"
         WindowStartupLocation="CenterScreen"
-        Width="700" Height="350"
+        Width="750" Height="420"
         UseLayoutRounding="True"
         x:Class="DataBoxDemo.MainWindow"
-        Title="DataBox Demo"
-        x:CompileBindings="True" x:DataType="local:MainWindow">
+        x:DataType="vm:MainWindowViewModel" x:CompileBindings="True"
+        Title="DataBox Demo" >
+  
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
   <DockPanel>
     
     <Panel Height="32" 
@@ -19,13 +24,13 @@
                   VerticalScrollBarVisibility="Auto"
                   DockPanel.Dock="Top"
                   IsVisible="False">
-      <local:CustomGrid Background="LightGray">
-        <local:CustomGrid.ColumnDefinitions>
+      <Grid Background="LightGray">
+        <Grid.ColumnDefinitions>
           <ColumnDefinition Width="2*"/>
           <ColumnDefinition Width="Auto"/>
           <ColumnDefinition Width="200"/>
           <ColumnDefinition Width="1*"/>
-        </local:CustomGrid.ColumnDefinitions>
+        </Grid.ColumnDefinitions>
         <Panel Grid.Column="0" Background="Red">
           <TextBlock Text="Item 12" Margin="2" />
         </Panel>
@@ -38,23 +43,20 @@
         <Panel Grid.Column="3" Background="Yellow">
           <TextBlock Text="Item 12" Margin="2" />
         </Panel>
-      </local:CustomGrid>
+      </Grid>
     </ScrollViewer>
 
     <DataBox Items="{Binding Items}"
+             SelectedItem="{Binding SelectedItem}"
+             CanUserResizeColumns="True"
              GridLinesVisibility="All">
       <DataBox.Columns>
-        <DataBoxTemplateColumn Header="Column 0" Width="2*">
-          <DataTemplate DataType="local:Item">
-            <Panel Background="Transparent">
-              <TextBlock Text="{Binding Column0}" 
-                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
-                         VerticalAlignment="Center" />
-            </Panel>
-          </DataTemplate>
-        </DataBoxTemplateColumn>
-        <DataBoxTemplateColumn Header="Column 1" Width="Auto">
-          <DataTemplate DataType="local:Item">
+        <DataBoxTemplateColumn Header="Column 1" 
+                               Width="2*"
+                               SortMemberPath="Column1" 
+                               SortCommand="{Binding SortCommand}" 
+                               SortingState="{Binding SortingStateColumn1, Mode=TwoWay}" >
+          <DataTemplate DataType="vm:ItemViewModel">
             <Panel Background="Transparent">
               <TextBlock Text="{Binding Column1}" 
                          Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
@@ -62,8 +64,12 @@
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
-        <DataBoxTemplateColumn Header="Column 2" Width="200">
-          <DataTemplate DataType="local:Item">
+        <DataBoxTemplateColumn Header="Column 2" 
+                               Width="Auto"
+                               SortMemberPath="Column2" 
+                               SortCommand="{Binding SortCommand}" 
+                               SortingState="{Binding SortingStateColumn2}" >
+          <DataTemplate DataType="vm:ItemViewModel">
             <Panel Background="Transparent">
               <TextBlock Text="{Binding Column2}" 
                          Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
@@ -71,8 +77,34 @@
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
-        <DataBoxTextColumn Header="Column 3" Width="1*" Binding="{Binding Column3}" x:DataType="local:Item" />
-        <DataBoxCheckBoxColumn Header="Column 4" MinWidth="100" Width="Auto" Binding="{Binding Column4}" x:DataType="local:Item" />
+        <DataBoxTemplateColumn Header="Column 3" 
+                               Width="200"
+                               SortMemberPath="Column3" 
+                               SortCommand="{Binding SortCommand}" 
+                               SortingState="{Binding SortingStateColumn3}" >
+          <DataTemplate DataType="vm:ItemViewModel">
+            <Panel Background="Transparent">
+              <TextBlock Text="{Binding Column3}" 
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+                         VerticalAlignment="Center" />
+            </Panel>
+          </DataTemplate>
+        </DataBoxTemplateColumn>
+        <DataBoxCheckBoxColumn Header="Column 4" 
+                               MinWidth="100" 
+                               Width="Auto" 
+                               Binding="{Binding Column4}" 
+                               SortMemberPath="Column4" 
+                               SortCommand="{Binding SortCommand}" 
+                               SortingState="{Binding SortingStateColumn4}" 
+                               x:DataType="vm:ItemViewModel" x:CompileBindings="False" />
+        <DataBoxTextColumn Header="Column 5" 
+                           Width="1*" 
+                           Binding="{Binding Column5}" 
+                           SortMemberPath="Column5" 
+                           SortCommand="{Binding SortCommand}" 
+                           SortingState="{Binding SortingStateColumn5}" 
+                           x:DataType="vm:ItemViewModel" x:CompileBindings="False" />
       </DataBox.Columns>
     </DataBox>
 
