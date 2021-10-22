@@ -10,7 +10,8 @@ namespace DataBox.Primitives
     {
         private IDisposable? _rootDisposable;
         private List<IDisposable>? _columnActualWidthDisposables;
-        
+        private List<DataBoxColumnHeader>? _columnHeaders;
+
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnAttachedToVisualTree(e);
@@ -35,6 +36,9 @@ namespace DataBox.Primitives
                 _columnActualWidthDisposables.Clear();
                 _columnActualWidthDisposables = null;
             }
+
+            _columnHeaders?.Clear();
+            _columnHeaders = null;
         }
 
         private void Invalidate()
@@ -50,6 +54,9 @@ namespace DataBox.Primitives
             }
 
             Children.Clear();
+            
+            _columnHeaders?.Clear();
+            _columnHeaders = new List<DataBoxColumnHeader>();
 
             var root = DataBoxProperties.GetRoot(this);
             if (root is not null)
@@ -63,13 +70,15 @@ namespace DataBox.Primitives
                     var columnHeader = new DataBoxColumnHeader
                     {
                         [!ContentControl.ContentProperty] = column[!DataBoxColumn.HeaderProperty],
-                        DataContext = column,
                         HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Stretch
+                        VerticalAlignment = VerticalAlignment.Stretch,
+                        Column = column,
+                        ColumnHeaders = _columnHeaders
                     };
 
                     columnHeader.ApplyTemplate();
                     Children.Add(columnHeader);
+                    _columnHeaders.Add(columnHeader);
 
                     var disposable = column.GetObservable(DataBoxColumn.ActualWidthProperty).Subscribe(_ =>
                     {
