@@ -65,7 +65,7 @@ namespace DataBox.Controls
                             if (cellPresenter is { })
                             {
                                 var cells = cellPresenter.Children;
-                                if (cells[c] is DataBoxCell cell)
+                                if (cells.Count > c && cells[c] is DataBoxCell cell)
                                 {
                                     var width = cell.MeasuredWidth;
                                     actualWidth = Math.Max(actualWidth, width);
@@ -91,7 +91,7 @@ namespace DataBox.Controls
                             if (cellPresenter is { })
                             {
                                 var cells = cellPresenter.Children;
-                                if (cells[c] is DataBoxCell cell)
+                                if (cells.Count > c && cells[c] is DataBoxCell cell)
                                 {
                                     var width = cell.MeasuredWidth;
                                     actualWidth = Math.Max(actualWidth, width);
