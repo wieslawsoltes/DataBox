@@ -90,8 +90,6 @@ namespace DataBox.Primitives
                 width = Math.Max(column.MinWidth, width);
                 width = Math.Min(column.MaxWidth, width);
 
-                // TODO:
-                // var childConstraint = new Size(width, double.PositiveInfinity);
                 var childConstraint = new Size(double.PositiveInfinity, double.PositiveInfinity);
                 cell.Measure(childConstraint);
 
