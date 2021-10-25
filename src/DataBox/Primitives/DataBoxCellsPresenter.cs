@@ -58,6 +58,11 @@ namespace DataBox.Primitives
                     continue;
                 }
 
+                if (c >= _root.Columns.Count)
+                {
+                    continue;
+                }
+ 
                 var column = _root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
 
@@ -106,6 +111,11 @@ namespace DataBox.Primitives
             for (int c = 0, count = cells.Count; c < count; ++c)
             {
                 if (cells[c] is not DataBoxCell cell)
+                {
+                    continue;
+                }
+
+                if (c >= _root.Columns.Count)
                 {
                     continue;
                 }
