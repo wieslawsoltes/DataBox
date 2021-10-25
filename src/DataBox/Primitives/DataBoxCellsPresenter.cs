@@ -53,9 +53,6 @@ namespace DataBox.Primitives
                         HorizontalAlignment = HorizontalAlignment.Stretch,
                         VerticalAlignment = VerticalAlignment.Stretch
                     };
-  
-                    // TODO:
-                    // cell.ApplyTemplate();
 
                     Children.Add(cell);
                 }
