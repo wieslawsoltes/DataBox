@@ -67,7 +67,6 @@ namespace DataBox.Primitives
 
                     columnHeader._root = _root;
 
-                    columnHeader.ApplyTemplate();
                     Children.Add(columnHeader);
                     _columnHeaders.Add(columnHeader);
 
