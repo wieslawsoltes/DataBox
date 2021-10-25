@@ -25,8 +25,8 @@ namespace DataBox.Primitives
         {
             Children.Clear();
 
-            var itemIndex = DataBoxProperties.GetItemIndex(this);
-            var itemData = DataBoxProperties.GetItemData(this);
+            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
+            // TODO: var itemData = DataBoxProperties.GetItemData(this);
             var root = DataBoxProperties.GetRoot(this);
             if (root is not null)
             {
@@ -47,7 +47,7 @@ namespace DataBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var itemIndex = DataBoxProperties.GetItemIndex(this);
+            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
             var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
@@ -90,7 +90,7 @@ namespace DataBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var itemIndex = DataBoxProperties.GetItemIndex(this);
+            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
             var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
