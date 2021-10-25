@@ -192,6 +192,7 @@ namespace DataBox.Controls
                         continue;
                     }
 
+                    // TODO: Optimize measure performance.Do not measure twice cells. Should be done only once in DataBoxCellsPresenter.MeasureOverride().
                     cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     cell.MeasuredWidth = cell.DesiredSize.Width;
                 }
@@ -221,6 +222,7 @@ namespace DataBox.Controls
             var accumulatedWidth = SetColumnsActualWidth(rows, root, measureStarAsAuto);
             var panelSize = availableSize.WithWidth(accumulatedWidth);
 
+            // TODO: Optimize measure performance.
             InvalidateMeasure();
 
             panelSize = base.MeasureOverride(panelSize);
