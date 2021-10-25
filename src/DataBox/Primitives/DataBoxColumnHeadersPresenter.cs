@@ -105,20 +105,22 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                if (c < _root.Columns.Count)
+                if (c >= _root.Columns.Count)
                 {
-                    var column = _root.Columns[c++];
-                    var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
-
-                    width = Math.Max(column.MinWidth, width);
-                    width = Math.Min(column.MaxWidth, width);
-
-                    var childConstraint = new Size(width, double.PositiveInfinity);
-                    columnHeader.Measure(childConstraint);
-
-                    parentWidth += width;
-                    parentHeight = Math.Max(parentHeight, columnHeader.DesiredSize.Height);
+                    continue;
                 }
+
+                var column = _root.Columns[c++];
+                var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
+
+                width = Math.Max(column.MinWidth, width);
+                width = Math.Min(column.MaxWidth, width);
+
+                var childConstraint = new Size(double.PositiveInfinity, double.PositiveInfinity);
+                columnHeader.Measure(childConstraint);
+
+                parentWidth += width;
+                parentHeight = Math.Max(parentHeight, columnHeader.DesiredSize.Height);
             }
 
             var parentSize = new Size(parentWidth, parentHeight);
@@ -141,6 +143,7 @@ namespace DataBox.Primitives
 
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
+            var maxHeight = 0.0;
 
             for (int h = 0, count = columnHeaders.Count; h < count; ++h)
             {
@@ -149,10 +152,31 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                var column = _root.Columns[h];
+                maxHeight = Math.Max(maxHeight, columnHeader.DesiredSize.Height);
+            } 
+            
+            var c = 0;
+            for (int h = 0, count = columnHeaders.Count; h < count; ++h)
+            {
+                if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
+                {
+                    continue;
+                }
+                
+                if (c >= _root.Columns.Count)
+                {
+                    continue;
+                }
+
+                var column = _root.Columns[c++];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
-                var height = columnHeader.DesiredSize.Height;
-                var rcChild = new Rect(accumulatedWidth, 0.0, width, height);
+                var height = Math.Max(maxHeight, arrangeSize.Height);
+
+                var rcChild = new Rect(
+                    accumulatedWidth, 
+                    0.0, 
+                    width, 
+                    height);
 
                 accumulatedWidth += width;
                 accumulatedHeight = Math.Max(accumulatedHeight, height);
