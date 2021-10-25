@@ -140,14 +140,12 @@ namespace DataBox.Primitives
 
                 var column = root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
-                // TODO:
                 var height = Math.Max(maxHeight, arrangeSize.Height);
-                //var height = cell.DesiredSize.Height;
 
                 var rcChild = new Rect(
                     accumulatedWidth,
                     0.0,
-                    width, // TODO: For testing: Math.Min(cell.MeasuredWidth, width),
+                    width,
                     height);
 
                 accumulatedWidth += width;
