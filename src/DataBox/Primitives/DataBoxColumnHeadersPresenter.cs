@@ -10,7 +10,6 @@ namespace DataBox.Primitives
     public class DataBoxColumnHeadersPresenter : Panel, IStyleable
     {
         internal DataBox? root;
-        private IDisposable? _rootDisposable;
         private List<IDisposable>? _columnActualWidthDisposables;
         private List<DataBoxColumnHeader>? _columnHeaders;
 
@@ -19,10 +18,6 @@ namespace DataBox.Primitives
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnDetachedFromVisualTree(e);
-
-            Children.Clear();
-            
-            _rootDisposable?.Dispose();
 
             if (_columnActualWidthDisposables is { })
             {
@@ -50,8 +45,6 @@ namespace DataBox.Primitives
                 _columnActualWidthDisposables = null;
             }
 
-            Children.Clear();
-            
             _columnHeaders?.Clear();
             _columnHeaders = new List<DataBoxColumnHeader>();
 
