@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -7,12 +8,13 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.Styling;
 using Avalonia.VisualTree;
 
 namespace DataBox
 {
     [PseudoClasses(":pressed", ":sortascending", ":sortdescending")]
-    public class DataBoxColumnHeader : ContentControl
+    public class DataBoxColumnHeader : ContentControl, IStyleable
     {
         public static readonly StyledProperty<IBrush?> SeparatorBrushProperty =
             AvaloniaProperty.Register<DataBoxColumnHeader, IBrush?>(nameof(SeparatorBrush));
@@ -31,6 +33,8 @@ namespace DataBox
         {
             UpdatePseudoClassesIsPressed(IsPressed);
         }
+
+        Type IStyleable.StyleKey => typeof(DataBoxColumnHeader);
 
         public IBrush? SeparatorBrush
         {

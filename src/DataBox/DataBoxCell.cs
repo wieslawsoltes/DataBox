@@ -1,15 +1,19 @@
-﻿using Avalonia.Controls;
+﻿using System;
+using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using Avalonia.Styling;
 
 namespace DataBox
 {
-    public class DataBoxCell : ContentControl
+    public class DataBoxCell : ContentControl, IStyleable
     {
         internal DataBox? root;
         private Rectangle? _rightGridLine;
 
         internal double MeasuredWidth { get; set; }
+
+        Type IStyleable.StyleKey => typeof(DataBoxCell);
 
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {

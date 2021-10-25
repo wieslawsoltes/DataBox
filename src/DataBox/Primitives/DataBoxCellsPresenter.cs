@@ -2,12 +2,15 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
+using Avalonia.Styling;
 
 namespace DataBox.Primitives
 {
-    public class DataBoxCellsPresenter : Panel
+    public class DataBoxCellsPresenter : Panel, IStyleable
     {
         internal DataBox? root;
+
+        Type IStyleable.StyleKey => typeof(DataBoxCellsPresenter);
 
         internal void Invalidate()
         {
