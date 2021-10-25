@@ -7,21 +7,9 @@ namespace DataBox.Primitives
 {
     public class DataBoxCellsPresenter : Panel
     {
-        private IDisposable? _itemDataDisposable;
-        
         protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnAttachedToVisualTree(e);
-
-            _itemDataDisposable = this.GetObservable(DataBoxProperties.ItemDataProperty).Subscribe(itemData =>
-            {
-                var cells = Children;
-                
-                foreach (var cell in cells)
-                {
-                    //cell.DataContext = itemData;
-                }
-            });
 
             Invalidate();
         }
@@ -31,8 +19,6 @@ namespace DataBox.Primitives
             base.OnDetachedFromVisualTree(e);
 
             Children.Clear();
-
-            _itemDataDisposable?.Dispose();
         }
 
         private void Invalidate()
