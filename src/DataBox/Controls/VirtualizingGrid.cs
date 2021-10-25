@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Styling;
 using DataBox.Primitives;
 
@@ -8,7 +10,16 @@ namespace DataBox.Controls
 {
     public class VirtualizingGrid : VirtualizingStackPanel, IStyleable
     {
+        internal DataBox? _root;
+
         Type IStyleable.StyleKey => typeof(VirtualizingGrid);
+
+        public override void ApplyTemplate()
+        {
+            base.ApplyTemplate();
+
+            _root = this.GetLogicalAncestors().FirstOrDefault(x => x is DataBox) as DataBox;
+        }
 
         private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
         {
@@ -65,7 +76,7 @@ namespace DataBox.Controls
                             if (cellPresenter is { })
                             {
                                 var cells = cellPresenter.Children;
-                                if (cells[c] is DataBoxCell cell)
+                                if (cells.Count > c && cells[c] is DataBoxCell cell)
                                 {
                                     var width = cell.MeasuredWidth;
                                     actualWidth = Math.Max(actualWidth, width);
@@ -91,7 +102,7 @@ namespace DataBox.Controls
                             if (cellPresenter is { })
                             {
                                 var cells = cellPresenter.Children;
-                                if (cells[c] is DataBoxCell cell)
+                                if (cells.Count > c && cells[c] is DataBoxCell cell)
                                 {
                                     var width = cell.MeasuredWidth;
                                     actualWidth = Math.Max(actualWidth, width);
@@ -249,24 +260,22 @@ namespace DataBox.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = DataBoxProperties.GetRoot(this);
-            if (root is null)
+            if (_root is null)
             {
                 return availableSize;
             }
 
-            return MeasureRows(availableSize, root);
+            return MeasureRows(availableSize, _root);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var root = DataBoxProperties.GetRoot(this);
-            if (root is null)
+            if (_root is null)
             {
                 return finalSize;
             }
 
-            return ArrangeRows(finalSize, root);
+            return ArrangeRows(finalSize, _root);
         }
     }
 }

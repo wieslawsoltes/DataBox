@@ -3,29 +3,21 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
+using Avalonia.Styling;
 
 namespace DataBox.Primitives
 {
-    public class DataBoxColumnHeadersPresenter : Panel
+    public class DataBoxColumnHeadersPresenter : Panel, IStyleable
     {
-        private IDisposable? _rootDisposable;
+        internal DataBox? _root;
         private List<IDisposable>? _columnActualWidthDisposables;
         private List<DataBoxColumnHeader>? _columnHeaders;
 
-        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-        {
-            base.OnAttachedToVisualTree(e);
-
-            _rootDisposable = this.GetObservable(DataBoxProperties.RootProperty).Subscribe(root => Invalidate());
-        }
-
+        Type IStyleable.StyleKey => typeof(DataBoxColumnHeadersPresenter);
+        
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
             base.OnDetachedFromVisualTree(e);
-
-            Children.Clear();
-            
-            _rootDisposable?.Dispose();
 
             if (_columnActualWidthDisposables is { })
             {
@@ -41,7 +33,7 @@ namespace DataBox.Primitives
             _columnHeaders = null;
         }
 
-        private void Invalidate()
+        internal void Invalidate()
         {
             if (_columnActualWidthDisposables is { })
             {
@@ -53,19 +45,16 @@ namespace DataBox.Primitives
                 _columnActualWidthDisposables = null;
             }
 
-            Children.Clear();
-            
             _columnHeaders?.Clear();
             _columnHeaders = new List<DataBoxColumnHeader>();
 
-            var root = DataBoxProperties.GetRoot(this);
-            if (root is not null)
+            if (_root is not null)
             {
                 _columnActualWidthDisposables = new List<IDisposable>();
 
-                for (var c = 0; c < root.Columns.Count; c++)
+                for (var c = 0; c < _root.Columns.Count; c++)
                 {
-                    var column = root.Columns[c];
+                    var column = _root.Columns[c];
 
                     var columnHeader = new DataBoxColumnHeader
                     {
@@ -76,7 +65,8 @@ namespace DataBox.Primitives
                         ColumnHeaders = _columnHeaders
                     };
 
-                    columnHeader.ApplyTemplate();
+                    columnHeader._root = _root;
+
                     Children.Add(columnHeader);
                     _columnHeaders.Add(columnHeader);
 
@@ -92,13 +82,17 @@ namespace DataBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = DataBoxProperties.GetRoot(this);
-            if (root is null)
+            if (_root is null)
             {
                 return availableSize;
             }
 
             var columnHeaders = Children;
+            if (columnHeaders.Count == 0)
+            {
+                return availableSize;
+            }
+
             var parentWidth = 0.0;
             var parentHeight = 0.0;
 
@@ -110,20 +104,22 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                if (c < root.Columns.Count)
+                if (c >= _root.Columns.Count)
                 {
-                    var column = root.Columns[c++];
-                    var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
-
-                    width = Math.Max(column.MinWidth, width);
-                    width = Math.Min(column.MaxWidth, width);
-
-                    var childConstraint = new Size(width, double.PositiveInfinity);
-                    columnHeader.Measure(childConstraint);
-
-                    parentWidth += width;
-                    parentHeight = Math.Max(parentHeight, columnHeader.DesiredSize.Height);
+                    continue;
                 }
+
+                var column = _root.Columns[c++];
+                var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
+
+                width = Math.Max(column.MinWidth, width);
+                width = Math.Min(column.MaxWidth, width);
+
+                var childConstraint = new Size(double.PositiveInfinity, double.PositiveInfinity);
+                columnHeader.Measure(childConstraint);
+
+                parentWidth += width;
+                parentHeight = Math.Max(parentHeight, columnHeader.DesiredSize.Height);
             }
 
             var parentSize = new Size(parentWidth, parentHeight);
@@ -133,15 +129,20 @@ namespace DataBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var root = DataBoxProperties.GetRoot(this);
-            if (root is null)
+            if (_root is null)
             {
                 return arrangeSize;
             }
 
             var columnHeaders = Children;
+            if (columnHeaders.Count == 0)
+            {
+                return arrangeSize;
+            }
+
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
+            var maxHeight = 0.0;
 
             for (int h = 0, count = columnHeaders.Count; h < count; ++h)
             {
@@ -150,10 +151,31 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                var column = root.Columns[h];
+                maxHeight = Math.Max(maxHeight, columnHeader.DesiredSize.Height);
+            } 
+            
+            var c = 0;
+            for (int h = 0, count = columnHeaders.Count; h < count; ++h)
+            {
+                if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
+                {
+                    continue;
+                }
+                
+                if (c >= _root.Columns.Count)
+                {
+                    continue;
+                }
+
+                var column = _root.Columns[c++];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
-                var height = columnHeader.DesiredSize.Height;
-                var rcChild = new Rect(accumulatedWidth, 0.0, width, height);
+                var height = Math.Max(maxHeight, arrangeSize.Height);
+
+                var rcChild = new Rect(
+                    accumulatedWidth, 
+                    0.0, 
+                    width, 
+                    height);
 
                 accumulatedWidth += width;
                 accumulatedHeight = Math.Max(accumulatedHeight, height);

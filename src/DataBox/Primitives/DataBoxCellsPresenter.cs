@@ -2,35 +2,21 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
+using Avalonia.Styling;
 
 namespace DataBox.Primitives
 {
-    public class DataBoxCellsPresenter : Panel
+    public class DataBoxCellsPresenter : Panel, IStyleable
     {
-        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        internal DataBox? _root;
+
+        Type IStyleable.StyleKey => typeof(DataBoxCellsPresenter);
+
+        internal void Invalidate()
         {
-            base.OnAttachedToVisualTree(e);
-
-            Invalidate();
-        }
-
-        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
-        {
-            base.OnDetachedFromVisualTree(e);
-
-            Children.Clear();
-        }
-
-        private void Invalidate()
-        {
-            Children.Clear();
-
-            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
-            // TODO: var itemData = DataBoxProperties.GetItemData(this);
-            var root = DataBoxProperties.GetRoot(this);
-            if (root is not null)
+            if (_root is not null)
             {
-                foreach (var column in root.Columns)
+                foreach (var column in _root.Columns)
                 {
                     var cell = new DataBoxCell
                     {
@@ -40,6 +26,8 @@ namespace DataBox.Primitives
                         VerticalAlignment = VerticalAlignment.Stretch
                     };
 
+                    cell._root = _root;
+
                     Children.Add(cell);
                 }
             }
@@ -47,9 +35,7 @@ namespace DataBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
-            var root = DataBoxProperties.GetRoot(this);
-            if (root is null)
+            if (_root is null)
             {
                 return availableSize;
             }
@@ -70,7 +56,12 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                var column = root.Columns[c];
+                if (c >= _root.Columns.Count)
+                {
+                    continue;
+                }
+ 
+                var column = _root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
 
                 width = Math.Max(column.MinWidth, width);
@@ -90,9 +81,7 @@ namespace DataBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
-            var root = DataBoxProperties.GetRoot(this);
-            if (root is null)
+            if (_root is null)
             {
                 return arrangeSize;
             }
@@ -124,7 +113,12 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                var column = root.Columns[c];
+                if (c >= _root.Columns.Count)
+                {
+                    continue;
+                }
+
+                var column = _root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
                 var height = Math.Max(maxHeight, arrangeSize.Height);
 

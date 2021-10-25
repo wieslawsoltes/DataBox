@@ -7,35 +7,35 @@ namespace DataBox.Primitives
 {
     public class DataBoxRowsPresenter : ListBox, IStyleable
     {
+        internal DataBox? _root;
+
         Type IStyleable.StyleKey => typeof(DataBoxRowsPresenter);
 
         protected override IItemContainerGenerator CreateItemContainerGenerator()
         {
-            var root = DataBoxProperties.GetRoot(this);
-
             var generator = new ItemContainerGenerator<DataBoxRow>(
                 this,
                 ContentControl.ContentProperty,
                 ContentControl.ContentTemplateProperty);
 
-            /* TODO:
             generator.Materialized += (_, args) =>
             {
                 foreach (var container in args.Containers)
                 {
-                    DataBoxProperties.SetRoot(container.ContainerControl, root);
-                    DataBoxProperties.SetItemIndex(container.ContainerControl, container.Index);
-                    DataBoxProperties.SetItemData(container.ContainerControl, container.Item);
+                    if (container.ContainerControl is DataBoxRow row)
+                    {
+                        row._root = _root;
+                    }
                 }
             };
-
             generator.Dematerialized += (_, args) =>
             {
                 foreach (var container in args.Containers)
                 {
-                    DataBoxProperties.SetRoot(container.ContainerControl, default);
-                    DataBoxProperties.SetItemIndex(container.ContainerControl, -1);
-                    DataBoxProperties.SetItemData(container.ContainerControl, default);
+                    if (container.ContainerControl is DataBoxRow row)
+                    {
+                        row._root = null;
+                    }
                 }
             };
 
@@ -43,12 +43,12 @@ namespace DataBox.Primitives
             {
                 foreach (var container in args.Containers)
                 {
-                    DataBoxProperties.SetRoot(container.ContainerControl, root);
-                    DataBoxProperties.SetItemIndex(container.ContainerControl, container.Index);
-                    DataBoxProperties.SetItemData(container.ContainerControl, container.Item);
+                    if (container.ContainerControl is DataBoxRow row)
+                    {
+                        row._root = _root;
+                    }
                 }
             };
-            */
 
             return generator;
         }
