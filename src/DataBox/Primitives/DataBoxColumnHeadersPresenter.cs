@@ -89,6 +89,11 @@ namespace DataBox.Primitives
             }
 
             var columnHeaders = Children;
+            if (columnHeaders.Count == 0)
+            {
+                return availableSize;
+            }
+
             var parentWidth = 0.0;
             var parentHeight = 0.0;
 
@@ -129,6 +134,11 @@ namespace DataBox.Primitives
             }
 
             var columnHeaders = Children;
+            if (columnHeaders.Count == 0)
+            {
+                return arrangeSize;
+            }
+
             var accumulatedWidth = 0.0;
             var accumulatedHeight = 0.0;
 
