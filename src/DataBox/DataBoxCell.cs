@@ -4,7 +4,6 @@ using Avalonia.Controls.Shapes;
 
 namespace DataBox
 {
-    // TODO:
     public class DataBoxCell : ContentControl
     {
         private Rectangle? _rightGridLine;
