@@ -10,7 +10,7 @@ namespace DataBox.Controls
 {
     public class VirtualizingGrid : VirtualizingStackPanel, IStyleable
     {
-        internal DataBox? root;
+        internal DataBox? _root;
 
         Type IStyleable.StyleKey => typeof(VirtualizingGrid);
 
@@ -18,7 +18,7 @@ namespace DataBox.Controls
         {
             base.ApplyTemplate();
 
-            root = this.GetLogicalAncestors().FirstOrDefault(x => x is DataBox) as DataBox;
+            _root = this.GetLogicalAncestors().FirstOrDefault(x => x is DataBox) as DataBox;
         }
 
         private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
@@ -260,22 +260,22 @@ namespace DataBox.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (root is null)
+            if (_root is null)
             {
                 return availableSize;
             }
 
-            return MeasureRows(availableSize, root);
+            return MeasureRows(availableSize, _root);
         }
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (root is null)
+            if (_root is null)
             {
                 return finalSize;
             }
 
-            return ArrangeRows(finalSize, root);
+            return ArrangeRows(finalSize, _root);
         }
     }
 }

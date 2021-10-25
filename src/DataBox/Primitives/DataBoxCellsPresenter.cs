@@ -8,7 +8,7 @@ namespace DataBox.Primitives
 {
     public class DataBoxCellsPresenter : Panel, IStyleable
     {
-        internal DataBox? root;
+        internal DataBox? _root;
 
         Type IStyleable.StyleKey => typeof(DataBoxCellsPresenter);
 
@@ -16,9 +16,9 @@ namespace DataBox.Primitives
         {
             //Children.Clear();
 
-            if (root is not null)
+            if (_root is not null)
             {
-                foreach (var column in root.Columns)
+                foreach (var column in _root.Columns)
                 {
                     var cell = new DataBoxCell
                     {
@@ -28,7 +28,7 @@ namespace DataBox.Primitives
                         VerticalAlignment = VerticalAlignment.Stretch
                     };
 
-                    cell.root = root;
+                    cell._root = _root;
 
                     Children.Add(cell);
                 }
@@ -37,7 +37,7 @@ namespace DataBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (root is null)
+            if (_root is null)
             {
                 return availableSize;
             }
@@ -58,7 +58,7 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                var column = root.Columns[c];
+                var column = _root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
 
                 width = Math.Max(column.MinWidth, width);
@@ -78,7 +78,7 @@ namespace DataBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            if (root is null)
+            if (_root is null)
             {
                 return arrangeSize;
             }
@@ -110,7 +110,7 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                var column = root.Columns[c];
+                var column = _root.Columns[c];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
                 var height = Math.Max(maxHeight, arrangeSize.Height);
 

@@ -7,7 +7,7 @@ namespace DataBox.Primitives
 {
     public class DataBoxRowsPresenter : ListBox, IStyleable
     {
-        internal DataBox? root;
+        internal DataBox? _root;
 
         Type IStyleable.StyleKey => typeof(DataBoxRowsPresenter);
 
@@ -24,7 +24,7 @@ namespace DataBox.Primitives
                 {
                     if (container.ContainerControl is DataBoxRow row)
                     {
-                        row.root = root;
+                        row._root = _root;
                     }
                 }
             };
@@ -34,7 +34,7 @@ namespace DataBox.Primitives
                 {
                     if (container.ContainerControl is DataBoxRow row)
                     {
-                        row.root = null;
+                        row._root = null;
                     }
                 }
             };
@@ -45,7 +45,7 @@ namespace DataBox.Primitives
                 {
                     if (container.ContainerControl is DataBoxRow row)
                     {
-                        row.root = root;
+                        row._root = _root;
                     }
                 }
             };

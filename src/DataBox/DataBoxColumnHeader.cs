@@ -27,7 +27,7 @@ namespace DataBox
         internal static readonly StyledProperty<bool> IsPressedProperty =
             AvaloniaProperty.Register<DataBoxColumnHeader, bool>(nameof(IsPressed));
 
-        internal DataBox? root;
+        internal DataBox? _root;
 
         public DataBoxColumnHeader()
         {
@@ -109,7 +109,7 @@ namespace DataBox
 
         private void OnClick(KeyModifiers keyModifiers)
         {
-            if (root is null)
+            if (_root is null)
             {
                 return;
             }
@@ -119,7 +119,7 @@ namespace DataBox
                 return;
             }
 
-            if (!Column.CanUserSort || !root.CanUserSortColumns)
+            if (!Column.CanUserSort || !_root.CanUserSortColumns)
             {
                 return;
             }

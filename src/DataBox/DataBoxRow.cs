@@ -9,7 +9,7 @@ namespace DataBox
 {
     public class DataBoxRow : ListBoxItem, IStyleable
     {
-        internal DataBox? root;
+        internal DataBox? _root;
         private Rectangle? _bottomGridLine;
 
         Type IStyleable.StyleKey => typeof(DataBoxRow);
@@ -22,25 +22,25 @@ namespace DataBox
 
             _bottomGridLine = e.NameScope.Find<Rectangle>("PART_BottomGridLine");
 
-            if (_bottomGridLine is { } && root is { })
+            if (_bottomGridLine is { } && _root is { })
             {
                 bool newVisibility = 
-                    root.GridLinesVisibility == DataBoxGridLinesVisibility.Horizontal 
-                    || root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
+                    _root.GridLinesVisibility == DataBoxGridLinesVisibility.Horizontal 
+                    || _root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
 
                 if (newVisibility != _bottomGridLine.IsVisible)
                 {
                     _bottomGridLine.IsVisible = newVisibility;
                 }
 
-                _bottomGridLine.Fill = root.HorizontalGridLinesBrush;
+                _bottomGridLine.Fill = _root.HorizontalGridLinesBrush;
             }
             
             CellsPresenter = e.NameScope.Find<DataBoxCellsPresenter>("PART_CellsPresenter");
 
             if (CellsPresenter is { })
             {
-                CellsPresenter.root = root;
+                CellsPresenter._root = _root;
                 CellsPresenter.Invalidate();
             }
         }

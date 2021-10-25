@@ -9,7 +9,7 @@ namespace DataBox.Primitives
 {
     public class DataBoxColumnHeadersPresenter : Panel, IStyleable
     {
-        internal DataBox? root;
+        internal DataBox? _root;
         private List<IDisposable>? _columnActualWidthDisposables;
         private List<DataBoxColumnHeader>? _columnHeaders;
 
@@ -48,13 +48,13 @@ namespace DataBox.Primitives
             _columnHeaders?.Clear();
             _columnHeaders = new List<DataBoxColumnHeader>();
 
-            if (root is not null)
+            if (_root is not null)
             {
                 _columnActualWidthDisposables = new List<IDisposable>();
 
-                for (var c = 0; c < root.Columns.Count; c++)
+                for (var c = 0; c < _root.Columns.Count; c++)
                 {
-                    var column = root.Columns[c];
+                    var column = _root.Columns[c];
 
                     var columnHeader = new DataBoxColumnHeader
                     {
@@ -65,7 +65,7 @@ namespace DataBox.Primitives
                         ColumnHeaders = _columnHeaders
                     };
 
-                    columnHeader.root = root;
+                    columnHeader._root = _root;
 
                     columnHeader.ApplyTemplate();
                     Children.Add(columnHeader);
@@ -83,7 +83,7 @@ namespace DataBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            if (root is null)
+            if (_root is null)
             {
                 return availableSize;
             }
@@ -100,9 +100,9 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                if (c < root.Columns.Count)
+                if (c < _root.Columns.Count)
                 {
-                    var column = root.Columns[c++];
+                    var column = _root.Columns[c++];
                     var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
 
                     width = Math.Max(column.MinWidth, width);
@@ -123,7 +123,7 @@ namespace DataBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            if (root is null)
+            if (_root is null)
             {
                 return arrangeSize;
             }
@@ -139,7 +139,7 @@ namespace DataBox.Primitives
                     continue;
                 }
 
-                var column = root.Columns[h];
+                var column = _root.Columns[h];
                 var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
                 var height = columnHeader.DesiredSize.Height;
                 var rcChild = new Rect(accumulatedWidth, 0.0, width, height);
