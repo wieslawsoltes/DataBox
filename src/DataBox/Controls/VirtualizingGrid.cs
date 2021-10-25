@@ -193,7 +193,7 @@ namespace DataBox.Controls
                     }
 
                     // TODO: Optimize measure performance.Do not measure twice cells. Should be done only once in DataBoxCellsPresenter.MeasureOverride().
-                    cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                    // cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     cell.MeasuredWidth = cell.DesiredSize.Width;
                 }
             }
