@@ -18,6 +18,7 @@ namespace DataBox.Primitives
                 ContentControl.ContentProperty,
                 ContentControl.ContentTemplateProperty);
 
+            /* TODO:
             generator.Materialized += (_, args) =>
             {
                 foreach (var container in args.Containers)
@@ -47,6 +48,7 @@ namespace DataBox.Primitives
                     DataBoxProperties.SetItemData(container.ContainerControl, container.Item);
                 }
             };
+            */
 
             return generator;
         }
