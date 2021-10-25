@@ -14,8 +14,6 @@ namespace DataBox.Primitives
 
         internal void Invalidate()
         {
-            //Children.Clear();
-
             if (_root is not null)
             {
                 foreach (var column in _root.Columns)
