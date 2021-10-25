@@ -131,12 +131,13 @@ namespace DataBox
 
             if (_headersPresenter is { })
             {
-                DataBoxProperties.SetRoot(_headersPresenter, this);
+                _headersPresenter.root = this;
+                _headersPresenter.Invalidate();
             }
 
             if (_rowsPresenter is { })
             {
-                DataBoxProperties.SetRoot(_rowsPresenter, this);
+                _rowsPresenter.root = this;
 
                 _rowsPresenter[!!ItemsControl.ItemsProperty] = this[!!ItemsProperty];
                 this[!!SelectedItemProperty] = _rowsPresenter[!!SelectingItemsControl.SelectedItemProperty];

@@ -9,6 +9,7 @@ namespace DataBox
 {
     public class DataBoxRow : ListBoxItem, IStyleable
     {
+        internal DataBox? root;
         private Rectangle? _bottomGridLine;
 
         Type IStyleable.StyleKey => typeof(DataBoxRow);
@@ -18,8 +19,6 @@ namespace DataBox
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
-
-            var root = DataBoxProperties.GetRoot(this);
 
             _bottomGridLine = e.NameScope.Find<Rectangle>("PART_BottomGridLine");
 
@@ -38,6 +37,12 @@ namespace DataBox
             }
             
             CellsPresenter = e.NameScope.Find<DataBoxCellsPresenter>("PART_CellsPresenter");
+
+            if (CellsPresenter is { })
+            {
+                CellsPresenter.root = root;
+                CellsPresenter.Invalidate();
+            }
         }
     }
 }

@@ -8,16 +8,10 @@ namespace DataBox.Primitives
 {
     public class DataBoxColumnHeadersPresenter : Panel
     {
+        internal DataBox? root;
         private IDisposable? _rootDisposable;
         private List<IDisposable>? _columnActualWidthDisposables;
         private List<DataBoxColumnHeader>? _columnHeaders;
-
-        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
-        {
-            base.OnAttachedToVisualTree(e);
-
-            _rootDisposable = this.GetObservable(DataBoxProperties.RootProperty).Subscribe(root => Invalidate());
-        }
 
         protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
         {
@@ -41,7 +35,7 @@ namespace DataBox.Primitives
             _columnHeaders = null;
         }
 
-        private void Invalidate()
+        internal void Invalidate()
         {
             if (_columnActualWidthDisposables is { })
             {
@@ -58,7 +52,6 @@ namespace DataBox.Primitives
             _columnHeaders?.Clear();
             _columnHeaders = new List<DataBoxColumnHeader>();
 
-            var root = DataBoxProperties.GetRoot(this);
             if (root is not null)
             {
                 _columnActualWidthDisposables = new List<IDisposable>();
@@ -76,6 +69,8 @@ namespace DataBox.Primitives
                         ColumnHeaders = _columnHeaders
                     };
 
+                    columnHeader.root = root;
+
                     columnHeader.ApplyTemplate();
                     Children.Add(columnHeader);
                     _columnHeaders.Add(columnHeader);
@@ -92,7 +87,6 @@ namespace DataBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -133,7 +127,6 @@ namespace DataBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return arrangeSize;

@@ -6,6 +6,7 @@ namespace DataBox
 {
     public class DataBoxCell : ContentControl
     {
+        internal DataBox? root;
         private Rectangle? _rightGridLine;
 
         internal double MeasuredWidth { get; set; }
@@ -13,9 +14,7 @@ namespace DataBox
         protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
             base.OnApplyTemplate(e);
-            
-            var root = DataBoxProperties.GetRoot(this);
-            
+
             _rightGridLine = e.NameScope.Find<Rectangle>("PART_RightGridLine");
 
             if (_rightGridLine is { } && root is { })

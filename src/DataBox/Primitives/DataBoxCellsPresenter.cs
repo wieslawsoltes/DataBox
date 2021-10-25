@@ -7,27 +7,12 @@ namespace DataBox.Primitives
 {
     public class DataBoxCellsPresenter : Panel
     {
-        protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+        internal DataBox? root;
+
+        internal void Invalidate()
         {
-            base.OnAttachedToVisualTree(e);
+            //Children.Clear();
 
-            Invalidate();
-        }
-
-        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
-        {
-            base.OnDetachedFromVisualTree(e);
-
-            Children.Clear();
-        }
-
-        private void Invalidate()
-        {
-            Children.Clear();
-
-            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
-            // TODO: var itemData = DataBoxProperties.GetItemData(this);
-            var root = DataBoxProperties.GetRoot(this);
             if (root is not null)
             {
                 foreach (var column in root.Columns)
@@ -40,6 +25,8 @@ namespace DataBox.Primitives
                         VerticalAlignment = VerticalAlignment.Stretch
                     };
 
+                    cell.root = root;
+
                     Children.Add(cell);
                 }
             }
@@ -47,8 +34,6 @@ namespace DataBox.Primitives
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
-            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -90,8 +75,6 @@ namespace DataBox.Primitives
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            // TODO: var itemIndex = DataBoxProperties.GetItemIndex(this);
-            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return arrangeSize;

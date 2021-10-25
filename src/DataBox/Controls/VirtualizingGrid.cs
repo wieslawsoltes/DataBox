@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.LogicalTree;
 using Avalonia.Styling;
 using DataBox.Primitives;
 
@@ -8,7 +10,16 @@ namespace DataBox.Controls
 {
     public class VirtualizingGrid : VirtualizingStackPanel, IStyleable
     {
+        internal DataBox? root;
+
         Type IStyleable.StyleKey => typeof(VirtualizingGrid);
+
+        public override void ApplyTemplate()
+        {
+            base.ApplyTemplate();
+
+            root = this.GetLogicalAncestors().FirstOrDefault(x => x is DataBox) as DataBox;
+        }
 
         private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
         {
@@ -249,7 +260,6 @@ namespace DataBox.Controls
 
         protected override Size MeasureOverride(Size availableSize)
         {
-            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return availableSize;
@@ -260,7 +270,6 @@ namespace DataBox.Controls
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return finalSize;

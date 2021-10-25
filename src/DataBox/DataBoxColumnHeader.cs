@@ -25,6 +25,8 @@ namespace DataBox
         internal static readonly StyledProperty<bool> IsPressedProperty =
             AvaloniaProperty.Register<DataBoxColumnHeader, bool>(nameof(IsPressed));
 
+        internal DataBox? root;
+
         public DataBoxColumnHeader()
         {
             UpdatePseudoClassesIsPressed(IsPressed);
@@ -103,7 +105,6 @@ namespace DataBox
 
         private void OnClick(KeyModifiers keyModifiers)
         {
-            var root = DataBoxProperties.GetRoot(this);
             if (root is null)
             {
                 return;
