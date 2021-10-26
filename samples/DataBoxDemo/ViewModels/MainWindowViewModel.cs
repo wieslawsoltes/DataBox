@@ -15,6 +15,7 @@ namespace DataBoxDemo.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private readonly SourceList<ItemViewModel> _itemsSourceList;
         private ReadOnlyObservableCollection<ItemViewModel>? _items;
         private ItemViewModel? _selectedItem;
         private ListSortDirection? _sortingStateColumn1;
@@ -22,6 +23,9 @@ namespace DataBoxDemo.ViewModels
         private ListSortDirection? _sortingStateColumn3;
         private ListSortDirection? _sortingStateColumn4;
         private ListSortDirection? _sortingStateColumn5;
+        private readonly Subject<IComparer<ItemViewModel>> _comparerSubject;
+        private IDisposable? _subscription;
+        private bool _isSortingEnabled;
 
         public ReadOnlyObservableCollection<ItemViewModel>? Items => _items;
 
@@ -71,11 +75,6 @@ namespace DataBoxDemo.ViewModels
 
         public ICommand SelectFirstItemCommand { get; }
 
-        private SourceList<ItemViewModel> itemsSourceList;
-        private Subject<IComparer<ItemViewModel>> comparerSubject;
-        private IDisposable? subscription;
-        private bool isSortingEnabled;
-
         public MainWindowViewModel()
         {
             var totalItems = 10_000;
@@ -97,11 +96,11 @@ namespace DataBoxDemo.ViewModels
                     index);
             }
 
-            itemsSourceList = new SourceList<ItemViewModel>();
-            itemsSourceList.AddRange(items);
+            _itemsSourceList = new SourceList<ItemViewModel>();
+            _itemsSourceList.AddRange(items);
 
-            comparerSubject = new Subject<IComparer<ItemViewModel>>();
-            isSortingEnabled = false;
+            _comparerSubject = new Subject<IComparer<ItemViewModel>>();
+            _isSortingEnabled = false;
             SortingStateColumn5 = ListSortDirection.Ascending;
             EnableSort(x => x.Column5, SortingStateColumn5);
 
@@ -121,7 +120,7 @@ namespace DataBoxDemo.ViewModels
                 }
                 var index = _items.Count;
                 var item = CreateItem(index);
-                itemsSourceList.Insert(0, item);
+                _itemsSourceList.Insert(0, item);
             });
 
             AddItemCommand = ReactiveCommand.Create(() =>
@@ -132,14 +131,14 @@ namespace DataBoxDemo.ViewModels
                 }
                 var index = _items.Count;
                 var item = CreateItem(index);
-                itemsSourceList.Add(item);
+                _itemsSourceList.Add(item);
             });
 
             RemoveItemCommand = ReactiveCommand.Create<ItemViewModel?>((item) =>
             {
                 if (item is not null)
                 {
-                    itemsSourceList.Remove(item);
+                    _itemsSourceList.Remove(item);
                 }
             });
 
@@ -155,16 +154,16 @@ namespace DataBoxDemo.ViewModels
 
         private IObservable<IChangeSet<ItemViewModel>> GetSortObservable(IComparer<ItemViewModel> comparer)
         {
-            return itemsSourceList!
+            return _itemsSourceList!
                 .Connect()
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .Sort(comparer, comparerChanged: comparerSubject)
+                .Sort(comparer, comparerChanged: _comparerSubject)
                 .Bind(out _items);
         }
 
         private IObservable<IChangeSet<ItemViewModel>> GetDefaultObservable()
             {
-                return itemsSourceList!
+                return _itemsSourceList!
                     .Connect()
                     .ObserveOn(RxApp.MainThreadScheduler)
                     .Bind(out _items);
@@ -176,26 +175,26 @@ namespace DataBoxDemo.ViewModels
                     ? SortExpressionComparer<ItemViewModel>.Ascending(expression)
                     : SortExpressionComparer<ItemViewModel>.Descending(expression);
 
-                if (!isSortingEnabled)
+                if (!_isSortingEnabled)
                 {
-                    subscription?.Dispose();
-                    subscription = GetSortObservable(sortExpressionComparer).Subscribe();
-                    isSortingEnabled = true;
+                    _subscription?.Dispose();
+                    _subscription = GetSortObservable(sortExpressionComparer).Subscribe();
+                    _isSortingEnabled = true;
                     this.RaisePropertyChanged(nameof(Items));
                 }
                 else
                 {
-                    comparerSubject.OnNext(sortExpressionComparer);
+                    _comparerSubject.OnNext(sortExpressionComparer);
                 }
             }
 
             private void DisableSort()
             {
-                if (isSortingEnabled)
+                if (_isSortingEnabled)
                 {
-                    subscription?.Dispose();
-                    subscription = GetDefaultObservable().Subscribe();
-                    isSortingEnabled = false;
+                    _subscription?.Dispose();
+                    _subscription = GetDefaultObservable().Subscribe();
+                    _isSortingEnabled = false;
                     this.RaisePropertyChanged(nameof(Items));
                 }
             }
