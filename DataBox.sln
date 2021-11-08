@@ -7,7 +7,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{BFAAFDC6-9A28-4F70-9C21-F6DF50786C70}"
 ProjectSection(SolutionItems) = preProject
 	.editorconfig = .editorconfig
-	.nuke = .nuke
 	azure-pipelines.yml = azure-pipelines.yml
 	build.ps1 = build.ps1
 	build.sh = build.sh
