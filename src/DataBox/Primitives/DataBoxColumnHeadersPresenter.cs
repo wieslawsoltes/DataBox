@@ -5,187 +5,186 @@ using Avalonia.Controls;
 using Avalonia.Layout;
 using Avalonia.Styling;
 
-namespace DataBox.Primitives
+namespace DataBox.Primitives;
+
+public class DataBoxColumnHeadersPresenter : Panel, IStyleable
 {
-    public class DataBoxColumnHeadersPresenter : Panel, IStyleable
-    {
-        internal DataBox? _root;
-        private List<IDisposable>? _columnActualWidthDisposables;
-        private List<DataBoxColumnHeader>? _columnHeaders;
+    internal DataBox? _root;
+    private List<IDisposable>? _columnActualWidthDisposables;
+    private List<DataBoxColumnHeader>? _columnHeaders;
 
-        Type IStyleable.StyleKey => typeof(DataBoxColumnHeadersPresenter);
+    Type IStyleable.StyleKey => typeof(DataBoxColumnHeadersPresenter);
         
-        protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnDetachedFromVisualTree(e);
+
+        if (_columnActualWidthDisposables is { })
         {
-            base.OnDetachedFromVisualTree(e);
-
-            if (_columnActualWidthDisposables is { })
+            foreach (var disposable in _columnActualWidthDisposables)
             {
-                foreach (var disposable in _columnActualWidthDisposables)
-                {
-                    disposable.Dispose();
-                }
-                _columnActualWidthDisposables.Clear();
-                _columnActualWidthDisposables = null;
+                disposable.Dispose();
             }
-
-            _columnHeaders?.Clear();
-            _columnHeaders = null;
+            _columnActualWidthDisposables.Clear();
+            _columnActualWidthDisposables = null;
         }
 
-        internal void Invalidate()
+        _columnHeaders?.Clear();
+        _columnHeaders = null;
+    }
+
+    internal void Invalidate()
+    {
+        if (_columnActualWidthDisposables is { })
         {
-            if (_columnActualWidthDisposables is { })
+            foreach (var disposable in _columnActualWidthDisposables)
             {
-                foreach (var disposable in _columnActualWidthDisposables)
-                {
-                    disposable.Dispose();
-                }
-                _columnActualWidthDisposables.Clear();
-                _columnActualWidthDisposables = null;
+                disposable.Dispose();
             }
-
-            _columnHeaders?.Clear();
-            _columnHeaders = new List<DataBoxColumnHeader>();
-
-            if (_root is not null)
-            {
-                _columnActualWidthDisposables = new List<IDisposable>();
-
-                for (var c = 0; c < _root.Columns.Count; c++)
-                {
-                    var column = _root.Columns[c];
-
-                    var columnHeader = new DataBoxColumnHeader
-                    {
-                        [!ContentControl.ContentProperty] = column[!DataBoxColumn.HeaderProperty],
-                        HorizontalAlignment = HorizontalAlignment.Stretch,
-                        VerticalAlignment = VerticalAlignment.Stretch,
-                        Column = column,
-                        ColumnHeaders = _columnHeaders
-                    };
-
-                    columnHeader._root = _root;
-
-                    Children.Add(columnHeader);
-                    _columnHeaders.Add(columnHeader);
-
-                    var disposable = column.GetObservable(DataBoxColumn.ActualWidthProperty).Subscribe(_ =>
-                    {
-                        InvalidateMeasure();
-                        InvalidateVisual();
-                    });
-                    _columnActualWidthDisposables.Add(disposable);
-                }
-            }
+            _columnActualWidthDisposables.Clear();
+            _columnActualWidthDisposables = null;
         }
 
-        protected override Size MeasureOverride(Size availableSize)
+        _columnHeaders?.Clear();
+        _columnHeaders = new List<DataBoxColumnHeader>();
+
+        if (_root is not null)
         {
-            if (_root is null)
-            {
-                return availableSize;
-            }
+            _columnActualWidthDisposables = new List<IDisposable>();
 
-            var columnHeaders = Children;
-            if (columnHeaders.Count == 0)
+            for (var c = 0; c < _root.Columns.Count; c++)
             {
-                return availableSize;
-            }
+                var column = _root.Columns[c];
 
-            var parentWidth = 0.0;
-            var parentHeight = 0.0;
-
-            var c = 0;
-            for (int h = 0, count = columnHeaders.Count; h < count; ++h)
-            {
-                if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
+                var columnHeader = new DataBoxColumnHeader
                 {
-                    continue;
-                }
+                    [!ContentControl.ContentProperty] = column[!DataBoxColumn.HeaderProperty],
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
+                    Column = column,
+                    ColumnHeaders = _columnHeaders
+                };
 
-                if (c >= _root.Columns.Count)
+                columnHeader._root = _root;
+
+                Children.Add(columnHeader);
+                _columnHeaders.Add(columnHeader);
+
+                var disposable = column.GetObservable(DataBoxColumn.ActualWidthProperty).Subscribe(_ =>
                 {
-                    continue;
-                }
-
-                var column = _root.Columns[c++];
-                var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
-
-                width = Math.Max(column.MinWidth, width);
-                width = Math.Min(column.MaxWidth, width);
-
-                var childConstraint = new Size(double.PositiveInfinity, double.PositiveInfinity);
-                columnHeader.Measure(childConstraint);
-
-                parentWidth += width;
-                parentHeight = Math.Max(parentHeight, columnHeader.DesiredSize.Height);
+                    InvalidateMeasure();
+                    InvalidateVisual();
+                });
+                _columnActualWidthDisposables.Add(disposable);
             }
+        }
+    }
 
-            var parentSize = new Size(parentWidth, parentHeight);
-
-            return parentSize;
+    protected override Size MeasureOverride(Size availableSize)
+    {
+        if (_root is null)
+        {
+            return availableSize;
         }
 
-        protected override Size ArrangeOverride(Size arrangeSize)
+        var columnHeaders = Children;
+        if (columnHeaders.Count == 0)
         {
-            if (_root is null)
+            return availableSize;
+        }
+
+        var parentWidth = 0.0;
+        var parentHeight = 0.0;
+
+        var c = 0;
+        for (int h = 0, count = columnHeaders.Count; h < count; ++h)
+        {
+            if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
             {
-                return arrangeSize;
+                continue;
             }
 
-            var columnHeaders = Children;
-            if (columnHeaders.Count == 0)
+            if (c >= _root.Columns.Count)
             {
-                return arrangeSize;
+                continue;
             }
 
-            var accumulatedWidth = 0.0;
-            var accumulatedHeight = 0.0;
-            var maxHeight = 0.0;
+            var column = _root.Columns[c++];
+            var width = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
 
-            for (int h = 0, count = columnHeaders.Count; h < count; ++h)
+            width = Math.Max(column.MinWidth, width);
+            width = Math.Min(column.MaxWidth, width);
+
+            var childConstraint = new Size(double.PositiveInfinity, double.PositiveInfinity);
+            columnHeader.Measure(childConstraint);
+
+            parentWidth += width;
+            parentHeight = Math.Max(parentHeight, columnHeader.DesiredSize.Height);
+        }
+
+        var parentSize = new Size(parentWidth, parentHeight);
+
+        return parentSize;
+    }
+
+    protected override Size ArrangeOverride(Size arrangeSize)
+    {
+        if (_root is null)
+        {
+            return arrangeSize;
+        }
+
+        var columnHeaders = Children;
+        if (columnHeaders.Count == 0)
+        {
+            return arrangeSize;
+        }
+
+        var accumulatedWidth = 0.0;
+        var accumulatedHeight = 0.0;
+        var maxHeight = 0.0;
+
+        for (int h = 0, count = columnHeaders.Count; h < count; ++h)
+        {
+            if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
             {
-                if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                maxHeight = Math.Max(maxHeight, columnHeader.DesiredSize.Height);
-            } 
+            maxHeight = Math.Max(maxHeight, columnHeader.DesiredSize.Height);
+        } 
             
-            var c = 0;
-            for (int h = 0, count = columnHeaders.Count; h < count; ++h)
+        var c = 0;
+        for (int h = 0, count = columnHeaders.Count; h < count; ++h)
+        {
+            if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
             {
-                if (columnHeaders[h] is not DataBoxColumnHeader columnHeader)
-                {
-                    continue;
-                }
+                continue;
+            }
                 
-                if (c >= _root.Columns.Count)
-                {
-                    continue;
-                }
-
-                var column = _root.Columns[c++];
-                var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
-                var height = Math.Max(maxHeight, arrangeSize.Height);
-
-                var rcChild = new Rect(
-                    accumulatedWidth, 
-                    0.0, 
-                    width, 
-                    height);
-
-                accumulatedWidth += width;
-                accumulatedHeight = Math.Max(accumulatedHeight, height);
-
-                columnHeader.Arrange(rcChild);
+            if (c >= _root.Columns.Count)
+            {
+                continue;
             }
 
-            var accumulatedSize = new Size(accumulatedWidth, accumulatedHeight);
+            var column = _root.Columns[c++];
+            var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
+            var height = Math.Max(maxHeight, arrangeSize.Height);
 
-            return accumulatedSize;
+            var rcChild = new Rect(
+                accumulatedWidth, 
+                0.0, 
+                width, 
+                height);
+
+            accumulatedWidth += width;
+            accumulatedHeight = Math.Max(accumulatedHeight, height);
+
+            columnHeader.Arrange(rcChild);
         }
+
+        var accumulatedSize = new Size(accumulatedWidth, accumulatedHeight);
+
+        return accumulatedSize;
     }
 }

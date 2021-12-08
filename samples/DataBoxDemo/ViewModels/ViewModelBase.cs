@@ -1,8 +1,7 @@
 ﻿using ReactiveUI;
 
-namespace DataBoxDemo.ViewModels
+namespace DataBoxDemo.ViewModels;
+
+public class ViewModelBase : ReactiveObject
 {
-    public class ViewModelBase : ReactiveObject
-    {
-    }
 }

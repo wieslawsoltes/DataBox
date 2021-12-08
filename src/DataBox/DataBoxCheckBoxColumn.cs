@@ -4,30 +4,29 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 
-namespace DataBox
+namespace DataBox;
+
+public class DataBoxCheckBoxColumn : DataBoxBoundColumn
 {
-    public class DataBoxCheckBoxColumn : DataBoxBoundColumn
+    public DataBoxCheckBoxColumn()
     {
-        public DataBoxCheckBoxColumn()
-        {
-            CellTemplate = new FuncDataTemplate(
-                _ => true,
-                (_, _) =>
+        CellTemplate = new FuncDataTemplate(
+            _ => true,
+            (_, _) =>
+            {
+                var checkBox = new CheckBox()
                 {
-                    var checkBox = new CheckBox()
-                    {
-                        HorizontalAlignment = HorizontalAlignment.Center,
-                        VerticalAlignment = VerticalAlignment.Center
-                    };
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center
+                };
 
-                    if (Binding is { })
-                    {
-                        checkBox.Bind(ToggleButton.IsCheckedProperty, Binding);
-                    }
+                if (Binding is { })
+                {
+                    checkBox.Bind(ToggleButton.IsCheckedProperty, Binding);
+                }
 
-                    return checkBox;
-                },
-                supportsRecycling: true);
-        }
+                return checkBox;
+            },
+            supportsRecycling: true);
     }
 }

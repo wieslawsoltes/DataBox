@@ -1,6 +1,5 @@
-namespace DataBox
+namespace DataBox;
+
+public class DataBoxTemplateColumn : DataBoxColumn
 {
-    public class DataBoxTemplateColumn : DataBoxColumn
-    {
-    }
 }

@@ -4,30 +4,29 @@ using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 
-namespace DataBox
+namespace DataBox;
+
+public class DataBoxTextColumn : DataBoxBoundColumn
 {
-    public class DataBoxTextColumn : DataBoxBoundColumn
+    public DataBoxTextColumn()
     {
-        public DataBoxTextColumn()
-        {
-            CellTemplate = new FuncDataTemplate(
-                _ => true,
-                (_, _) =>
+        CellTemplate = new FuncDataTemplate(
+            _ => true,
+            (_, _) =>
+            {
+                var textBlock = new TextBlock            
                 {
-                    var textBlock = new TextBlock            
-                    {
-                        [!Layoutable.MarginProperty] = new DynamicResourceExtension("DataGridTextColumnCellTextBlockMargin"),
-                        VerticalAlignment = VerticalAlignment.Center
-                    };
+                    [!Layoutable.MarginProperty] = new DynamicResourceExtension("DataGridTextColumnCellTextBlockMargin"),
+                    VerticalAlignment = VerticalAlignment.Center
+                };
 
-                    if (Binding is { })
-                    {
-                        textBlock.Bind(TextBlock.TextProperty, Binding);
-                    }
+                if (Binding is { })
+                {
+                    textBlock.Bind(TextBlock.TextProperty, Binding);
+                }
 
-                    return textBlock;
-                },
-                supportsRecycling: true);
-        }
+                return textBlock;
+            },
+            supportsRecycling: true);
     }
 }
