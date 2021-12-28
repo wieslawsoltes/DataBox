@@ -1,16 +1,41 @@
 ﻿using System;
+using System.Collections;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Generators;
+using Avalonia.Controls.Primitives;
 using Avalonia.Styling;
+using DataBox.Controls;
 
 namespace DataBox.Primitives;
 
-public class DataBoxRowsPresenter : ListBox, IStyleable
+public class DataBoxRowsPresenter : TemplatedControl, IStyleable
 {
+    public static readonly DirectProperty<DataBoxRowsPresenter, IList?> ItemsProperty =
+        AvaloniaProperty.RegisterDirect<DataBoxRowsPresenter, IList?>(nameof(Items), o => o.Items, (o, v) => o.Items = v);
+
+    public static readonly DirectProperty<DataBoxRowsPresenter, IScrollable?> ScrollProperty =
+        AvaloniaProperty.RegisterDirect<DataBoxRowsPresenter, IScrollable?>(nameof(Scroll), o => o.Scroll);
+
     internal DataBox? _root;
+    private IList? _items;
+    private IScrollable? _scroll;
+
+    public IList? Items
+    {
+        get { return _items; }
+        set { SetAndRaise(ItemsProperty, ref _items, value); }
+    }
+
+    public IScrollable? Scroll
+    {
+        get { return _scroll; }
+        private set { SetAndRaise(ScrollProperty, ref _scroll, value); }
+    }
 
     Type IStyleable.StyleKey => typeof(DataBoxRowsPresenter);
 
+    /*
     protected override IItemContainerGenerator CreateItemContainerGenerator()
     {
         var generator = new ItemContainerGenerator<DataBoxRow>(
@@ -51,5 +76,13 @@ public class DataBoxRowsPresenter : ListBox, IStyleable
         };
 
         return generator;
+    }
+    //*/
+
+    protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+    {
+        base.OnApplyTemplate(e);
+
+        Scroll = e.NameScope.Find<IScrollable>("PART_ScrollViewer");
     }
 }

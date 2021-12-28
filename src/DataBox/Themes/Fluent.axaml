@@ -91,7 +91,7 @@
     <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />        
     <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />   
-    <Setter Property="VirtualizationMode" Value="Simple" />
+    <!-- <Setter Property="VirtualizationMode" Value="Simple" /> -->
     <Setter Property="HorizontalAlignment" Value="Stretch" /> 
     <Setter Property="Template">
       <ControlTemplate>
@@ -104,29 +104,39 @@
                         HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
                         VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}"
                         AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}">
-            <ItemsPresenter Name="PART_ItemsPresenter"
+            <!--<ItemsPresenter Name="PART_ItemsPresenter"
                             Items="{TemplateBinding Items}"
                             ItemsPanel="{TemplateBinding ItemsPanel}"
                             ItemTemplate="{TemplateBinding ItemTemplate}"
                             Margin="{TemplateBinding Padding}"
-                            VirtualizationMode="{TemplateBinding VirtualizationMode}"/>
+                            VirtualizationMode="{TemplateBinding VirtualizationMode}"/>-->
+            <VirtualizingGrid Name="PART_VirtualPanel"
+                              Items="{TemplateBinding Items}"
+                              ItemHeight="37"
+                              Margin="{TemplateBinding Padding}">
+              <VirtualPanel.ItemTemplate>
+                <DataTemplate>
+                  <DataBoxRow />
+                </DataTemplate>
+              </VirtualPanel.ItemTemplate>
+            </VirtualizingGrid>
           </ScrollViewer>
         </Border>
       </ControlTemplate>
     </Setter>
-    <Setter Property="ItemsPanel">
+    <!--<Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
           <VirtualizingGrid />
         </ItemsPanelTemplate>
       </Setter.Value>
-    </Setter>
+    </Setter>-->
   </Style>
 
   <Style Selector="VirtualizingGrid">
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Top" />
-    <Setter Property="Orientation" Value="Vertical" />
+    <!-- <Setter Property="Orientation" Value="Vertical" /> -->
   </Style>
 
   <Style Selector="DataBoxColumnHeadersPresenter">

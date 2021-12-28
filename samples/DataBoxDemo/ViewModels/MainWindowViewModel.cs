@@ -77,7 +77,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        var totalItems = 10_000;
+        var totalItems = 226;
         var rand = new Random();
         var items = new List<ItemViewModel>();
 
