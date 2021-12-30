@@ -15,7 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\VirtualScrollDemo\VirtualPanel\VirtualPanel.csproj" />
+    <ProjectReference Include="..\..\..\VirtualPanel\src\VirtualPanel\VirtualPanel.csproj" />
   </ItemGroup>
 
   <Import Project="..\..\build\Base.props" />

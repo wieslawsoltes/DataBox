@@ -54,7 +54,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBox.UnitTests", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "build\build\_build.csproj", "{185AA19E-8CAC-4539-BD28-8199E348AC40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualPanel", "..\VirtualScrollDemo\VirtualPanel\VirtualPanel.csproj", "{C301AC1F-DB53-4FC0-9DE3-B9C5350C6399}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualPanel", "..\VirtualPanel\src\VirtualPanel\VirtualPanel.csproj", "{C301AC1F-DB53-4FC0-9DE3-B9C5350C6399}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
