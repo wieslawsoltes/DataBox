@@ -112,6 +112,7 @@
                             VirtualizationMode="{TemplateBinding VirtualizationMode}"/>-->
             <VirtualizingGrid Name="PART_VirtualPanel"
                               Items="{TemplateBinding Items}"
+                              SelectedItem="{TemplateBinding SelectedItem}"
                               ItemHeight="37"
                               Margin="{TemplateBinding Padding}">
               <VirtualPanel.ItemTemplate>
