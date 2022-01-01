@@ -16,7 +16,7 @@ internal class VirtualizingPanelAdapter
 
     private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
     {
-        if (control is DataBoxRow row)
+        if (control is ContentControl { Content: DataBoxRow row })
         {
             return row.CellsPresenter;
         }
