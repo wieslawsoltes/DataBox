@@ -6,6 +6,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
+using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using Avalonia.Metadata;
@@ -157,9 +158,16 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
     #endregion
 
     #region Properties
-                
+
     public static readonly StyledProperty<IEnumerable?> ItemsProperty = 
         AvaloniaProperty.Register<VirtualPanel, IEnumerable?>(nameof(Items));
+
+    public static readonly DirectProperty<VirtualPanel, object?> SelectedItemProperty =
+        AvaloniaProperty.RegisterDirect<VirtualPanel, object?>(
+            nameof(SelectedItem), 
+            o => o.SelectedItem, 
+            (o, v) => o.SelectedItem = v,
+            defaultBindingMode: BindingMode.TwoWay);
 
     public static readonly StyledProperty<double> ItemHeightProperty = 
         AvaloniaProperty.Register<VirtualPanel, double>(nameof(ItemHeight), double.NaN);
@@ -167,10 +175,18 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
     public static readonly StyledProperty<IDataTemplate?> ItemTemplateProperty = 
         AvaloniaProperty.Register<VirtualPanel, IDataTemplate?>(nameof(ItemTemplate));
 
+    private object? _selectedItem;
+
     public IEnumerable? Items
     {
         get => GetValue(ItemsProperty);
         set => SetValue(ItemsProperty, value);
+    }
+
+    public object? SelectedItem
+    {
+        get => _selectedItem;
+        set => SetAndRaise(SelectedItemProperty, ref _selectedItem, value);
     }
 
     public double ItemHeight
