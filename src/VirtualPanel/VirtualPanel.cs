@@ -213,20 +213,17 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
     private Size CalculateSize(Size size)
     {
-        _viewport = size;
-
         var itemCount = GetItemsCount(Items);
         var itemHeight = ItemHeight;
-        var height = itemCount * itemHeight;
+        var totalHeight = itemCount * itemHeight;
+        var extent = size.WithHeight(totalHeight);
 
-        size = size.WithHeight(height);
-
-        _extent = size;
-
+        _viewport = extent.Height < size.Height ? size.WithHeight(extent.Height) : size;
+        _extent = extent;
         _scrollSize = new Size(16, 16);
         _pageScrollSize = new Size(_viewport.Width, _viewport.Height);
 
-        return size;
+        return extent;
     }
 
     private void Materialize(Size viewport, Vector offset, out double topOffset)
