@@ -4,6 +4,8 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Generators;
 using Avalonia.Controls.Primitives;
+using Avalonia.Controls.Primitives;
+using Avalonia.Data;
 using Avalonia.Styling;
 using DataBox.Controls;
 
@@ -14,17 +16,32 @@ public class DataBoxRowsPresenter : TemplatedControl, IStyleable
     public static readonly DirectProperty<DataBoxRowsPresenter, IList?> ItemsProperty =
         AvaloniaProperty.RegisterDirect<DataBoxRowsPresenter, IList?>(nameof(Items), o => o.Items, (o, v) => o.Items = v);
 
+    public static readonly DirectProperty<DataBoxRowsPresenter, object?> SelectedItemProperty =
+        AvaloniaProperty.RegisterDirect<DataBoxRowsPresenter, object?>(
+            nameof(SelectedItem), 
+            o => o.SelectedItem, 
+            (o, v) => o.SelectedItem = v,
+            defaultBindingMode: BindingMode.TwoWay);
+
     public static readonly DirectProperty<DataBoxRowsPresenter, IScrollable?> ScrollProperty =
         AvaloniaProperty.RegisterDirect<DataBoxRowsPresenter, IScrollable?>(nameof(Scroll), o => o.Scroll);
 
     internal DataBox? _root;
     private IList? _items;
+    private object? _selectedItem;
+
     private IScrollable? _scroll;
 
     public IList? Items
     {
         get { return _items; }
         set { SetAndRaise(ItemsProperty, ref _items, value); }
+    }
+
+    public object? SelectedItem
+    {
+        get => _selectedItem;
+        set => SetAndRaise(SelectedItemProperty, ref _selectedItem, value);
     }
 
     public IScrollable? Scroll
