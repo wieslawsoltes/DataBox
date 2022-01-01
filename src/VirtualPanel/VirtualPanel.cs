@@ -243,12 +243,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
         if (_visibleCount < itemCount)
         {
-            _visibleCount += 1;
-        }
-
-        if (_visibleCount > itemCount)
-        {
-            _visibleCount = itemCount;
+            _visibleCount += 2;
         }
 
         topOffset = offset.Y % itemHeight;
@@ -277,6 +272,11 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                 {
                     for (var i = _controls.Count; i < _visibleCount; i++)
                     {
+                        if (_visibleCount > itemCount)
+                        {
+                            break;
+                        }
+
                         var param = list[index];
                         var content = ItemTemplate.Build(param);
                         var control = new ContentControl
