@@ -291,7 +291,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                         }
 
                         var param = list[index];
-                        var content = ItemTemplate.Build(param);
+                        var content = param is null ? null : ItemTemplate.Build(param);
                         var control = new ContentControl
                         {
                             Content = content
