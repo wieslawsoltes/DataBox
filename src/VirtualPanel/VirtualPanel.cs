@@ -332,6 +332,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         foreach (var remove in toRemove)
         {
             var control = _controls[remove];
+            control.DataContext = null;
             _recycled.Push(control);
             _controls.Remove(remove);
             childrenRemove.Add(control);
