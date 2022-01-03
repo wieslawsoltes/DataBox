@@ -151,6 +151,11 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         remove => _childIndexChanged -= value;
     }
 
+    private void RaiseChildIndexChanged()
+    {
+        _childIndexChanged?.Invoke(this, new ChildIndexChangedEventArgs());
+    }
+
     #endregion
 
     #region Properties
@@ -238,16 +243,16 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         return extent;
     }
 
-    private void Materialize(double height, double offset, out double scrollOffset)
+    private void InvalidateChildren(double height, double offset, out double scrollOffset)
     {
         // TODO: Support other IEnumerable types.
-        if (Items is not IList list)
+        if (Items is not IList items)
         {
             scrollOffset = 0;
             return;
         }
 
-        var itemCount = GetItemsCount(list);
+        var itemCount = GetItemsCount(items);
         var itemHeight = ItemHeight;
 
         _startIndex = (int)(offset / itemHeight);
@@ -272,82 +277,98 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         if (itemCount == 0 || _visibleCount == 0 || ItemTemplate is null)
         {
             Children.Clear();
-            _childIndexChanged?.Invoke(this, new ChildIndexChangedEventArgs());
+            RaiseChildIndexChanged();
             return;
         }
 
-        {
-            if (_controls.Count < _visibleCount)
-            {
-                var index = _startIndex + _controls.Count;
-                if (index < itemCount)
-                {
-                    for (var i = _controls.Count; i < _visibleCount; i++)
-                    {
-                        if (_visibleCount > itemCount)
-                        {
-                            break;
-                        }
+        CreateControls(items, itemCount);
+        UpdateControls(items, itemCount);
+        RaiseChildIndexChanged();
+    }
 
-                        var param = list[index];
-                        var content = param is null ? null : ItemTemplate.Build(param);
-                        var control = new ContentControl
-                        {
-                            Content = content
-                        };
-                        _controls.Add(control);
-                        _indexes.Add(-1);
-                        Children.Add(control);
-                        // System.Diagnostics.Debug.WriteLine($"[Materialize.Materialized] index: {index}, param: {param}");
-                        OnContainerMaterialized(control);
-                        index++;
-                    }
-                }
+    private void CreateControls(IList items, int itemCount)
+    {
+        if (_controls.Count >= _visibleCount)
+        {
+            return;
+        }
+
+        var index = _startIndex + _controls.Count;
+        if (index >= itemCount)
+        {
+            return;
+        }
+
+        if (ItemTemplate is null)
+        {
+            return;
+        }
+
+        for (var i = _controls.Count; i < _visibleCount; i++)
+        {
+            if (_visibleCount > itemCount)
+            {
+                break;
             }
-        }
 
-        {
-            var index = _startIndex;
-            for (var i = 0; i < _controls.Count; i++)
+            var param = items[index];
+            var content = param is null ? null : ItemTemplate.Build(param);
+            var control = new ContentControl
             {
-                var control = _controls[i];
-                if (index >= itemCount || i > _visibleCount)
-                {
-                    if (control.IsVisible)
-                    {
-                        control.IsVisible = false;
-                        // System.Diagnostics.Debug.WriteLine($"[Materialize.Dematerialized] index: {index}");
-                        OnContainerDematerialized(control);
-                    }
-                    continue;
-                }
-
-                if (!control.IsVisible)
-                {
-                    control.IsVisible = true;
-                    // System.Diagnostics.Debug.WriteLine($"[Materialize.Recycled] index: {index}");
-                    OnContainerRecycled(control);
-                }
-
-                var param = list[index];
-                if (control.DataContext != param)
-                {
-                    control.DataContext = param;
-                }
-                // System.Diagnostics.Debug.WriteLine($"[Materialize.Update] index: {index}, param: {param}");
-                _indexes[i] = index;
-                index++;
-            }  
+                Content = content
+            };
+            _controls.Add(control);
+            _indexes.Add(-1);
+            Children.Add(control);
+            // System.Diagnostics.Debug.WriteLine($"[Materialize.Materialized] index: {index}, param: {param}");
+            OnContainerMaterialized(control);
+            index++;
         }
+    }
 
-        _childIndexChanged?.Invoke(this, new ChildIndexChangedEventArgs());
+    private void UpdateControls(IList items, int itemCount)
+    {
+        var index = _startIndex;
+
+        for (var i = 0; i < _controls.Count; i++)
+        {
+            var control = _controls[i];
+            if (index >= itemCount || i > _visibleCount)
+            {
+                if (control.IsVisible)
+                {
+                    control.IsVisible = false;
+                    // System.Diagnostics.Debug.WriteLine($"[Materialize.Dematerialized] index: {index}");
+                    OnContainerDematerialized(control);
+                }
+
+                continue;
+            }
+
+            if (!control.IsVisible)
+            {
+                control.IsVisible = true;
+                // System.Diagnostics.Debug.WriteLine($"[Materialize.Recycled] index: {index}");
+                OnContainerRecycled(control);
+            }
+
+            var param = items[index];
+            if (control.DataContext != param)
+            {
+                control.DataContext = param;
+            }
+
+            // System.Diagnostics.Debug.WriteLine($"[Materialize.Update] index: {index}, param: {param}");
+            _indexes[i] = index;
+            index++;
+        }
     }
 
     protected override Size MeasureOverride(Size availableSize)
     {
         availableSize = UpdateScrollable(availableSize.Width, availableSize.Height, availableSize.Width);
 
-        Materialize(_viewport.Height, _offset.Y, out _);
+        InvalidateChildren(_viewport.Height, _offset.Y, out _);
 
         if (_controls.Count > 0)
         {
@@ -367,8 +388,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
     {
         finalSize = UpdateScrollable(finalSize.Width, finalSize.Height, finalSize.Width);
 
-        Materialize(_viewport.Height, _offset.Y, out var scrollOffsetY);
-
+        InvalidateChildren(_viewport.Height, _offset.Y, out var scrollOffsetY);
         InvalidateScrollable();
 
         var scrollOffsetX = 0.0; // _offset.X;
