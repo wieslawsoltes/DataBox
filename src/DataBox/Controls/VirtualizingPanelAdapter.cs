@@ -8,10 +8,12 @@ namespace DataBox.Controls;
 internal class VirtualizingPanelAdapter
 {
     private readonly Panel _panel;
+    private readonly Action<double, double, double> _invalidateScroll;
 
-    public VirtualizingPanelAdapter(Panel panel)
+    public VirtualizingPanelAdapter(Panel panel, Action<double, double, double> invalidateScroll)
     {
         _panel = panel;
+        _invalidateScroll = invalidateScroll;
     }
 
     private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
@@ -232,6 +234,8 @@ internal class VirtualizingPanelAdapter
         panelSize = measureOverride(panelSize);
         panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(accumulatedWidth, availableSizeWidth));
 
+        _invalidateScroll.Invoke(availableSizeWidth, availableSize.Height, panelSize.Width);
+
         return panelSize;
     }
 
@@ -247,6 +251,8 @@ internal class VirtualizingPanelAdapter
 
         panelSize = arrangeOverride(panelSize);
         panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(root.AccumulatedWidth, finalSizeWidth));
+
+        _invalidateScroll.Invoke(finalSizeWidth, finalSize.Height, panelSize.Width);
 
         return panelSize;
     }
