@@ -135,11 +135,14 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
     int IChildIndexProvider.GetChildIndex(ILogical child)
     {
         if (child is IControl control)
-        {
-            var indexOf = _controls.IndexOf(control);
-            var index = _indexes[indexOf];
-            // System.Diagnostics.Debug.WriteLine($"[IChildIndexProvider.GetChildIndex] {indexOf} -> {index}");
-            return index;
+        { 
+            foreach (var i in _controls)
+            {
+                if (i.Value == control)
+                {
+                    return i.Key;
+                }
+            }
         }
 
         return -1;
@@ -222,16 +225,19 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
     #region Events
 
-    protected virtual void OnContainerMaterialized(IControl container)
+    protected virtual void OnContainerMaterialized(IControl container, int index)
     {
+        // System.Diagnostics.Debug.WriteLine($"[Materialized] {index}, {container.DataContext}");
     }
 
-    protected virtual void OnContainerDematerialized(IControl container)
+    protected virtual void OnContainerDematerialized(IControl container, int index)
     {
+        // System.Diagnostics.Debug.WriteLine($"[Dematerialized] {index}, {container.DataContext}");
     }
 
-    protected virtual void OnContainerRecycled(IControl container)
+    protected virtual void OnContainerRecycled(IControl container, int index)
     {
+        // System.Diagnostics.Debug.WriteLine($"[Recycled] {index}, {container.DataContext}");
     }
 
     #endregion
@@ -240,8 +246,8 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
     private int _startIndex = -1;
     private int _visibleCount = -1;
-    private List<IControl> _controls = new();
-    private List<int> _indexes = new();
+    private readonly Stack<IControl> _recycled = new();
+    private readonly SortedDictionary<int, IControl> _controls = new();
 
     protected Size UpdateScrollable(double width, double height, double totalWidth)
     {
@@ -294,20 +300,13 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             return;
         }
 
-        CreateControls(items, itemCount);
-        UpdateControls(items, itemCount);
+        CreateContainers(items, itemCount);
         RaiseChildIndexChanged();
     }
 
-    private void CreateControls(IList items, int itemCount)
+    private void CreateContainers(IList items, int itemCount)
     {
-        if (_controls.Count >= _visibleCount)
-        {
-            return;
-        }
-
-        var index = _startIndex + _controls.Count;
-        if (index >= itemCount)
+        if (_startIndex >= itemCount)
         {
             return;
         }
@@ -317,59 +316,73 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             return;
         }
 
-        for (var i = _controls.Count; i < _visibleCount; i++)
+        var endIndex = _startIndex + _visibleCount;
+        var toRemove = new List<int>();
+        
+        foreach (var control in _controls)
         {
-            if (_visibleCount > itemCount || index >= itemCount)
+            if (control.Key < _startIndex || control.Key > endIndex)
+            {
+                toRemove.Add(control.Key);
+            }
+        }
+
+        var childrenRemove = new HashSet<IControl>();
+
+        foreach (var remove in toRemove)
+        {
+            var control = _controls[remove];
+            _recycled.Push(control);
+            _controls.Remove(remove);
+            childrenRemove.Add(control);
+            OnContainerDematerialized(control, remove);
+        }
+
+        for (var i = _startIndex; i < endIndex; i++)
+        {
+            if (i >= itemCount)
             {
                 break;
             }
 
-            var param = items[index];
-            var content = param is null ? null : ItemTemplate.Build(param);
-            var control = new ContentControl
-            {
-                Content = content
-            };
-            _controls.Add(control);
-            _indexes.Add(-1);
-            Children.Add(control);
-            OnContainerMaterialized(control);
-            index++;
-        }
-    }
+            var param = items[i];
 
-    private void UpdateControls(IList items, int itemCount)
-    {
-        var index = _startIndex;
-
-        for (var i = 0; i < _controls.Count; i++)
-        {
-            var control = _controls[i];
-            if (index >= itemCount || i > _visibleCount)
+            if (!_controls.ContainsKey(i))
             {
-                if (control.IsVisible)
+                IControl control;
+                if (_recycled.Count > 0)
                 {
-                    control.IsVisible = false;
-                    OnContainerDematerialized(control);
+                    control = _recycled.Pop();
+                    control.DataContext = param;
+                    _controls[i] = control;
+                    if (!childrenRemove.Contains(control))
+                    {
+                        Children.Add(control);
+                    }
+                    else
+                    {
+                        childrenRemove.Remove(control);
+                    }
+                    OnContainerRecycled(control, i);
                 }
-
-                continue;
+                else
+                {
+                    var content = param is null ? null : ItemTemplate.Build(param);
+                    control = new ContentControl
+                    {
+                        Content = content
+                    };
+                    control.DataContext = param;
+                    _controls[i] = control;
+                    Children.Add(control);
+                    OnContainerMaterialized(control, i);
+                }
             }
-
-            if (!control.IsVisible)
-            {
-                control.IsVisible = true;
-                OnContainerRecycled(control);
-            }
-
-            var param = items[index];
-            if (control.DataContext != param)
-            {
-                control.DataContext = param;
-            }
-
-            _indexes[i] = index;
-            index++;
+        }
+  
+        foreach (var child in childrenRemove)
+        {
+            Children.Remove(child);
         }
     }
 
@@ -384,7 +397,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             foreach (var control in _controls)
             {
                 var size = new Size(_viewport.Width, ItemHeight);
-                control.Measure(size);
+                control.Value.Measure(size);
             }
         }
 
@@ -408,7 +421,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             foreach (var control in _controls)
             {
                 var rect = new Rect(new Point(x, y), new Size(_viewport.Width, ItemHeight));
-                control.Arrange(rect);
+                control.Value.Arrange(rect);
                 y += ItemHeight;
             }
         }
