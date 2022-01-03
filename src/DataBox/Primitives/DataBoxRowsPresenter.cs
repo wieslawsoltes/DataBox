@@ -7,11 +7,18 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Styling;
 using DataBox.Controls;
+using VirtualPanel;
 
 namespace DataBox.Primitives;
 
 public class DataBoxRowsPresenter : TemplatedControl, IStyleable
 {
+    public static readonly StyledProperty<VirtualPanelScrollMode> ScrollModeProperty =
+        AvaloniaProperty.Register<DataBoxRowsPresenter, VirtualPanelScrollMode>(nameof(ScrollMode));
+
+    public static readonly StyledProperty<double> ItemHeightProperty = 
+        AvaloniaProperty.Register<DataBoxRowsPresenter, double>(nameof(ItemHeight), double.NaN);
+
     public static readonly DirectProperty<DataBoxRowsPresenter, IList?> ItemsProperty =
         AvaloniaProperty.RegisterDirect<DataBoxRowsPresenter, IList?>(nameof(Items), o => o.Items, (o, v) => o.Items = v);
 
@@ -28,8 +35,19 @@ public class DataBoxRowsPresenter : TemplatedControl, IStyleable
     internal DataBox? _root;
     private IList? _items;
     private object? _selectedItem;
-
     private IScrollable? _scroll;
+
+    public VirtualPanelScrollMode ScrollMode
+    {
+        get => GetValue(ScrollModeProperty);
+        set => SetValue(ScrollModeProperty, value);
+    }
+
+    public double ItemHeight
+    {
+        get => GetValue(ItemHeightProperty);
+        set => SetValue(ItemHeightProperty, value);
+    }
 
     public IList? Items
     {
