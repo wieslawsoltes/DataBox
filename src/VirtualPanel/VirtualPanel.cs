@@ -367,17 +367,20 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
     {
         finalSize = UpdateScrollable(finalSize.Width, finalSize.Height, finalSize.Width);
 
-        Materialize(_viewport.Height, _offset.Y, out var scrollOffset);
+        Materialize(_viewport.Height, _offset.Y, out var scrollOffsetY);
 
         InvalidateScrollable();
 
+        var scrollOffsetX = 0.0; // _offset.X;
+
         if (_controls.Count > 0)
         {
-            var y = scrollOffset == 0.0 ? 0.0 : -scrollOffset;
+            var x = scrollOffsetX == 0.0 ? 0.0 : -scrollOffsetX;
+            var y = scrollOffsetY == 0.0 ? 0.0 : -scrollOffsetY;
 
             foreach (var control in _controls)
             {
-                var rect = new Rect(new Point(0, y), new Size(_viewport.Width, ItemHeight));
+                var rect = new Rect(new Point(x, y), new Size(_viewport.Width, ItemHeight));
                 control.Arrange(rect);
                 y += ItemHeight;
                 // System.Diagnostics.Debug.WriteLine($"[ArrangeOverride.Arrange] {rect}");
