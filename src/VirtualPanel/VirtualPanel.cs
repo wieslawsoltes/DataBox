@@ -250,7 +250,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         var totalHeight = itemCount * itemHeight;
         var extent = new Size(totalWidth, totalHeight);
 
-        _viewport = /*extent.Height < size.Height ? size.WithHeight(extent.Height) :*/ new Size(width, height);
+        _viewport = new Size(width, height);
         _extent = extent;
         _scrollSize = new Size(16, 16);
         _pageScrollSize = new Size(_viewport.Width, _viewport.Height);
@@ -286,14 +286,6 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         {
             scrollOffset = 0.0;
         }
-
-        /*
-        System.Diagnostics.Debug.WriteLine($"[Materialize] viewport: {viewport}" +
-                                           $", offset: {offset}" +
-                                           $", startIndex: {_startIndex}" +
-                                           $", visibleCount: {_visibleCount}" +
-                                           $", scrollOffset: {-scrollOffset}");
-        //*/
 
         if (itemCount == 0 || _visibleCount == 0 || ItemTemplate is null)
         {
@@ -341,7 +333,6 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             _controls.Add(control);
             _indexes.Add(-1);
             Children.Add(control);
-            // System.Diagnostics.Debug.WriteLine($"[Materialize.Materialized] index: {index}, param: {param}");
             OnContainerMaterialized(control);
             index++;
         }
@@ -359,7 +350,6 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                 if (control.IsVisible)
                 {
                     control.IsVisible = false;
-                    // System.Diagnostics.Debug.WriteLine($"[Materialize.Dematerialized] index: {index}");
                     OnContainerDematerialized(control);
                 }
 
@@ -369,7 +359,6 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             if (!control.IsVisible)
             {
                 control.IsVisible = true;
-                // System.Diagnostics.Debug.WriteLine($"[Materialize.Recycled] index: {index}");
                 OnContainerRecycled(control);
             }
 
@@ -379,7 +368,6 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                 control.DataContext = param;
             }
 
-            // System.Diagnostics.Debug.WriteLine($"[Materialize.Update] index: {index}, param: {param}");
             _indexes[i] = index;
             index++;
         }
@@ -397,11 +385,9 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             {
                 var size = new Size(_viewport.Width, ItemHeight);
                 control.Measure(size);
-                // System.Diagnostics.Debug.WriteLine($"[MeasureOverride.Measure] {size}");
             }
         }
 
-        // return base.MeasureOverride(availableSize);
         return availableSize;
     }
 
@@ -412,7 +398,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         InvalidateChildren(_viewport.Height, _offset.Y, out var scrollOffsetY);
         InvalidateScrollable();
 
-        var scrollOffsetX = 0.0; // _offset.X;
+        var scrollOffsetX = 0.0; // TODO: _offset.X;
 
         if (_controls.Count > 0)
         {
@@ -424,11 +410,9 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                 var rect = new Rect(new Point(x, y), new Size(_viewport.Width, ItemHeight));
                 control.Arrange(rect);
                 y += ItemHeight;
-                // System.Diagnostics.Debug.WriteLine($"[ArrangeOverride.Arrange] {rect}");
             }
         }
 
-        // return base.ArrangeOverride(finalSize);
         return finalSize;
     }
 
