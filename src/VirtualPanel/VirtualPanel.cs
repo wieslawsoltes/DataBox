@@ -300,11 +300,11 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             return;
         }
 
-        CreateContainers(items, itemCount);
+        InvalidateContainers(items, itemCount);
         RaiseChildIndexChanged();
     }
 
-    private void CreateContainers(IList items, int itemCount)
+    private void InvalidateContainers(IList items, int itemCount)
     {
         if (_startIndex >= itemCount)
         {
