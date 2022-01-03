@@ -66,9 +66,6 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         set
         {
             _offset = CoerceOffset(value);
-            CalculateSize(Bounds.Size);
-            Materialize(_viewport, _offset, out _);
-            InvalidateScrollable();
             InvalidateMeasure();
         }
     }
