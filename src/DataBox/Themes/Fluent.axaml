@@ -147,39 +147,34 @@
     <Setter Property="MinHeight" Value="32" />
     <Setter Property="Template">
       <ControlTemplate>
-        <Grid Name="PART_ColumnHeaderRoot" 
-              ColumnDefinitions="*,Auto"
-              Background="{TemplateBinding Background}">
-          <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                Margin="{TemplateBinding Padding}">
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition MinWidth="32" Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <ContentPresenter Grid.Column="0" Content="{TemplateBinding Content}" />
-            <Path Name="SortIcon"
-                  Grid.Column="1"
-                  Fill="{TemplateBinding Foreground}"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center"
-                  Stretch="Uniform"
-                  Height="12" />
-          </Grid>
+        <DockPanel Name="PART_ColumnHeaderRoot" 
+                   Background="{TemplateBinding Background}">
           <Rectangle Name="VerticalSeparator"
-                     Grid.Column="1"
+                     DockPanel.Dock="Right"
                      Width="1"
                      VerticalAlignment="Stretch"
                      Fill="{TemplateBinding SeparatorBrush}"
                      IsVisible="{TemplateBinding AreSeparatorsVisible}" />
-        </Grid>
+          <Path Name="SortIcon"
+                DockPanel.Dock="Right"
+                Fill="{TemplateBinding Foreground}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Stretch="Uniform"
+                Height="12"
+                MinWidth="24"/>
+          <ContentPresenter Content="{TemplateBinding Content}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Margin="{TemplateBinding Padding}"/>
+        </DockPanel>
       </ControlTemplate>
     </Setter>
   </Style>
-  <Style Selector="DataBoxColumnHeader:pointerover /template/ Grid#PART_ColumnHeaderRoot">
+  <Style Selector="DataBoxColumnHeader:pointerover /template/ DockPanel#PART_ColumnHeaderRoot">
     <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderHoveredBackgroundColor}" />
   </Style>
-  <Style Selector="DataBoxColumnHeader:pressed /template/ Grid#PART_ColumnHeaderRoot">
+  <Style Selector="DataBoxColumnHeader:pressed /template/ DockPanel#PART_ColumnHeaderRoot">
     <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderPressedBackgroundColor}" />
   </Style>
   <Style Selector="DataBoxColumnHeader /template/ Path#SortIcon">
