@@ -92,6 +92,8 @@
     <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />        
     <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />   
     <!-- <Setter Property="VirtualizationMode" Value="Simple" /> -->
+    <Setter Property="ScrollMode" Value="Smooth" /> 
+    <Setter Property="ItemHeight" Value="37.5" />
     <Setter Property="HorizontalAlignment" Value="Stretch" /> 
     <Setter Property="Template">
       <ControlTemplate>
@@ -111,9 +113,10 @@
                             Margin="{TemplateBinding Padding}"
                             VirtualizationMode="{TemplateBinding VirtualizationMode}"/>-->
             <VirtualizingGrid Name="PART_VirtualPanel"
+                              ScrollMode="{TemplateBinding ScrollMode}"
+                              ItemHeight="{TemplateBinding ItemHeight}"
                               Items="{TemplateBinding Items}"
                               SelectedItem="{TemplateBinding SelectedItem}"
-                              ItemHeight="37"
                               Margin="{TemplateBinding Padding}">
               <VirtualPanel.ItemTemplate>
                 <DataTemplate>
