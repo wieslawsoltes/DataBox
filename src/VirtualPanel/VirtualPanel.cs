@@ -365,7 +365,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        finalSize = UpdateScrollable(finalSize.Width, finalSize.Height, finalSize.Height);
+        finalSize = UpdateScrollable(finalSize.Width, finalSize.Height, finalSize.Width);
 
         Materialize(_viewport.Height, _offset.Y, out var scrollOffset);
 
