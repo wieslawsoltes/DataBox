@@ -231,7 +231,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         var totalHeight = itemCount * itemHeight;
         var extent = size.WithHeight(totalHeight);
 
-        _viewport = extent.Height < size.Height ? size.WithHeight(extent.Height) : size;
+        _viewport = /*extent.Height < size.Height ? size.WithHeight(extent.Height) :*/ size;
         _extent = extent;
         _scrollSize = new Size(16, 16);
         _pageScrollSize = new Size(_viewport.Width, _viewport.Height);
