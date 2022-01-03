@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -111,7 +110,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         remove => _scrollInvalidated -= value;
     }
 
-    private void InvalidateScrollable()
+    protected void InvalidateScrollable()
     {
         if (this is not ILogicalScrollable scrollable)
         {
@@ -133,7 +132,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         {
             var indexOf = _controls.IndexOf(control);
             var index = _indexes[indexOf];
-            // Debug.WriteLine($"[IChildIndexProvider.GetChildIndex] {indexOf} -> {index}");
+            // System.Diagnostics.Debug.WriteLine($"[IChildIndexProvider.GetChildIndex] {indexOf} -> {index}");
             return index;
         }
 
@@ -224,14 +223,14 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
     private List<IControl> _controls = new();
     private List<int> _indexes = new();
 
-    private Size CalculateSize(Size size)
+    protected Size UpdateScrollable(double width, double height, double totalWidth)
     {
         var itemCount = GetItemsCount(Items);
         var itemHeight = ItemHeight;
         var totalHeight = itemCount * itemHeight;
-        var extent = size.WithHeight(totalHeight);
+        var extent = new Size(totalWidth, totalHeight);
 
-        _viewport = /*extent.Height < size.Height ? size.WithHeight(extent.Height) :*/ size;
+        _viewport = /*extent.Height < size.Height ? size.WithHeight(extent.Height) :*/ new Size(width, height);
         _extent = extent;
         _scrollSize = new Size(16, 16);
         _pageScrollSize = new Size(_viewport.Width, _viewport.Height);
@@ -239,35 +238,35 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         return extent;
     }
 
-    private void Materialize(Size viewport, Vector offset, out double topOffset)
+    private void Materialize(double height, double offset, out double scrollOffset)
     {
         // TODO: Support other IEnumerable types.
         if (Items is not IList list)
         {
-            topOffset = 0;
+            scrollOffset = 0;
             return;
         }
 
         var itemCount = GetItemsCount(list);
         var itemHeight = ItemHeight;
 
-        _startIndex = (int)(offset.Y / itemHeight);
-        _visibleCount = (int)(viewport.Height / itemHeight);
+        _startIndex = (int)(offset / itemHeight);
+        _visibleCount = (int)(height / itemHeight);
 
         if (_visibleCount < itemCount)
         {
             _visibleCount += 2;
         }
 
-        topOffset = offset.Y % itemHeight;
-        // topOffset = 0.0;
+        scrollOffset = offset % itemHeight;
+        // scrollOffset = 0.0;
 
         /*
-        Debug.WriteLine($"[Materialize] viewport: {viewport}" +
-                        $", offset: {offset}" +
-                        $", startIndex: {_startIndex}" +
-                        $", visibleCount: {_visibleCount}" +
-                        $", topOffset: {-topOffset}");
+        System.Diagnostics.Debug.WriteLine($"[Materialize] viewport: {viewport}" +
+                                           $", offset: {offset}" +
+                                           $", startIndex: {_startIndex}" +
+                                           $", visibleCount: {_visibleCount}" +
+                                           $", scrollOffset: {-scrollOffset}");
         //*/
 
         if (itemCount == 0 || _visibleCount == 0 || ItemTemplate is null)
@@ -299,7 +298,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                         _controls.Add(control);
                         _indexes.Add(-1);
                         Children.Add(control);
-                        // Debug.WriteLine($"[Materialize.Materialized] index: {index}, param: {param}");
+                        // System.Diagnostics.Debug.WriteLine($"[Materialize.Materialized] index: {index}, param: {param}");
                         OnContainerMaterialized(control);
                         index++;
                     }
@@ -317,7 +316,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                     if (control.IsVisible)
                     {
                         control.IsVisible = false;
-                        // Debug.WriteLine($"[Materialize.Dematerialized] index: {index}");
+                        // System.Diagnostics.Debug.WriteLine($"[Materialize.Dematerialized] index: {index}");
                         OnContainerDematerialized(control);
                     }
                     continue;
@@ -326,7 +325,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                 if (!control.IsVisible)
                 {
                     control.IsVisible = true;
-                    // Debug.WriteLine($"[Materialize.Recycled] index: {index}");
+                    // System.Diagnostics.Debug.WriteLine($"[Materialize.Recycled] index: {index}");
                     OnContainerRecycled(control);
                 }
 
@@ -335,7 +334,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                 {
                     control.DataContext = param;
                 }
-                // Debug.WriteLine($"[Materialize.Update] index: {index}, param: {param}");
+                // System.Diagnostics.Debug.WriteLine($"[Materialize.Update] index: {index}, param: {param}");
                 _indexes[i] = index;
                 index++;
             }  
@@ -346,9 +345,9 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        availableSize = CalculateSize(availableSize);
-            
-        Materialize(_viewport, _offset, out _);
+        availableSize = UpdateScrollable(availableSize.Width, availableSize.Height, availableSize.Width);
+
+        Materialize(_viewport.Height, _offset.Y, out _);
 
         if (_controls.Count > 0)
         {
@@ -356,7 +355,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             {
                 var size = new Size(_viewport.Width, ItemHeight);
                 control.Measure(size);
-                // Debug.WriteLine($"[MeasureOverride.Measure] {size}");
+                // System.Diagnostics.Debug.WriteLine($"[MeasureOverride.Measure] {size}");
             }
         }
 
@@ -366,22 +365,22 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        finalSize = CalculateSize(finalSize);
+        finalSize = UpdateScrollable(finalSize.Width, finalSize.Height, finalSize.Height);
 
-        Materialize(_viewport, _offset, out var topOffset);
+        Materialize(_viewport.Height, _offset.Y, out var scrollOffset);
 
         InvalidateScrollable();
 
         if (_controls.Count > 0)
         {
-            var y = topOffset == 0.0 ? 0.0 : -topOffset;
+            var y = scrollOffset == 0.0 ? 0.0 : -scrollOffset;
 
             foreach (var control in _controls)
             {
                 var rect = new Rect(new Point(0, y), new Size(_viewport.Width, ItemHeight));
                 control.Arrange(rect);
                 y += ItemHeight;
-                // Debug.WriteLine($"[ArrangeOverride.Arrange] {rect}");
+                // System.Diagnostics.Debug.WriteLine($"[ArrangeOverride.Arrange] {rect}");
             }
         }
 
