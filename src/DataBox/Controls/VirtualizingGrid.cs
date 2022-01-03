@@ -53,24 +53,30 @@ public class VirtualizingGrid : VirtualPanel.VirtualPanel, IStyleable
         return _virtualizingPanelAdapter.ArrangeRows(finalSize, _root, base.ArrangeOverride);
     }
 
-    protected override void OnContainerMaterialized(IControl container)
+    protected override void OnContainerMaterialized(IControl container, int index)
     {
+        base.OnContainerMaterialized(container, index);
+
         if (container is ContentControl { Content: DataBoxRow row })
         {
             row._root = _root;
         }
     }
 
-    protected override void OnContainerDematerialized(IControl container)
+    protected override void OnContainerDematerialized(IControl container, int index)
     {
+        base.OnContainerDematerialized(container, index);
+
         if (container is ContentControl { Content: DataBoxRow row })
         {
             row._root = null;
         }
     }
 
-    protected override void OnContainerRecycled(IControl container)
+    protected override void OnContainerRecycled(IControl container, int index)
     {
+        base.OnContainerRecycled(container, index);
+
         if (container is ContentControl { Content: DataBoxRow row })
         {
             row._root = _root;
