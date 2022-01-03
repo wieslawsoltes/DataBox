@@ -12,6 +12,12 @@ using Avalonia.Metadata;
 
 namespace VirtualPanel;
 
+public enum VirtualPanelScrollMode
+{
+    Smooth,
+    Item
+}
+
 public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 {
     #region Util
@@ -160,6 +166,12 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
     #region Properties
 
+    public static readonly StyledProperty<VirtualPanelScrollMode> ScrollModeProperty =
+        AvaloniaProperty.Register<VirtualPanel, VirtualPanelScrollMode>(nameof(ScrollMode));
+
+    public static readonly StyledProperty<double> ItemHeightProperty = 
+        AvaloniaProperty.Register<VirtualPanel, double>(nameof(ItemHeight), double.NaN);
+
     public static readonly StyledProperty<IEnumerable?> ItemsProperty = 
         AvaloniaProperty.Register<VirtualPanel, IEnumerable?>(nameof(Items));
 
@@ -170,13 +182,22 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             (o, v) => o.SelectedItem = v,
             defaultBindingMode: BindingMode.TwoWay);
 
-    public static readonly StyledProperty<double> ItemHeightProperty = 
-        AvaloniaProperty.Register<VirtualPanel, double>(nameof(ItemHeight), double.NaN);
-
     public static readonly StyledProperty<IDataTemplate?> ItemTemplateProperty = 
         AvaloniaProperty.Register<VirtualPanel, IDataTemplate?>(nameof(ItemTemplate));
 
     private object? _selectedItem;
+ 
+    public VirtualPanelScrollMode ScrollMode
+    {
+        get => GetValue(ScrollModeProperty);
+        set => SetValue(ScrollModeProperty, value);
+    }
+
+    public double ItemHeight
+    {
+        get => GetValue(ItemHeightProperty);
+        set => SetValue(ItemHeightProperty, value);
+    }
 
     public IEnumerable? Items
     {
@@ -188,12 +209,6 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
     {
         get => _selectedItem;
         set => SetAndRaise(SelectedItemProperty, ref _selectedItem, value);
-    }
-
-    public double ItemHeight
-    {
-        get => GetValue(ItemHeightProperty);
-        set => SetValue(ItemHeightProperty, value);
     }
 
     [Content]
@@ -263,8 +278,14 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
             _visibleCount += 2;
         }
 
-        scrollOffset = offset % itemHeight;
-        // scrollOffset = 0.0;
+        if (ScrollMode == VirtualPanelScrollMode.Smooth)
+        {
+            scrollOffset = offset % itemHeight;
+        }
+        else
+        {
+            scrollOffset = 0.0;
+        }
 
         /*
         System.Diagnostics.Debug.WriteLine($"[Materialize] viewport: {viewport}" +
