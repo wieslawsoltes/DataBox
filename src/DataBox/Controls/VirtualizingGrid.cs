@@ -16,9 +16,16 @@ public class VirtualizingGrid : VirtualPanel.VirtualPanel, IStyleable
 
     public VirtualizingGrid()
     {
-        _virtualizingPanelAdapter = new VirtualizingPanelAdapter(this);
+        _virtualizingPanelAdapter = new VirtualizingPanelAdapter(this, InvalidateScroll);
     }
-    
+
+    private void InvalidateScroll(double width, double height, double totalWidth)
+    {
+        // TODO: Invalidate scroll after measure and arrange pass.
+        UpdateScrollable(width, height, totalWidth);
+        InvalidateScrollable();
+    }
+
     public override void ApplyTemplate()
     {
         base.ApplyTemplate();
