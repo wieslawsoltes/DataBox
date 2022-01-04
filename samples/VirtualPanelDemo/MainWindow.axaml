@@ -2,13 +2,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:VirtualPanelDemo"
+        xmlns:dv="clr-namespace:DataVirtualization;assembly=DataVirtualization"
+        xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+        xmlns:vm="clr-namespace:VirtualPanelDemo.ViewModels"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="635"
         WindowState="Normal" WindowStartupLocation="CenterScreen"
         Width="800" Height="635"
         UseLayoutRounding="True"
         x:Class="VirtualPanelDemo.MainWindow"
-        x:DataType="local:MainWindow" x:CompileBindings="True"
+        x:DataType="vm:MainWindowViewModel" x:CompileBindings="True"
         Title="VirtualPanel Demo">
 
   <DockPanel>
@@ -17,7 +19,7 @@
       <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Extent, StringFormat={}Extent: {0}}" DockPanel.Dock="Top" />
       <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Viewport, StringFormat={}Viewport: {0}}" DockPanel.Dock="Top" />
       <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Offset, StringFormat={}Offset: {0}}" DockPanel.Dock="Top" />
-      <TextBlock Margin="6,0,6,0" Text="{Binding Items.Count, StringFormat={}Items.Count: {0}}" DockPanel.Dock="Top" />
+      <TextBlock Margin="6,0,6,0" Text="{Binding Count, StringFormat={}Count: {0}}" DockPanel.Dock="Top" />
       <TextBlock Margin="6,0,6,0" Text="{Binding ItemHeight, StringFormat={}ItemHeight: {0}}" DockPanel.Dock="Top" />
     </DockPanel>
 
@@ -36,10 +38,14 @@
       </ScrollViewer.Styles>
 
       <VirtualPanel Items="{Binding Items}"
-                    ItemHeight="{Binding ItemHeight}">
+                    ItemHeight="{Binding ItemHeight}"
+                    Name="VirtualPanel">
         <VirtualPanel.ItemTemplate>
-          <DataTemplate x:DataType="x:String">
-            <TextBlock Text="{Binding}" Margin="6,0,6,0" VerticalAlignment="Center" />
+          <DataTemplate>
+            <DataTemplate.DataType>
+              <x:Type TypeName="dv:DataWrapper" x:TypeArguments="sys:String" />
+            </DataTemplate.DataType>
+            <TextBlock Text="{Binding Data}" Margin="6,0,6,0" VerticalAlignment="Center" />
           </DataTemplate>
         </VirtualPanel.ItemTemplate>
       </VirtualPanel>

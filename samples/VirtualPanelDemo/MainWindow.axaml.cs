@@ -1,16 +1,12 @@
-using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using VirtualPanelDemo.ViewModels;
 
 namespace VirtualPanelDemo;
 
 public partial class MainWindow : Window
 {
-    public ObservableCollection<string> Items { get; set; }
-
-    public double ItemHeight { get; set; }
-
     public MainWindow()
     {
         InitializeComponent();
@@ -19,18 +15,12 @@ public partial class MainWindow : Window
 #endif
         Renderer.DrawFps = true;
 
-        Items = new ObservableCollection<string>();
+        DataContext = new MainWindowViewModel(1_000_000_000, 100, 25);
 
-        var itemsCount = 226;
-
-        for (var i = 0; i < itemsCount; i++)
+        Opened += (_, _) =>
         {
-            Items.Add($"Item {i}");
-        }
-
-        ItemHeight = 25;
-            
-        DataContext = this;
+            this.FindControl<VirtualPanel.VirtualPanel>("VirtualPanel")?.InvalidateMeasure();
+        };
     }
 
     private void InitializeComponent()
