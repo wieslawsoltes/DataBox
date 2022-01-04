@@ -11,7 +11,7 @@
   <PropertyGroup>
     <PackageId>VirtualPanel</PackageId>
     <Description>A virtualizing smooth scrolling panel control.</Description>
-    <PackageTags>virtualing;smooth;scrolling;panel;control;xaml;axaml;avalonia;avaloniaui</PackageTags>
+    <PackageTags>virtualizing;smooth;scrolling;panel;control;xaml;axaml;avalonia;avaloniaui</PackageTags>
   </PropertyGroup>
 
   <Import Project="..\..\build\Base.props" />
