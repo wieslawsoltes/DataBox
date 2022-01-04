@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using DataBox.Primitives;
@@ -7,10 +8,10 @@ namespace DataBox.Controls;
 
 internal class VirtualizingPanelAdapter
 {
-    private readonly Panel _panel;
+    private readonly VirtualPanel.VirtualPanel _panel;
     private readonly Action<double, double, double> _invalidateScroll;
 
-    public VirtualizingPanelAdapter(Panel panel, Action<double, double, double> invalidateScroll)
+    public VirtualizingPanelAdapter(VirtualPanel.VirtualPanel panel, Action<double, double, double> invalidateScroll)
     {
         _panel = panel;
         _invalidateScroll = invalidateScroll;
@@ -25,7 +26,7 @@ internal class VirtualizingPanelAdapter
         return control as DataBoxCellsPresenter;
     }
 
-    private double SetColumnsActualWidth(Avalonia.Controls.Controls rows, DataBox root, bool measureStarAsAuto)
+    private double SetColumnsActualWidth(IReadOnlyList<IControl> rows, DataBox root, bool measureStarAsAuto)
     {
         var accumulatedWidth = 0.0;
         var actualWidths = new double[root.Columns.Count];
@@ -178,7 +179,7 @@ internal class VirtualizingPanelAdapter
         return accumulatedWidth;
     }
 
-    private void MeasureCells(Avalonia.Controls.Controls rows,  DataBox root)
+    private void MeasureCells(IReadOnlyList<IControl> rows,  DataBox root)
     {
         for (int r = 0, rowsCount = rows.Count; r < rowsCount; ++r)
         {
