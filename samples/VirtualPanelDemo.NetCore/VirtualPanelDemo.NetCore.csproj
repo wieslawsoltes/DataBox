@@ -1,7 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU' Or '$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU' Or '$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <OutputType>Library</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release</Configurations>
@@ -15,12 +20,18 @@
   <Import Project="..\..\build\Base.props" />
   <Import Project="..\..\build\ReferenceAssemblies.props" />
   <Import Project="..\..\build\Avalonia.props" />
+  <Import Project="..\..\build\Avalonia.Desktop.props" />
   <Import Project="..\..\build\Avalonia.Diagnostics.props" />
   <Import Project="..\..\build\Avalonia.ReactiveUI.props" />
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\DataVirtualization\DataVirtualization.csproj" />
     <ProjectReference Include="..\..\src\VirtualPanel\VirtualPanel.csproj" />
+    <ProjectReference Include="..\VirtualPanelDemo\VirtualPanelDemo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\MainWindow.axaml" />
   </ItemGroup>
 
 </Project>
