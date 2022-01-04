@@ -17,6 +17,10 @@ public class App : Application
         {
             desktop.MainWindow = new MainWindow();
         }
+        else if (ApplicationLifetime is ISingleViewApplicationLifetime single)
+        {
+            single.MainView = new MainView();
+        }
 
         base.OnFrameworkInitializationCompleted();
     }

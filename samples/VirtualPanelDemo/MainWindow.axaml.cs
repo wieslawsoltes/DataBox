@@ -14,13 +14,6 @@ public partial class MainWindow : Window
         this.AttachDevTools();
 #endif
         Renderer.DrawFps = true;
-
-        DataContext = new MainWindowViewModel(1_000_000_000, 100, 25);
-
-        Opened += (_, _) =>
-        {
-            this.FindControl<VirtualPanel.VirtualPanel>("VirtualPanel")?.InvalidateMeasure();
-        };
     }
 
     private void InitializeComponent()
