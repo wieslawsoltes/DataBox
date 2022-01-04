@@ -18,7 +18,7 @@ public enum VirtualPanelScrollMode
     Item
 }
 
-public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
+public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 {
     #region Util
 
@@ -248,6 +248,9 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
     private int _visibleCount = -1;
     private readonly Stack<IControl> _recycled = new();
     private readonly SortedDictionary<int, IControl> _controls = new();
+    private List<IControl> _children = new();
+
+    public IReadOnlyList<IControl> Children => _children;
 
     protected Size UpdateScrollable(double width, double height, double totalWidth)
     {
@@ -262,6 +265,34 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
         _pageScrollSize = new Size(_viewport.Width, _viewport.Height);
 
         return extent;
+    }
+
+    private void AddChild(IControl control)
+    {
+        LogicalChildren.Add(control);
+        VisualChildren.Add(control);
+        _children.Add(control);
+    }
+
+    private void RemoveChild(IControl control)
+    {
+        LogicalChildren.Remove(control);
+        VisualChildren.Remove(control);
+        _children.Remove(control);
+    }
+
+    private void RemoveChildren(HashSet<IControl> controls)
+    {
+        LogicalChildren.RemoveAll(controls);
+        VisualChildren.RemoveAll(controls);
+        _children.RemoveAll(controls.Contains);
+    }
+
+    private void ClearChildren()
+    {
+        LogicalChildren.Clear();
+        VisualChildren.Clear();
+        _children.Clear();
     }
 
     private void InvalidateChildren(double height, double offset, out double scrollOffset)
@@ -295,7 +326,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
 
         if (itemCount == 0 || _visibleCount == 0 || ItemTemplate is null)
         {
-            Children.Clear();
+            ClearChildren();
             RaiseChildIndexChanged();
             return;
         }
@@ -358,7 +389,7 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                     _controls[i] = control;
                     if (!childrenRemove.Contains(control))
                     {
-                        Children.Add(control);
+                        AddChild(control);
                     }
                     else
                     {
@@ -375,16 +406,17 @@ public class VirtualPanel : Panel, ILogicalScrollable, IChildIndexProvider
                     };
                     control.DataContext = param;
                     _controls[i] = control;
-                    Children.Add(control);
+                    AddChild(control);
                     OnContainerMaterialized(control, i);
                 }
             }
         }
   
-        foreach (var child in childrenRemove)
-        {
-            Children.Remove(child);
-        }
+        RemoveChildren(childrenRemove);
+        // foreach (var child in childrenRemove)
+        // {
+        //     RemoveChild(child);
+        // }
     }
 
     protected override Size MeasureOverride(Size availableSize)
