@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Collections;
 using System.Diagnostics;
-using System.ComponentModel;
 
 namespace DataVirtualization
 {
@@ -16,7 +14,7 @@ namespace DataVirtualization
 	/// due to memory consumption or fetch latency.
 	/// </summary>
 	/// <remarks>
-	/// The IList implmentation is not fully complete, but should be sufficient for use as read only collection 
+	/// The IList implementation is not fully complete, but should be sufficient for use as read only collection 
 	/// data bound to a suitable ItemsControl.
 	/// </remarks>
 	/// <typeparam name="T"></typeparam>
@@ -32,9 +30,9 @@ namespace DataVirtualization
 		/// <param name="pageTimeout">The page timeout.</param>
 		public VirtualizingCollection(IItemsProvider<T> itemsProvider, int pageSize, int pageTimeout)
 		{
-			_itemsProvider = itemsProvider;
-			_pageSize = pageSize;
-			_pageTimeout = pageTimeout;
+			ItemsProvider = itemsProvider;
+			PageSize = pageSize;
+			PageTimeout = pageTimeout;
 		}
 
 		/// <summary>
@@ -44,8 +42,8 @@ namespace DataVirtualization
 		/// <param name="pageSize">Size of the page.</param>
 		public VirtualizingCollection(IItemsProvider<T> itemsProvider, int pageSize)
 		{
-			_itemsProvider = itemsProvider;
-			_pageSize = pageSize;
+			ItemsProvider = itemsProvider;
+			PageSize = pageSize;
 		}
 
 		/// <summary>
@@ -54,55 +52,40 @@ namespace DataVirtualization
 		/// <param name="itemsProvider">The items provider.</param>
 		public VirtualizingCollection(IItemsProvider<T> itemsProvider)
 		{
-			_itemsProvider = itemsProvider;
+			ItemsProvider = itemsProvider;
 		}
 
 		#endregion
 
 		#region ItemsProvider
 
-		private readonly IItemsProvider<T> _itemsProvider;
-
-		/// <summary>
+        /// <summary>
 		/// Gets the items provider.
 		/// </summary>
 		/// <value>The items provider.</value>
-		public IItemsProvider<T> ItemsProvider
-		{
-			get { return _itemsProvider; }
-		}
+		public IItemsProvider<T> ItemsProvider { get; }
 
-		#endregion
+        #endregion
 
 		#region PageSize
 
-		private readonly int _pageSize = 100;
-
-		/// <summary>
+        /// <summary>
 		/// Gets the size of the page.
 		/// </summary>
 		/// <value>The size of the page.</value>
-		public int PageSize
-		{
-			get { return _pageSize; }
-		}
+		public int PageSize { get; } = 100;
 
-		#endregion
+        #endregion
 
 		#region PageTimeout
 
-		private readonly long _pageTimeout = 10000;
-
-		/// <summary>
+        /// <summary>
 		/// Gets the page timeout.
 		/// </summary>
 		/// <value>The page timeout.</value>
-		public long PageTimeout
-		{
-			get { return _pageTimeout; }
-		}
+		public long PageTimeout { get; } = 10000;
 
-		#endregion
+        #endregion
 
 		#region IList<DataWrapper<T>>, IList
 
@@ -149,8 +132,8 @@ namespace DataVirtualization
 			get
 			{
 				// determine which page and offset within page
-				int pageIndex = index / PageSize;
-				int pageOffset = index % PageSize;
+				var pageIndex = index / PageSize;
+				var pageOffset = index % PageSize;
 
 				// request primary page
 				RequestPage(pageIndex);
@@ -172,7 +155,7 @@ namespace DataVirtualization
 			set { throw new NotSupportedException(); }
 		}
 
-		object IList.this[int index]
+		object? IList.this[int index]
 		{
 			get { return this[index]; }
 			set { throw new NotSupportedException(); }
@@ -193,7 +176,7 @@ namespace DataVirtualization
 		/// </returns>
 		public IEnumerator<DataWrapper<T>> GetEnumerator()
 		{
-			for (int i = 0; i < Count; i++)
+			for (var i = 0; i < Count; i++)
 			{
 				yield return this[i];
 			}
@@ -226,7 +209,7 @@ namespace DataVirtualization
 			throw new NotSupportedException();
 		}
 
-		int IList.Add(object value)
+		int IList.Add(object? value)
 		{
 			throw new NotSupportedException();
 		}
@@ -235,10 +218,10 @@ namespace DataVirtualization
 
 		#region Contains
 
-		bool IList.Contains(object value)
-		{
-			return Contains((DataWrapper<T>)value);
-		}
+		bool IList.Contains(object? value)
+        {
+            return value is DataWrapper<T> dataWrapper && Contains(dataWrapper);
+        }
 
 		/// <summary>
 		/// Not supported.
@@ -249,7 +232,7 @@ namespace DataVirtualization
 		/// </returns>
 		public bool Contains(DataWrapper<T> item)
 		{
-			foreach (DataPage<T> page in _pages.Values)
+			foreach (var page in _pages.Values)
 			{
 				if (page.Items.Contains(item))
 				{
@@ -275,10 +258,10 @@ namespace DataVirtualization
 
 		#region IndexOf
 
-		int IList.IndexOf(object value)
-		{
-			return IndexOf((DataWrapper<T>)value);
-		}
+		int IList.IndexOf(object? value)
+        {
+            return value is DataWrapper<T> dataWrapper ? IndexOf(dataWrapper) : -1;
+        }
 
 		/// <summary>
 		/// TODO
@@ -289,12 +272,12 @@ namespace DataVirtualization
 		/// </returns>
 		public int IndexOf(DataWrapper<T> item)
 		{
-			foreach (KeyValuePair<int, DataPage<T>> keyValuePair in _pages)
+            foreach (var keyValuePair in _pages)
 			{
-				int indexWithinPage = keyValuePair.Value.Items.IndexOf(item);
+                int indexWithinPage = keyValuePair.Value.Items.IndexOf(item);
 				if (indexWithinPage != -1)
 				{
-					return PageSize * keyValuePair.Key + indexWithinPage;
+                    return PageSize * keyValuePair.Key + indexWithinPage;
 				}
 			}
 			return -1;
@@ -320,9 +303,12 @@ namespace DataVirtualization
 			throw new NotSupportedException();
 		}
 
-		void IList.Insert(int index, object value)
+		void IList.Insert(int index, object? value)
 		{
-			Insert(index, (DataWrapper<T>)value);
+            if (value is DataWrapper<T> dataWrapper)
+            {
+                Insert(index, dataWrapper);
+            }
 		}
 
 		#endregion
@@ -344,7 +330,7 @@ namespace DataVirtualization
 			throw new NotSupportedException();
 		}
 
-		void IList.Remove(object value)
+		void IList.Remove(object? value)
 		{
 			throw new NotSupportedException();
 		}
@@ -386,7 +372,8 @@ namespace DataVirtualization
 		/// -or-
 		/// The number of elements in the source <see cref="T:System.Collections.Generic.ICollection`1"/> is greater than the available space from <paramref name="arrayIndex"/> to the end of the destination <paramref name="array"/>.
 		/// -or-
-		/// Type <paramref name="T"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
+        /// ReSharper disable once InvalidXmlDocComment
+        /// Type <paramref name="T"/> cannot be cast automatically to the type of the destination <paramref name="array"/>.
 		/// </exception>
 		public void CopyTo(DataWrapper<T>[] array, int arrayIndex)
 		{
@@ -453,22 +440,21 @@ namespace DataVirtualization
 
 		#region Paging
 
-		private Dictionary<int, DataPage<T>> _pages = new Dictionary<int, DataPage<T>>();
+		private Dictionary<int, DataPage<T>> _pages = new();
 
 		/// <summary>
 		/// Cleans up any stale pages that have not been accessed in the period dictated by PageTimeout.
 		/// </summary>
 		public void CleanUpPages()
 		{
-			int[] keys = _pages.Keys.ToArray();
-			foreach (int key in keys)
+			var keys = _pages.Keys.ToArray();
+			foreach (var key in keys)
 			{
 				// page 0 is a special case, since WPF ItemsControl access the first item frequently
 				if (key != 0 && (DateTime.Now - _pages[key].TouchTime).TotalMilliseconds > PageTimeout)
 				{
-					bool removePage = true;
-					DataPage<T> page;
-					if (_pages.TryGetValue(key, out page))
+					var removePage = true;
+                    if (_pages.TryGetValue(key, out var page))
 					{
 						removePage = !page.IsInUse;
 					}
@@ -492,8 +478,8 @@ namespace DataVirtualization
 			if (!_pages.ContainsKey(pageIndex))
 			{
 				// Create a page of empty data wrappers.
-				int pageLength = Math.Min(this.PageSize, this.Count - pageIndex * this.PageSize);
-				DataPage<T> page = new DataPage<T>(pageIndex * this.PageSize, pageLength);
+				var pageLength = Math.Min(PageSize, Count - pageIndex * PageSize);
+				var page = new DataPage<T>(pageIndex * PageSize, pageLength);
 				_pages.Add(pageIndex, page);
 				Trace.WriteLine("Added page: " + pageIndex);
 				LoadPage(pageIndex, pageLength);
@@ -508,12 +494,11 @@ namespace DataVirtualization
 		/// Populates the page within the dictionary.
 		/// </summary>
 		/// <param name="pageIndex">Index of the page.</param>
-		/// <param name="page">The page.</param>
+		/// <param name="dataItems">The page.</param>
 		protected virtual void PopulatePage(int pageIndex, IList<T> dataItems)
 		{
 			Trace.WriteLine("Page populated: " + pageIndex);
-			DataPage<T> page;
-			if (_pages.TryGetValue(pageIndex, out page))
+            if (_pages.TryGetValue(pageIndex, out var page))
 			{
 				page.Populate(dataItems);
 			}
@@ -537,7 +522,7 @@ namespace DataVirtualization
 		/// </summary>
 		protected virtual void LoadCount()
 		{
-			this.Count = FetchCount();
+			Count = FetchCount();
 		}
 
 		/// <summary>
@@ -547,27 +532,28 @@ namespace DataVirtualization
 		/// <param name="pageLength">Number of items in the page.</param>
 		protected virtual void LoadPage(int pageIndex, int pageLength)
 		{
-			int count = 0;
-			PopulatePage(pageIndex, FetchPage(pageIndex, pageLength, out count));
-			this.Count = count;
+            PopulatePage(pageIndex, FetchPage(pageIndex, pageLength, out var count));
+			Count = count;
 		}
 
 		#endregion
 
 		#region Fetch methods
 
-		/// <summary>
-		/// Fetches the requested page from the IItemsProvider.
-		/// </summary>
-		/// <param name="pageIndex">Index of the page.</param>
-		/// <returns></returns>
-		protected IList<T> FetchPage(int pageIndex, int pageLength, out int count)
+        /// <summary>
+        /// Fetches the requested page from the IItemsProvider.
+        /// </summary>
+        /// <param name="pageIndex">Index of the page.</param>
+        /// <param name="pageLength">The page length.</param>
+        /// <param name="count">The items count.</param>
+        /// <returns></returns>
+        protected IList<T> FetchPage(int pageIndex, int pageLength, out int count)
 		{
 			return ItemsProvider.FetchRange(pageIndex * PageSize, pageLength, out count);
 		}
 
 		/// <summary>
-		/// Fetches the count of itmes from the IItemsProvider.
+		/// Fetches the count of items from the IItemsProvider.
 		/// </summary>
 		/// <returns></returns>
 		protected int FetchCount()
