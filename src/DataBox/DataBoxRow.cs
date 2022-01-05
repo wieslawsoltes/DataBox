@@ -22,10 +22,23 @@ public class DataBoxRow : ListBoxItem, IStyleable
 
         _bottomGridLine = e.NameScope.Find<Rectangle>("PART_BottomGridLine");
 
+        InvalidateBottomGridLine();
+            
+        CellsPresenter = e.NameScope.Find<DataBoxCellsPresenter>("PART_CellsPresenter");
+
+        if (CellsPresenter is { })
+        {
+            CellsPresenter._root = _root;
+            CellsPresenter.Invalidate();
+        }
+    }
+
+    private void InvalidateBottomGridLine()
+    {
         if (_bottomGridLine is { } && _root is { })
         {
-            bool newVisibility = 
-                _root.GridLinesVisibility == DataBoxGridLinesVisibility.Horizontal 
+            bool newVisibility =
+                _root.GridLinesVisibility == DataBoxGridLinesVisibility.Horizontal
                 || _root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
 
             if (newVisibility != _bottomGridLine.IsVisible)
@@ -34,14 +47,6 @@ public class DataBoxRow : ListBoxItem, IStyleable
             }
 
             _bottomGridLine.Fill = _root.HorizontalGridLinesBrush;
-        }
-            
-        CellsPresenter = e.NameScope.Find<DataBoxCellsPresenter>("PART_CellsPresenter");
-
-        if (CellsPresenter is { })
-        {
-            CellsPresenter._root = _root;
-            CellsPresenter.Invalidate();
         }
     }
 }

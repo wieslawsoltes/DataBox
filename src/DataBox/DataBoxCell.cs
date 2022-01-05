@@ -1,4 +1,5 @@
 ﻿using System;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
@@ -21,18 +22,32 @@ public class DataBoxCell : ContentControl, IStyleable
 
         _rightGridLine = e.NameScope.Find<Rectangle>("PART_RightGridLine");
 
-        if (_rightGridLine is { } && _root is { })
+        InvalidateRightGridLine();
+    }
+
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+
+        InvalidateRightGridLine();
+    }
+
+    private void InvalidateRightGridLine()
+    {
+        if (_rightGridLine is null || _root is null)
         {
-            bool newVisibility = 
-                _root.GridLinesVisibility == DataBoxGridLinesVisibility.Vertical 
-                || _root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
-
-            if (newVisibility != _rightGridLine.IsVisible)
-            {
-                _rightGridLine.IsVisible = newVisibility;
-            }
-
-            _rightGridLine.Fill = _root.VerticalGridLinesBrush;
+            return;
         }
+
+        bool newVisibility =
+            _root.GridLinesVisibility == DataBoxGridLinesVisibility.Vertical
+            || _root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
+
+        if (newVisibility != _rightGridLine.IsVisible)
+        {
+            _rightGridLine.IsVisible = newVisibility;
+        }
+
+        _rightGridLine.Fill = _root.VerticalGridLinesBrush;
     }
 }
