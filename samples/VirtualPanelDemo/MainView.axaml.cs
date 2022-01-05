@@ -24,7 +24,6 @@ public class MainView : UserControl
             {
                 vp.InvalidateMeasure();
             };
-            
         }
     }
 

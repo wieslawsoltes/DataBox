@@ -35,6 +35,7 @@
 
       <VirtualPanel Items="{Binding Items}"
                     ItemHeight="{Binding ItemHeight}"
+                    VerticalAlignment="Top"
                     Name="VirtualPanel">
         <VirtualPanel.ItemTemplate>
           <DataTemplate>
