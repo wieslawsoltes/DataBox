@@ -4,55 +4,52 @@ namespace DataVirtualization
 {
 	public class DataWrapper<T> : INotifyPropertyChanged where T : class
 	{
-		private int index;
-		private T data;
+		private readonly int _index;
+		private T? _data;
 
-		public event PropertyChangedEventHandler PropertyChanged;
+		public event PropertyChangedEventHandler? PropertyChanged;
 
 		public DataWrapper(int index)
 		{
-			this.index = index;
+			_index = index;
 		}
 
 		public int Index
 		{
-			get { return this.index; }
+			get { return _index; }
 		}
 
 		public int ItemNumber
 		{
-			get { return this.index + 1; }
+			get { return _index + 1; }
 		}
 
 		public bool IsLoading
 		{
-			get { return this.Data == null; }
+			get { return Data == null; }
 		}
 
-		public T Data
+		public T? Data
 		{
-			get { return this.data; }
+			get { return _data; }
 			internal set
 			{
-				this.data = value;
-				this.OnPropertyChanged("Data");
-				this.OnPropertyChanged("IsLoading");
+				_data = value;
+				OnPropertyChanged(nameof(Data));
+				OnPropertyChanged(nameof(IsLoading));
 			}
 		}
 
 		public bool IsInUse
 		{
-			get { return this.PropertyChanged != null; }
+			get { return PropertyChanged != null; }
 		}
 
 		private void OnPropertyChanged(string propertyName)
 		{
-			System.Diagnostics.Debug.Assert(this.GetType().GetProperty(propertyName) != null);
-			var handler = this.PropertyChanged;
-			if (handler != null)
-			{
-				handler(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
+			System.Diagnostics.Debug.Assert(GetType().GetProperty(propertyName) != null);
+			var handler = PropertyChanged;
+            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 	}
 }
