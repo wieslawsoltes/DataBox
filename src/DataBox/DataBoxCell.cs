@@ -25,6 +25,13 @@ public class DataBoxCell : ContentControl, IStyleable
         InvalidateRightGridLine();
     }
 
+    protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
+    {
+        base.OnAttachedToVisualTree(e);
+
+        InvalidateRightGridLine();
+    }
+
     private void InvalidateRightGridLine()
     {
         if (_rightGridLine is null || _root is null)
