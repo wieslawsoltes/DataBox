@@ -245,7 +245,9 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     #region Layout
 
     private int _startIndex = -1;
+    private int _endIndex = -1;
     private int _visibleCount = -1;
+    private double _scrollOffset;
     private readonly Stack<IControl> _recycled = new();
     private readonly SortedDictionary<int, IControl> _controls = new();
     private List<IControl> _children = new();
@@ -274,13 +276,6 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         _children.Add(control);
     }
 
-    private void RemoveChild(IControl control)
-    {
-        LogicalChildren.Remove(control);
-        VisualChildren.Remove(control);
-        _children.Remove(control);
-    }
-
     private void RemoveChildren(HashSet<IControl> controls)
     {
         LogicalChildren.RemoveAll(controls);
@@ -295,36 +290,34 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         _children.Clear();
     }
 
-    private void InvalidateChildren(double height, double offset, out double scrollOffset)
+    private void InvalidateChildren(double height, double offset)
     {
         // TODO: Support other IEnumerable types.
         if (Items is not IList items)
         {
-            scrollOffset = 0;
+            _scrollOffset = 0;
             return;
         }
 
         var itemCount = GetItemsCount(items);
         var itemHeight = ItemHeight;
+        
 
+        _scrollOffset = ScrollMode == VirtualPanelScrollMode.Smooth ? offset % itemHeight : 0.0;
+
+        var size = height + _scrollOffset;
+        
         _startIndex = (int)(offset / itemHeight);
-        _visibleCount = (int)(height / itemHeight);
+        _visibleCount = (int)(size / itemHeight);
 
-        if (_visibleCount < itemCount)
+        if (size % itemHeight > 0 && height > 0)
         {
-            _visibleCount += 2;
+            _visibleCount += 1;
         }
 
-        if (ScrollMode == VirtualPanelScrollMode.Smooth)
-        {
-            scrollOffset = offset % itemHeight;
-        }
-        else
-        {
-            scrollOffset = 0.0;
-        }
+        _endIndex = (_startIndex + _visibleCount) - 1;
 
-        if (itemCount == 0 || _visibleCount == 0 || ItemTemplate is null)
+        if (itemCount == 0 || ItemTemplate is null)
         {
             ClearChildren();
             RaiseChildIndexChanged();
@@ -347,12 +340,11 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             return;
         }
 
-        var endIndex = _startIndex + _visibleCount;
         var toRemove = new List<int>();
         
         foreach (var control in _controls)
         {
-            if (control.Key < _startIndex || control.Key > endIndex)
+            if (control.Key < _startIndex || control.Key > _endIndex)
             {
                 toRemove.Add(control.Key);
             }
@@ -370,7 +362,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             OnContainerDematerialized(control, remove);
         }
 
-        for (var i = _startIndex; i < endIndex; i++)
+        for (var i = _startIndex; i <= _endIndex; i++)
         {
             if (i >= itemCount)
             {
@@ -413,17 +405,13 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         }
   
         RemoveChildren(childrenRemove);
-        // foreach (var child in childrenRemove)
-        // {
-        //     RemoveChild(child);
-        // }
     }
 
     protected override Size MeasureOverride(Size availableSize)
     {
         availableSize = UpdateScrollable(availableSize.Width, availableSize.Height, availableSize.Width);
 
-        InvalidateChildren(_viewport.Height, _offset.Y, out _);
+        InvalidateChildren(_viewport.Height, _offset.Y);
 
         if (_controls.Count > 0)
         {
@@ -441,10 +429,11 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     {
         finalSize = UpdateScrollable(finalSize.Width, finalSize.Height, finalSize.Width);
 
-        InvalidateChildren(_viewport.Height, _offset.Y, out var scrollOffsetY);
+        InvalidateChildren(_viewport.Height, _offset.Y);
         InvalidateScrollable();
 
         var scrollOffsetX = 0.0; // TODO: _offset.X;
+        var scrollOffsetY = _scrollOffset;
 
         if (_controls.Count > 0)
         {
