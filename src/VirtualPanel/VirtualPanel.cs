@@ -301,7 +301,6 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
         var itemCount = GetItemsCount(items);
         var itemHeight = ItemHeight;
-        
 
         _scrollOffset = ScrollMode == VirtualPanelScrollMode.Smooth ? offset % itemHeight : 0.0;
 
