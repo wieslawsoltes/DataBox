@@ -368,38 +368,40 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
                 break;
             }
 
+            if (_controls.ContainsKey(i))
+            {
+                continue;
+            }
+
+            IControl control;
             var param = items[i];
 
-            if (!_controls.ContainsKey(i))
+            if (_recycled.Count > 0)
             {
-                IControl control;
-                if (_recycled.Count > 0)
+                control = _recycled.Pop();
+                control.DataContext = param;
+                _controls[i] = control;
+                if (!childrenRemove.Contains(control))
                 {
-                    control = _recycled.Pop();
-                    control.DataContext = param;
-                    _controls[i] = control;
-                    if (!childrenRemove.Contains(control))
-                    {
-                        AddChild(control);
-                    }
-                    else
-                    {
-                        childrenRemove.Remove(control);
-                    }
-                    OnContainerRecycled(control, i);
+                    AddChild(control);
                 }
                 else
                 {
-                    var content = param is null ? null : ItemTemplate.Build(param);
-                    control = new ContentControl
-                    {
-                        Content = content
-                    };
-                    control.DataContext = param;
-                    _controls[i] = control;
-                    AddChild(control);
-                    OnContainerMaterialized(control, i);
+                    childrenRemove.Remove(control);
                 }
+                OnContainerRecycled(control, i);
+            }
+            else
+            {
+                var content = param is null ? null : ItemTemplate.Build(param);
+                control = new ContentControl
+                {
+                    Content = content
+                };
+                control.DataContext = param;
+                _controls[i] = control;
+                AddChild(control);
+                OnContainerMaterialized(control, i);
             }
         }
   
