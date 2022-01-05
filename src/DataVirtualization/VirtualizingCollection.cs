@@ -462,7 +462,7 @@ namespace DataVirtualization
 					if (removePage)
 					{
 						_pages.Remove(key);
-						Trace.WriteLine("Removed Page: " + key);
+						// Trace.WriteLine("Removed Page: " + key);
 					}
 				}
 			}
@@ -481,7 +481,7 @@ namespace DataVirtualization
 				var pageLength = Math.Min(PageSize, Count - pageIndex * PageSize);
 				var page = new DataPage<T>(pageIndex * PageSize, pageLength);
 				_pages.Add(pageIndex, page);
-				Trace.WriteLine("Added page: " + pageIndex);
+				// Trace.WriteLine("Added page: " + pageIndex);
 				LoadPage(pageIndex, pageLength);
 			}
 			else
@@ -497,7 +497,7 @@ namespace DataVirtualization
 		/// <param name="dataItems">The page.</param>
 		protected virtual void PopulatePage(int pageIndex, IList<T> dataItems)
 		{
-			Trace.WriteLine("Page populated: " + pageIndex);
+			// Trace.WriteLine("Page populated: " + pageIndex);
             if (_pages.TryGetValue(pageIndex, out var page))
 			{
 				page.Populate(dataItems);
