@@ -1,7 +1,5 @@
-﻿using System.Reactive.Linq;
-using Avalonia.Controls;
+﻿using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using ReactiveUI;
 using VirtualPanelDemo.ViewModels;
 
 namespace VirtualPanelDemo;
@@ -13,7 +11,7 @@ public class MainView : UserControl
         InitializeComponent();
 
         var vm = new MainWindowViewModel(2_000_000_000, 100, 25);
-        
+
         DataContext = vm;
 
         var vp = this.FindControl<VirtualPanel.VirtualPanel>("VirtualPanel");
