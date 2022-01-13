@@ -419,7 +419,10 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             foreach (var control in _controls)
             {
                 var size = new Size(_viewport.Width, ItemHeight);
-                control.Value.Measure(size);
+                if (!control.Value.IsMeasureValid)
+                {
+                    control.Value.Measure(size);
+                }
             }
         }
 
