@@ -152,13 +152,15 @@ internal class VirtualizingPanelAdapter
                     totalWidthForStars -= actualWidth;
                     totalStarValue -= value;
 
+                    // Ensure that column content is not clipped.
+                    /*
                     if (actualWidths[c] > actualWidth)
                     {
                         actualWidth = actualWidths[c];
                         actualWidth = Math.Max(column.MinWidth, actualWidth);
                         actualWidth = Math.Min(column.MaxWidth, actualWidth);
                     }
-
+                    //*/
                     actualWidths[c] = actualWidth;
                     accumulatedWidth += actualWidths[c];
 
