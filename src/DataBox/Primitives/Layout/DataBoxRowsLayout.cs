@@ -24,7 +24,7 @@ internal static class DataBoxRowsLayout
         for (var c = 0; c < root.Columns.Count; c++)
         {
             var column = root.Columns[c];
-            actualWidths[c] = double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth;
+            actualWidths[c] = double.IsNaN(column.MeasureWidth) ? 0.0 : column.MeasureWidth;
         }
 
         for (var c = 0; c < root.Columns.Count; c++)
@@ -163,7 +163,7 @@ internal static class DataBoxRowsLayout
         for (var c = 0; c < root.Columns.Count; c++)
         {
             var column = root.Columns[c];
-            column.ActualWidth = actualWidths[c];
+            column.MeasureWidth = actualWidths[c];
         }
 
         return accumulatedWidth;

@@ -43,8 +43,8 @@ public abstract class DataBoxColumn : AvaloniaObject
     public static readonly StyledProperty<string?> SortMemberPathProperty = 
         AvaloniaProperty.Register<DataBoxColumn, string?>(nameof(SortMemberPath));
 
-    internal static readonly StyledProperty<double> ActualWidthProperty = 
-        AvaloniaProperty.Register<DataBoxColumn, double>(nameof(ActualWidth), double.NaN);
+    internal static readonly StyledProperty<double> MeasureWidthProperty = 
+        AvaloniaProperty.Register<DataBoxColumn, double>(nameof(MeasureWidth), double.NaN);
 
     [Content]
     public IDataTemplate? CellTemplate
@@ -113,9 +113,9 @@ public abstract class DataBoxColumn : AvaloniaObject
         set => SetValue(SortMemberPathProperty, value);
     }
 
-    internal double ActualWidth
+    internal double MeasureWidth
     {
-        get => GetValue(ActualWidthProperty);
-        set => SetValue(ActualWidthProperty, value);
+        get => GetValue(MeasureWidthProperty);
+        set => SetValue(MeasureWidthProperty, value);
     }
 }

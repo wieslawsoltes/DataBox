@@ -26,7 +26,7 @@ internal static class DataBoxCellsLayout
 
             var child = children[i];
             var column = dataBox.Columns[i];
-            var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
+            var width = Math.Max(0.0, double.IsNaN(column.MeasureWidth) ? 0.0 : column.MeasureWidth);
 
             width = Math.Max(column.MinWidth, width);
             width = Math.Min(column.MaxWidth, width);
@@ -67,7 +67,7 @@ internal static class DataBoxCellsLayout
 
             var child = children[i];
             var column = dataBox.Columns[i];
-            var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
+            var width = Math.Max(0.0, double.IsNaN(column.MeasureWidth) ? 0.0 : column.MeasureWidth);
             var height = Math.Max(maxHeight, arrangeSize.Height);
             var rect = new Rect(accumulatedWidth, 0.0, width, height);
 
