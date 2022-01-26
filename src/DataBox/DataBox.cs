@@ -132,7 +132,7 @@ public class DataBox : TemplatedControl
         Attach();
     }
 
-    private void Attach()
+    internal void Attach()
     {
         if (_headersPresenter is { })
         {
