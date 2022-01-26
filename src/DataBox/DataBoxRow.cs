@@ -9,10 +9,11 @@ namespace DataBox;
 
 public class DataBoxRow : ListBoxItem, IStyleable
 {
-    internal DataBox? _root;
     private Rectangle? _bottomGridLine;
 
     Type IStyleable.StyleKey => typeof(DataBoxRow);
+
+    internal DataBox? DataBox { get; set; }
 
     internal DataBoxCellsPresenter? CellsPresenter { get; set; }
         
@@ -28,25 +29,25 @@ public class DataBoxRow : ListBoxItem, IStyleable
 
         if (CellsPresenter is { })
         {
-            CellsPresenter._root = _root;
+            CellsPresenter.DataBox = DataBox;
             CellsPresenter.Attach();
         }
     }
 
     private void InvalidateBottomGridLine()
     {
-        if (_bottomGridLine is { } && _root is { })
+        if (_bottomGridLine is { } && DataBox is { })
         {
             bool newVisibility =
-                _root.GridLinesVisibility == DataBoxGridLinesVisibility.Horizontal
-                || _root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
+                DataBox.GridLinesVisibility == DataBoxGridLinesVisibility.Horizontal
+                || DataBox.GridLinesVisibility == DataBoxGridLinesVisibility.All;
 
             if (newVisibility != _bottomGridLine.IsVisible)
             {
                 _bottomGridLine.IsVisible = newVisibility;
             }
 
-            _bottomGridLine.Fill = _root.HorizontalGridLinesBrush;
+            _bottomGridLine.Fill = DataBox.HorizontalGridLinesBrush;
         }
     }
 }

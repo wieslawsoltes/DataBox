@@ -16,20 +16,20 @@ internal static class DataBoxRowsLayout
         return control as DataBoxCellsPresenter;
     }
 
-    private static double SetColumnsActualWidth(AvaloniaList<IControl> rows, DataBox root, bool measureStarAsAuto)
+    private static double SetColumnsActualWidth(AvaloniaList<IControl> rows, DataBox dataBox, bool measureStarAsAuto)
     {
         var accumulatedWidth = 0.0;
-        var actualWidths = new double[root.Columns.Count];
+        var actualWidths = new double[dataBox.Columns.Count];
 
-        for (var c = 0; c < root.Columns.Count; c++)
+        for (var c = 0; c < dataBox.Columns.Count; c++)
         {
-            var column = root.Columns[c];
+            var column = dataBox.Columns[c];
             actualWidths[c] = double.IsNaN(column.MeasureWidth) ? 0.0 : column.MeasureWidth;
         }
 
-        for (var c = 0; c < root.Columns.Count; c++)
+        for (var c = 0; c < dataBox.Columns.Count; c++)
         {
-            var column = root.Columns[c];
+            var column = dataBox.Columns[c];
             var type = column.Width.GridUnitType;
             var value = column.Width.Value;
 
@@ -103,12 +103,12 @@ internal static class DataBoxRowsLayout
             }
         }
 
-        var totalWidthForStars = Math.Max(0.0, root.AvailableWidth - accumulatedWidth);
+        var totalWidthForStars = Math.Max(0.0, dataBox.AvailableWidth - accumulatedWidth);
         var totalStarValue = 0.0;
 
-        for (var c = 0; c < root.Columns.Count; c++)
+        for (var c = 0; c < dataBox.Columns.Count; c++)
         {
-            var column = root.Columns[c];
+            var column = dataBox.Columns[c];
             var type = column.Width.GridUnitType;
 
             if (measureStarAsAuto && type is GridUnitType.Star)
@@ -122,9 +122,9 @@ internal static class DataBoxRowsLayout
             }
         }
 
-        for (var c = 0; c < root.Columns.Count; c++)
+        for (var c = 0; c < dataBox.Columns.Count; c++)
         {
-            var column = root.Columns[c];
+            var column = dataBox.Columns[c];
             var type = column.Width.GridUnitType;
             var value = column.Width.Value;
 
@@ -160,9 +160,9 @@ internal static class DataBoxRowsLayout
             }
         }
             
-        for (var c = 0; c < root.Columns.Count; c++)
+        for (var c = 0; c < dataBox.Columns.Count; c++)
         {
-            var column = root.Columns[c];
+            var column = dataBox.Columns[c];
             column.MeasureWidth = actualWidths[c];
         }
 
@@ -205,17 +205,17 @@ internal static class DataBoxRowsLayout
         }
     }
 
-    public static Size Measure(Size availableSize, DataBox root, Func<Size, Size> measureOverride, Action invalidateMeasure, AvaloniaList<IControl> rows)
+    public static Size Measure(Size availableSize, DataBox dataBox, Func<Size, Size> measureOverride, Action invalidateMeasure, AvaloniaList<IControl> rows)
     {
         var availableSizeWidth = availableSize.Width;
         var measureStarAsAuto = double.IsPositiveInfinity(availableSize.Width);
 
-        root.AvailableWidth = availableSize.Width;
-        root.AvailableHeight = availableSize.Height;
+        dataBox.AvailableWidth = availableSize.Width;
+        dataBox.AvailableHeight = availableSize.Height;
 
         MeasureCells(rows);
 
-        var accumulatedWidth = SetColumnsActualWidth(rows, root, measureStarAsAuto);
+        var accumulatedWidth = SetColumnsActualWidth(rows, dataBox, measureStarAsAuto);
         var panelSize = availableSize.WithWidth(accumulatedWidth);
 
         // TODO: Optimize measure performance.
@@ -227,17 +227,17 @@ internal static class DataBoxRowsLayout
         return panelSize;
     }
 
-    public static Size Arrange(Size finalSize, DataBox root, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
+    public static Size Arrange(Size finalSize, DataBox dataBox, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
     {
         var finalSizeWidth = finalSize.Width;
 
-        root.AvailableWidth = finalSize.Width;
-        root.AvailableHeight = finalSize.Height;
-        root.AccumulatedWidth = SetColumnsActualWidth(rows, root, false);
-        var panelSize = finalSize.WithWidth(root.AccumulatedWidth);
+        dataBox.AvailableWidth = finalSize.Width;
+        dataBox.AvailableHeight = finalSize.Height;
+        dataBox.AccumulatedWidth = SetColumnsActualWidth(rows, dataBox, false);
+        var panelSize = finalSize.WithWidth(dataBox.AccumulatedWidth);
 
         panelSize = arrangeOverride(panelSize);
-        panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(root.AccumulatedWidth, finalSizeWidth));
+        panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(dataBox.AccumulatedWidth, finalSizeWidth));
 
         return panelSize;
     }

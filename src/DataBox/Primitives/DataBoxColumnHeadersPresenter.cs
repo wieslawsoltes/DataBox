@@ -10,12 +10,13 @@ namespace DataBox.Primitives;
 
 public class DataBoxColumnHeadersPresenter : Panel, IStyleable
 {
-    internal DataBox? _root;
     private List<IDisposable>? _columnActualWidthDisposables;
     private List<DataBoxColumnHeader>? _columnHeaders;
 
     Type IStyleable.StyleKey => typeof(DataBoxColumnHeadersPresenter);
         
+    internal DataBox? DataBox { get; set; }
+
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {
         base.OnDetachedFromVisualTree(e);
@@ -25,7 +26,7 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
 
     internal void Attach()
     {
-        if (_root is null)
+        if (DataBox is null)
         {
             return;
         }
@@ -33,9 +34,9 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
         _columnHeaders = new List<DataBoxColumnHeader>();
         _columnActualWidthDisposables = new List<IDisposable>();
 
-        for (var c = 0; c < _root.Columns.Count; c++)
+        for (var c = 0; c < DataBox.Columns.Count; c++)
         {
-            var column = _root.Columns[c];
+            var column = DataBox.Columns[c];
 
             var columnHeader = new DataBoxColumnHeader
             {
@@ -44,7 +45,7 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Column = column,
                 ColumnHeaders = _columnHeaders,
-                _root = _root
+                DataBox = DataBox
             };
 
             Children.Add(columnHeader);
@@ -78,11 +79,11 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        return DataBoxCellsLayout.Measure(availableSize, _root, Children);
+        return DataBoxCellsLayout.Measure(availableSize, DataBox, Children);
     }
 
     protected override Size ArrangeOverride(Size arrangeSize)
     {
-        return DataBoxCellsLayout.Arrange(arrangeSize, _root, Children);
+        return DataBoxCellsLayout.Arrange(arrangeSize, DataBox, Children);
     }
 }

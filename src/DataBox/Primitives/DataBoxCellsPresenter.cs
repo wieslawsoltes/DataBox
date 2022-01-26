@@ -9,18 +9,18 @@ namespace DataBox.Primitives;
 
 public class DataBoxCellsPresenter : Panel, IStyleable
 {
-    internal DataBox? _root;
-
     Type IStyleable.StyleKey => typeof(DataBoxCellsPresenter);
+
+    internal DataBox? DataBox { get; set; }
 
     internal void Attach()
     {
-        if (_root is null)
+        if (DataBox is null)
         {
             return;
         }
 
-        foreach (var column in _root.Columns)
+        foreach (var column in DataBox.Columns)
         {
             var cell = new DataBoxCell
             {
@@ -28,7 +28,7 @@ public class DataBoxCellsPresenter : Panel, IStyleable
                 [!ContentControl.ContentTemplateProperty] = column[!DataBoxColumn.CellTemplateProperty],
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
-                _root = _root
+                DataBox = DataBox
             };
 
             Children.Add(cell);
@@ -37,11 +37,11 @@ public class DataBoxCellsPresenter : Panel, IStyleable
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        return DataBoxCellsLayout.Measure(availableSize, _root, Children);
+        return DataBoxCellsLayout.Measure(availableSize, DataBox, Children);
     }
 
     protected override Size ArrangeOverride(Size arrangeSize)
     {
-        return DataBoxCellsLayout.Arrange(arrangeSize, _root, Children);
+        return DataBoxCellsLayout.Arrange(arrangeSize, DataBox, Children);
     }
 }

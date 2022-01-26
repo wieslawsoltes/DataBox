@@ -8,36 +8,36 @@ using DataBox.Primitives.Layout;
 
 namespace DataBox.Controls;
 
-public class VirtualizingGrid : VirtualizingStackPanel, IStyleable
+public class DataBoxPanel : VirtualizingStackPanel, IStyleable
 {
-    internal DataBox? _root;
+    Type IStyleable.StyleKey => typeof(DataBoxPanel);
 
-    Type IStyleable.StyleKey => typeof(VirtualizingGrid);
+    internal DataBox? DataBox { get; set; }
 
     public override void ApplyTemplate()
     {
         base.ApplyTemplate();
 
-        _root = this.GetLogicalAncestors().FirstOrDefault(x => x is DataBox) as DataBox;
+        DataBox = this.GetLogicalAncestors().FirstOrDefault(x => x is DataBox) as DataBox;
     }
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        if (_root is null)
+        if (DataBox is null)
         {
             return availableSize;
         }
 
-        return DataBoxRowsLayout.Measure(availableSize, _root, base.MeasureOverride, base.InvalidateMeasure, Children);
+        return DataBoxRowsLayout.Measure(availableSize, DataBox, base.MeasureOverride, base.InvalidateMeasure, Children);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        if (_root is null)
+        if (DataBox is null)
         {
             return finalSize;
         }
 
-        return DataBoxRowsLayout.Arrange(finalSize, _root, base.ArrangeOverride, Children);
+        return DataBoxRowsLayout.Arrange(finalSize, DataBox, base.ArrangeOverride, Children);
     }
 }

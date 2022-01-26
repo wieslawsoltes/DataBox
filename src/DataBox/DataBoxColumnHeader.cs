@@ -27,14 +27,14 @@ public class DataBoxColumnHeader : ContentControl, IStyleable
     internal static readonly StyledProperty<bool> IsPressedProperty =
         AvaloniaProperty.Register<DataBoxColumnHeader, bool>(nameof(IsPressed));
 
-    internal DataBox? _root;
-
     public DataBoxColumnHeader()
     {
         UpdatePseudoClassesIsPressed(IsPressed);
     }
 
     Type IStyleable.StyleKey => typeof(DataBoxColumnHeader);
+
+    internal DataBox? DataBox { get; set; }
 
     public IBrush? SeparatorBrush
     {
@@ -109,7 +109,7 @@ public class DataBoxColumnHeader : ContentControl, IStyleable
 
     private void OnClick(KeyModifiers keyModifiers)
     {
-        if (_root is null)
+        if (DataBox is null)
         {
             return;
         }
@@ -119,7 +119,7 @@ public class DataBoxColumnHeader : ContentControl, IStyleable
             return;
         }
 
-        if (!Column.CanUserSort || !_root.CanUserSortColumns)
+        if (!Column.CanUserSort || !DataBox.CanUserSortColumns)
         {
             return;
         }

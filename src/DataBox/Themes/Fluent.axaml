@@ -117,13 +117,13 @@
     <Setter Property="ItemsPanel">
       <Setter.Value>
         <ItemsPanelTemplate>
-          <VirtualizingGrid />
+          <DataBoxPanel />
         </ItemsPanelTemplate>
       </Setter.Value>
     </Setter>
   </Style>
 
-  <Style Selector="VirtualizingGrid">
+  <Style Selector="DataBoxPanel">
     <Setter Property="HorizontalAlignment" Value="Stretch" />
     <Setter Property="VerticalAlignment" Value="Top" />
     <Setter Property="Orientation" Value="Vertical" />

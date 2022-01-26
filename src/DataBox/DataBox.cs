@@ -136,14 +136,14 @@ public class DataBox : TemplatedControl
     {
         if (_headersPresenter is { })
         {
-            _headersPresenter._root = this;
+            _headersPresenter.DataBox = this;
             _headersPresenter.Detach();
             _headersPresenter.Attach();
         }
 
         if (_rowsPresenter is { })
         {
-            _rowsPresenter._root = this;
+            _rowsPresenter.DataBox = this;
 
             _rowsPresenter[!!ItemsControl.ItemsProperty] = this[!!ItemsProperty];
             this[!!SelectedItemProperty] = _rowsPresenter[!!SelectingItemsControl.SelectedItemProperty];

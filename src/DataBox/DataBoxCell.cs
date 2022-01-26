@@ -9,8 +9,9 @@ namespace DataBox;
 
 public class DataBoxCell : ContentControl, IStyleable
 {
-    internal DataBox? _root;
     private Rectangle? _rightGridLine;
+
+    internal DataBox? DataBox { get; set; }
 
     internal double MeasuredWidth { get; set; }
 
@@ -34,20 +35,20 @@ public class DataBoxCell : ContentControl, IStyleable
 
     private void InvalidateRightGridLine()
     {
-        if (_rightGridLine is null || _root is null)
+        if (_rightGridLine is null || DataBox is null)
         {
             return;
         }
 
         bool newVisibility =
-            _root.GridLinesVisibility == DataBoxGridLinesVisibility.Vertical
-            || _root.GridLinesVisibility == DataBoxGridLinesVisibility.All;
+            DataBox.GridLinesVisibility == DataBoxGridLinesVisibility.Vertical
+            || DataBox.GridLinesVisibility == DataBoxGridLinesVisibility.All;
 
         if (newVisibility != _rightGridLine.IsVisible)
         {
             _rightGridLine.IsVisible = newVisibility;
         }
 
-        _rightGridLine.Fill = _root.VerticalGridLinesBrush;
+        _rightGridLine.Fill = DataBox.VerticalGridLinesBrush;
     }
 }
