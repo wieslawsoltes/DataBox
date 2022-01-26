@@ -31,8 +31,7 @@ internal static class DataBoxCellsPresenterLayout
             width = Math.Max(column.MinWidth, width);
             width = Math.Min(column.MaxWidth, width);
 
-            var childConstraint = new Size(double.PositiveInfinity, double.PositiveInfinity);
-            child.Measure(childConstraint);
+            child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 
             parentWidth += width;
             parentHeight = Math.Max(parentHeight, child.DesiredSize.Height);
