@@ -66,10 +66,9 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
                 Column = column,
-                ColumnHeaders = _columnHeaders
+                ColumnHeaders = _columnHeaders,
+                _root = _root
             };
-
-            columnHeader._root = _root;
 
             Children.Add(columnHeader);
             _columnHeaders.Add(columnHeader);
