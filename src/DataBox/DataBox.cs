@@ -129,6 +129,11 @@ public class DataBox : TemplatedControl
         _headersPresenter = e.NameScope.Find<DataBoxColumnHeadersPresenter>("PART_HeadersPresenter");
         _rowsPresenter = e.NameScope.Find<DataBoxRowsPresenter>("PART_RowsPresenter");
 
+        Attach();
+    }
+
+    private void Attach()
+    {
         if (_headersPresenter is { })
         {
             _headersPresenter._root = this;
