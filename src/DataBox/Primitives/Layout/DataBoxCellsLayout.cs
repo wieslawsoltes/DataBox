@@ -5,7 +5,7 @@ using Avalonia.Controls;
 
 namespace DataBox.Primitives.Layout;
 
-internal static class DataBoxCellsPresenterLayout
+internal static class DataBoxCellsLayout
 {
     public static Size Measure(Size availableSize, DataBox? dataBox, AvaloniaList<IControl> children)
     {

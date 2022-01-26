@@ -5,7 +5,7 @@ using Avalonia.Controls;
 
 namespace DataBox.Primitives.Layout;
 
-internal static class DataBoxLayout
+internal static class DataBoxRowsLayout
 {
     private static DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
     {
