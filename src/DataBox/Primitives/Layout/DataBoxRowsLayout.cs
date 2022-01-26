@@ -205,7 +205,7 @@ internal static class DataBoxRowsLayout
         }
     }
 
-    public static Size MeasureRows(Size availableSize, DataBox root, Func<Size, Size> measureOverride, Action invalidateMeasure, AvaloniaList<IControl> rows)
+    public static Size Measure(Size availableSize, DataBox root, Func<Size, Size> measureOverride, Action invalidateMeasure, AvaloniaList<IControl> rows)
     {
         var availableSizeWidth = availableSize.Width;
         var measureStarAsAuto = double.IsPositiveInfinity(availableSize.Width);
@@ -227,7 +227,7 @@ internal static class DataBoxRowsLayout
         return panelSize;
     }
 
-    public static Size ArrangeRows(Size finalSize, DataBox root, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
+    public static Size Arrange(Size finalSize, DataBox root, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
     {
         var finalSizeWidth = finalSize.Width;
 
