@@ -4,21 +4,16 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
 using Avalonia.Styling;
+using DataBox.Primitives.Layout;
 
 namespace DataBox.Controls;
 
 public class VirtualizingGrid : VirtualizingStackPanel, IStyleable
 {
     internal DataBox? _root;
-    private readonly VirtualizingPanelAdapter _virtualizingPanelAdapter;
 
     Type IStyleable.StyleKey => typeof(VirtualizingGrid);
 
-    public VirtualizingGrid()
-    {
-        _virtualizingPanelAdapter = new VirtualizingPanelAdapter(this);
-    }
-    
     public override void ApplyTemplate()
     {
         base.ApplyTemplate();
@@ -33,7 +28,7 @@ public class VirtualizingGrid : VirtualizingStackPanel, IStyleable
             return availableSize;
         }
 
-        return _virtualizingPanelAdapter.MeasureRows(availableSize, _root, base.MeasureOverride);
+        return DataBoxLayout.MeasureRows(availableSize, _root, base.MeasureOverride, base.InvalidateMeasure, Children);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
@@ -43,6 +38,6 @@ public class VirtualizingGrid : VirtualizingStackPanel, IStyleable
             return finalSize;
         }
 
-        return _virtualizingPanelAdapter.ArrangeRows(finalSize, _root, base.ArrangeOverride);
+        return DataBoxLayout.ArrangeRows(finalSize, _root, base.ArrangeOverride, Children);
     }
 }

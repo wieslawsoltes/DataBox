@@ -1,20 +1,13 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
-using DataBox.Primitives;
 
-namespace DataBox.Controls;
+namespace DataBox.Primitives.Layout;
 
-internal class VirtualizingPanelAdapter
+internal static class DataBoxLayout
 {
-    private readonly Panel _panel;
-
-    public VirtualizingPanelAdapter(Panel panel)
-    {
-        _panel = panel;
-    }
-
-    private DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
+    private static DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
     {
         if (control is DataBoxRow row)
         {
@@ -23,7 +16,7 @@ internal class VirtualizingPanelAdapter
         return control as DataBoxCellsPresenter;
     }
 
-    private double SetColumnsActualWidth(Avalonia.Controls.Controls rows, DataBox root, bool measureStarAsAuto)
+    private static double SetColumnsActualWidth(AvaloniaList<IControl> rows, DataBox root, bool measureStarAsAuto)
     {
         var accumulatedWidth = 0.0;
         var actualWidths = new double[root.Columns.Count];
@@ -176,7 +169,16 @@ internal class VirtualizingPanelAdapter
         return accumulatedWidth;
     }
 
-    private void MeasureCells(Avalonia.Controls.Controls rows,  DataBox root)
+    private static double AdjustAccumulatedWidth(double accumulatedWidth, double availableWidth)
+    {
+        if (double.IsPositiveInfinity(availableWidth))
+        {
+            return accumulatedWidth;
+        }
+        return accumulatedWidth < availableWidth ? availableWidth : accumulatedWidth;
+    }
+
+    private static void MeasureCells(AvaloniaList<IControl> rows)
     {
         for (int r = 0, rowsCount = rows.Count; r < rowsCount; ++r)
         {
@@ -203,31 +205,21 @@ internal class VirtualizingPanelAdapter
         }
     }
 
-    private double AdjustAccumulatedWidth(double accumulatedWidth, double availableWidth)
-    {
-        if (double.IsPositiveInfinity(availableWidth))
-        {
-            return accumulatedWidth;
-        }
-        return accumulatedWidth < availableWidth ? availableWidth : accumulatedWidth;
-    }
-
-    public Size MeasureRows(Size availableSize, DataBox root, Func<Size, Size> measureOverride)
+    public static Size MeasureRows(Size availableSize, DataBox root, Func<Size, Size> measureOverride, Action invalidateMeasure, AvaloniaList<IControl> rows)
     {
         var availableSizeWidth = availableSize.Width;
-        var rows = _panel.Children;
         var measureStarAsAuto = double.IsPositiveInfinity(availableSize.Width);
 
         root.AvailableWidth = availableSize.Width;
         root.AvailableHeight = availableSize.Height;
 
-        MeasureCells(rows, root);
+        MeasureCells(rows);
 
         var accumulatedWidth = SetColumnsActualWidth(rows, root, measureStarAsAuto);
         var panelSize = availableSize.WithWidth(accumulatedWidth);
 
         // TODO: Optimize measure performance.
-        _panel.InvalidateMeasure();
+        invalidateMeasure();
 
         panelSize = measureOverride(panelSize);
         panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(accumulatedWidth, availableSizeWidth));
@@ -235,10 +227,9 @@ internal class VirtualizingPanelAdapter
         return panelSize;
     }
 
-    public Size ArrangeRows(Size finalSize, DataBox root, Func<Size, Size> arrangeOverride)
+    public static Size ArrangeRows(Size finalSize, DataBox root, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
     {
         var finalSizeWidth = finalSize.Width;
-        var rows = _panel.Children;
 
         root.AvailableWidth = finalSize.Width;
         root.AvailableHeight = finalSize.Height;
