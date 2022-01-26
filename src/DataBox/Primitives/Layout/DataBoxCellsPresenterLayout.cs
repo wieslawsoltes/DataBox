@@ -7,14 +7,9 @@ namespace DataBox.Primitives.Layout;
 
 internal static class DataBoxCellsPresenterLayout
 {
-    public static Size MeasureCells(Size availableSize, DataBox? dataBox, AvaloniaList<IControl> cells)
+    public static Size Measure(Size availableSize, DataBox? dataBox, AvaloniaList<IControl> children)
     {
-        if (dataBox is null)
-        {
-            return availableSize;
-        }
-
-        if (cells.Count == 0)
+        if (dataBox is null || children.Count == 0)
         {
             return availableSize;
         }
@@ -22,42 +17,33 @@ internal static class DataBoxCellsPresenterLayout
         var parentWidth = 0.0;
         var parentHeight = 0.0;
 
-        for (int c = 0, count = cells.Count; c < count; ++c)
+        for (var i = 0; i < children.Count; ++i)
         {
-            if (cells[c] is not DataBoxCell cell)
+            if (i >= dataBox.Columns.Count)
             {
-                continue;
+                break;
             }
 
-            if (c >= dataBox.Columns.Count)
-            {
-                continue;
-            }
-
-            var column = dataBox.Columns[c];
+            var child = children[i];
+            var column = dataBox.Columns[i];
             var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
 
             width = Math.Max(column.MinWidth, width);
             width = Math.Min(column.MaxWidth, width);
 
             var childConstraint = new Size(double.PositiveInfinity, double.PositiveInfinity);
-            cell.Measure(childConstraint);
+            child.Measure(childConstraint);
 
             parentWidth += width;
-            parentHeight = Math.Max(parentHeight, cell.DesiredSize.Height);
+            parentHeight = Math.Max(parentHeight, child.DesiredSize.Height);
         }
 
         return new Size(parentWidth, parentHeight);
     }
 
-    public static Size ArrangeCells(Size arrangeSize, DataBox? dataBox, AvaloniaList<IControl> cells)
+    public static Size Arrange(Size arrangeSize, DataBox? dataBox, AvaloniaList<IControl> children)
     {
-        if (dataBox is null)
-        {
-            return arrangeSize;
-        }
-
-        if (cells.Count == 0)
+        if (dataBox is null || children.Count == 0)
         {
             return arrangeSize;
         }
@@ -66,35 +52,27 @@ internal static class DataBoxCellsPresenterLayout
         var accumulatedHeight = 0.0;
         var maxHeight = 0.0;
 
-        for (int c = 0, count = cells.Count; c < count; ++c)
+        for (var i = 0; i < children.Count; ++i)
         {
-            if (cells[c] is not DataBoxCell cell)
-            {
-                continue;
-            }
+            var child = children[i];
 
-            maxHeight = Math.Max(maxHeight, cell.DesiredSize.Height);
+            maxHeight = Math.Max(maxHeight, child.DesiredSize.Height);
         }
 
-        for (int c = 0, count = cells.Count; c < count; ++c)
+        for (var i = 0; i < children.Count; ++i)
         {
-            if (cells[c] is not DataBoxCell cell)
+            if (i >= dataBox.Columns.Count)
             {
-                continue;
+                break;
             }
 
-            if (c >= dataBox.Columns.Count)
-            {
-                continue;
-            }
-
-            var column = dataBox.Columns[c];
+            var child = children[i];
+            var column = dataBox.Columns[i];
             var width = Math.Max(0.0, double.IsNaN(column.ActualWidth) ? 0.0 : column.ActualWidth);
             var height = Math.Max(maxHeight, arrangeSize.Height);
+            var rect = new Rect(accumulatedWidth, 0.0, width, height);
 
-            var rcChild = new Rect(accumulatedWidth, 0.0, width, height);
-
-            cell.Arrange(rcChild);
+            child.Arrange(rect);
 
             accumulatedWidth += width;
             accumulatedHeight = Math.Max(accumulatedHeight, height);
