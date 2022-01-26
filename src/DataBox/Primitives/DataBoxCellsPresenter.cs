@@ -13,7 +13,7 @@ public class DataBoxCellsPresenter : Panel, IStyleable
 
     Type IStyleable.StyleKey => typeof(DataBoxCellsPresenter);
 
-    internal void Invalidate()
+    internal void Attach()
     {
         if (_root is null)
         {

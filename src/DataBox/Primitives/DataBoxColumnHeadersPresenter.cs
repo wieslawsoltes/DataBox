@@ -20,40 +20,17 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
     {
         base.OnDetachedFromVisualTree(e);
 
-        if (_columnActualWidthDisposables is { })
-        {
-            foreach (var disposable in _columnActualWidthDisposables)
-            {
-                disposable.Dispose();
-            }
-            _columnActualWidthDisposables.Clear();
-            _columnActualWidthDisposables = null;
-        }
-
-        _columnHeaders?.Clear();
-        _columnHeaders = null;
+        Detach();
     }
 
-    internal void Invalidate()
+    internal void Attach()
     {
-        if (_columnActualWidthDisposables is { })
-        {
-            foreach (var disposable in _columnActualWidthDisposables)
-            {
-                disposable.Dispose();
-            }
-            _columnActualWidthDisposables.Clear();
-            _columnActualWidthDisposables = null;
-        }
-
-        _columnHeaders?.Clear();
-        _columnHeaders = new List<DataBoxColumnHeader>();
-
         if (_root is null)
         {
             return;
         }
 
+        _columnHeaders = new List<DataBoxColumnHeader>();
         _columnActualWidthDisposables = new List<IDisposable>();
 
         for (var c = 0; c < _root.Columns.Count; c++)
@@ -80,6 +57,23 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
             });
             _columnActualWidthDisposables.Add(disposable);
         }
+    }
+
+    internal void Detach()
+    {
+        if (_columnActualWidthDisposables is { })
+        {
+            foreach (var disposable in _columnActualWidthDisposables)
+            {
+                disposable.Dispose();
+            }
+
+            _columnActualWidthDisposables.Clear();
+            _columnActualWidthDisposables = null;
+        }
+
+        _columnHeaders?.Clear();
+        _columnHeaders = null;
     }
 
     protected override Size MeasureOverride(Size availableSize)

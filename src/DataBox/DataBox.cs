@@ -132,7 +132,8 @@ public class DataBox : TemplatedControl
         if (_headersPresenter is { })
         {
             _headersPresenter._root = this;
-            _headersPresenter.Invalidate();
+            _headersPresenter.Detach();
+            _headersPresenter.Attach();
         }
 
         if (_rowsPresenter is { })

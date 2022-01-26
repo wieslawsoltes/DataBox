@@ -29,7 +29,7 @@ public class DataBoxRow : ListBoxItem, IStyleable
         if (CellsPresenter is { })
         {
             CellsPresenter._root = _root;
-            CellsPresenter.Invalidate();
+            CellsPresenter.Attach();
         }
     }
 
