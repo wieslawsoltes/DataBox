@@ -31,7 +31,7 @@
       "Avalonia.Themes.Fluent.dll": "sha256-O66hxnjysKCMTvveWGZ9DNuJQuD0\/a1mFmiGG+uyESY=",
       "Avalonia.Visuals.dll": "sha256-UQD5eBQLjFLIZfIVVB8IoaYOH4\/eHMsPkSts5m+p+3s=",
       "Avalonia.Web.Blazor.dll": "sha256-9+uOth+TOZVhK5KxAh9TZBMOXjYPOF7p6j648kn2QWM=",
-      "DataVirtualization.dll": "sha256-xwMg7V2EX1qVKxIF5BTSdb9jomMEmktQFZzL8rqu8zU=",
+      "DataVirtualization.dll": "sha256-JJdcDA\/C8SvYbSLmTPU7U6qA9CkKduublLemj7I0oFc=",
       "DynamicData.dll": "sha256-RJgThhIESugB3VC9nQYFo5d4WL3Y+5lWnCo6MtIuH9E=",
       "HarfBuzzSharp.dll": "sha256-DhHlbgtFzdvZn7yACTfUq6cTsiijXqtw5Q+P3bDmUi8=",
       "JetBrains.Annotations.dll": "sha256-tXJDfZ6f9hR+RrfLeuQ\/c2YyCp2hy85sM74uHxTUW3A=",
@@ -119,9 +119,9 @@
       "System.Threading.Thread.dll": "sha256-WiXYN5jLyzoC\/ZV3PazU1BcC6oNvWDmZdK7WHeLncLI=",
       "System.Threading.ThreadPool.dll": "sha256-jsGVqYMRRRODC9GHVFS9j1VM3Z8eSMMhwE4yZTWDXOA=",
       "System.Threading.Timer.dll": "sha256-KlbZuujOkq4PJRrsQiI9IkEnS2S3cbByh\/mZLtQIIqo=",
-      "VirtualPanel.dll": "sha256-vjL0xfGD\/iajHId6rCPT\/k2Zi1171tXDIIi3juKnxBs=",
-      "VirtualPanelDemo.dll": "sha256-ChLZoF5OSz9a4v7C7n+XejU3LYETg9VwkSTWYBLSeDw=",
-      "VirtualPanelDemo.Web.dll": "sha256-MBqvLLJc0g5Qjm\/WXseKLREO0w\/akZrQ7grEMl+1A5E="
+      "VirtualPanel.dll": "sha256-AK1gVtzpX2qUMwvyAvrdUXAtwtkOBERtyDoq7J\/R1mk=",
+      "VirtualPanelDemo.dll": "sha256-vnfodx+ODkhQ23uSfpMrJ5P1eiAwVhOGyUji5tlVIAI=",
+      "VirtualPanelDemo.Web.dll": "sha256-+5ppXA2r9b2ysQVwObOyWKPakGXQ9Ueqr25\/OVkt0rw="
     },
     "extensions": null,
     "lazyAssembly": null,
