@@ -79,11 +79,11 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        return DataBoxCellsLayout.Measure(availableSize, DataBox, Children);
+        return DataBoxCellsLayout.Measure(availableSize, Children);
     }
 
     protected override Size ArrangeOverride(Size arrangeSize)
     {
-        return DataBoxCellsLayout.Arrange(arrangeSize, DataBox, Children);
+        return DataBoxCellsLayout.Arrange(arrangeSize, Children);
     }
 }

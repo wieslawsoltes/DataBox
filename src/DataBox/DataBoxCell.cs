@@ -13,7 +13,7 @@ public class DataBoxCell : ContentControl, IStyleable
 
     internal DataBox? DataBox { get; set; }
 
-    internal double MeasuredWidth { get; set; }
+    internal DataBoxColumn? Column { get; set; }
 
     Type IStyleable.StyleKey => typeof(DataBoxCell);
 

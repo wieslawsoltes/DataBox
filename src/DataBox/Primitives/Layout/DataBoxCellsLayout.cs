@@ -7,9 +7,9 @@ namespace DataBox.Primitives.Layout;
 
 internal static class DataBoxCellsLayout
 {
-    public static Size Measure(Size availableSize, DataBox? dataBox, AvaloniaList<IControl> children)
+    public static Size Measure(Size availableSize, AvaloniaList<IControl> children)
     {
-        if (dataBox is null || children.Count == 0)
+        if (children.Count == 0)
         {
             return availableSize;
         }
@@ -19,33 +19,46 @@ internal static class DataBoxCellsLayout
 
         for (var i = 0; i < children.Count; ++i)
         {
-            if (i >= dataBox.Columns.Count)
+            var child = children[i];
+
+            var column = child switch
             {
-                break;
+                DataBoxCell cell => cell.Column,
+                DataBoxColumnHeader header => header.Column,
+                _ => null
+            };
+
+            if (column is null)
+            {
+                continue;
             }
 
-            var child = children[i];
-            var column = dataBox.Columns[i];
-            var width = Math.Max(0.0, double.IsNaN(column.MeasureWidth) ? 0.0 : column.MeasureWidth);
+            if (double.IsNaN(column.MeasureWidth))
+            {
+                child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                column.AutoWidth = Math.Max(column.AutoWidth, child.DesiredSize.Width);
+                parentWidth += child.DesiredSize.Width;
+            }
+            else
+            {
+                child.Measure(new Size(column.MeasureWidth, double.PositiveInfinity));
+                parentWidth += column.MeasureWidth;
+            }
 
-            width = Math.Max(column.MinWidth, width);
-            width = Math.Min(column.MaxWidth, width);
-
-            child.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-
-            parentWidth += width;
             parentHeight = Math.Max(parentHeight, child.DesiredSize.Height);
         }
 
         return new Size(parentWidth, parentHeight);
     }
 
-    public static Size Arrange(Size arrangeSize, DataBox? dataBox, AvaloniaList<IControl> children)
+    public static Size Arrange(Size arrangeSize, AvaloniaList<IControl> children)
     {
-        if (dataBox is null || children.Count == 0)
+        if (children.Count == 0)
         {
             return arrangeSize;
         }
+
+        Measure(arrangeSize, children);
 
         var accumulatedWidth = 0.0;
         var accumulatedHeight = 0.0;
@@ -60,13 +73,20 @@ internal static class DataBoxCellsLayout
 
         for (var i = 0; i < children.Count; ++i)
         {
-            if (i >= dataBox.Columns.Count)
+            var child = children[i];
+
+            var column = child switch
             {
-                break;
+                DataBoxCell cell => cell.Column,
+                DataBoxColumnHeader header => header.Column,
+                _ => null
+            };
+
+            if (column is null)
+            {
+                continue;
             }
 
-            var child = children[i];
-            var column = dataBox.Columns[i];
             var width = Math.Max(0.0, double.IsNaN(column.MeasureWidth) ? 0.0 : column.MeasureWidth);
             var height = Math.Max(maxHeight, arrangeSize.Height);
             var rect = new Rect(accumulatedWidth, 0.0, width, height);

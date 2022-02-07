@@ -28,7 +28,8 @@ public class DataBoxCellsPresenter : Panel, IStyleable
                 [!ContentControl.ContentTemplateProperty] = column[!DataBoxColumn.CellTemplateProperty],
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
-                DataBox = DataBox
+                DataBox = DataBox,
+                Column = column
             };
 
             Children.Add(cell);
@@ -37,11 +38,11 @@ public class DataBoxCellsPresenter : Panel, IStyleable
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        return DataBoxCellsLayout.Measure(availableSize, DataBox, Children);
+        return DataBoxCellsLayout.Measure(availableSize, Children);
     }
 
     protected override Size ArrangeOverride(Size arrangeSize)
     {
-        return DataBoxCellsLayout.Arrange(arrangeSize, DataBox, Children);
+        return DataBoxCellsLayout.Arrange(arrangeSize, Children);
     }
 }

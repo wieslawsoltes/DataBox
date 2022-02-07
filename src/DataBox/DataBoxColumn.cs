@@ -118,4 +118,6 @@ public abstract class DataBoxColumn : AvaloniaObject
         get => GetValue(MeasureWidthProperty);
         set => SetValue(MeasureWidthProperty, value);
     }
+
+    internal double AutoWidth { get; set; }
 }

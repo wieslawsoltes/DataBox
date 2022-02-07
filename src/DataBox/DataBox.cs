@@ -110,12 +110,6 @@ public class DataBox : TemplatedControl
         set => SetValue(VerticalGridLinesBrushProperty, value);
     }
 
-    internal double AccumulatedWidth { get; set; }
-        
-    internal double AvailableWidth { get; set; }
-
-    internal double AvailableHeight { get; set; }
-
     public DataBox()
     {
         _columns = new AvaloniaList<DataBoxColumn>();

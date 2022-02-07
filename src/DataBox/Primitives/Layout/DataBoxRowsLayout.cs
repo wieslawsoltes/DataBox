@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -16,228 +17,97 @@ internal static class DataBoxRowsLayout
         return control as DataBoxCellsPresenter;
     }
 
-    private static double SetColumnsActualWidth(AvaloniaList<IControl> rows, DataBox dataBox, bool measureStarAsAuto)
+    private static double SetColumnsFinalMeasureWidth(AvaloniaList<DataBoxColumn> columns, double finalWidth)
     {
-        var accumulatedWidth = 0.0;
-        var actualWidths = new double[dataBox.Columns.Count];
+        var isInfinity = double.IsInfinity(finalWidth);
+        var totalStarSize = 0.0;
+        var totalPixelSize = 0.0;
 
-        for (var c = 0; c < dataBox.Columns.Count; c++)
+        for (var c = 0; c < columns.Count; c++)
         {
-            var column = dataBox.Columns[c];
-            actualWidths[c] = double.IsNaN(column.MeasureWidth) ? 0.0 : column.MeasureWidth;
-        }
+            var column = columns[c];
 
-        for (var c = 0; c < dataBox.Columns.Count; c++)
-        {
-            var column = dataBox.Columns[c];
-            var type = column.Width.GridUnitType;
-            var value = column.Width.Value;
-
-            if (measureStarAsAuto && type is GridUnitType.Star)
+            switch (column.Width.GridUnitType)
             {
-                type = GridUnitType.Auto;
-            }
-  
-            switch (type)
-            {
-                case GridUnitType.Pixel:
-                {
-                    var actualWidth = value;
-
-                    actualWidth = Math.Max(column.MinWidth, actualWidth);
-                    actualWidth = Math.Min(column.MaxWidth, actualWidth);
-                        
-                    actualWidths[c] = actualWidth;
-                    accumulatedWidth += actualWidths[c];
-
-                    break;
-                }
                 case GridUnitType.Auto:
                 {
-                    var actualWidth = actualWidths[c];
-  
-                    foreach (var row in rows)
-                    {
-                        var cellPresenter = GetCellsPresenter(row);
-                        if (cellPresenter is { })
-                        {
-                            var cells = cellPresenter.Children;
-                            if (cells.Count > c && cells[c] is DataBoxCell cell)
-                            {
-                                var width = cell.MeasuredWidth;
-                                actualWidth = Math.Max(actualWidth, width);
-                            }
-                        }
-                    }
-
-                    actualWidth = Math.Max(column.MinWidth, actualWidth);
-                    actualWidth = Math.Min(column.MaxWidth, actualWidth);
-
-                    actualWidths[c] = actualWidth;
-                    accumulatedWidth += actualWidths[c];
-
+                    var width = column.AutoWidth;
+                    width = Math.Max(column.MinWidth, width);
+                    width = Math.Min(column.MaxWidth, width);
+                    column.MeasureWidth = isInfinity ? double.NaN : width;
+                    totalPixelSize += width;
+                    Debug.WriteLine($"{column.Header} a={column.AutoWidth} m={column.MeasureWidth}");
+                    break;
+                }
+                case GridUnitType.Pixel:
+                {
+                    var width = column.Width.Value;
+                    width = Math.Max(column.MinWidth, width);
+                    width = Math.Min(column.MaxWidth, width);
+                    column.MeasureWidth = isInfinity ? double.NaN : width;
+                    totalPixelSize += width;
                     break;
                 }
                 case GridUnitType.Star:
                 {
-                    var actualWidth = 0.0;
-  
-                    foreach (var row in rows)
+                    totalStarSize += column.Width.Value;
+                    if (isInfinity)
                     {
-                        var cellPresenter = GetCellsPresenter(row);
-                        if (cellPresenter is { })
-                        {
-                            var cells = cellPresenter.Children;
-                            if (cells.Count > c && cells[c] is DataBoxCell cell)
-                            {
-                                var width = cell.MeasuredWidth;
-                                actualWidth = Math.Max(actualWidth, width);
-                            }
-                        }
+                        totalPixelSize += column.AutoWidth;
+                        column.MeasureWidth = double.NaN;
                     }
-
-                    actualWidths[c] = actualWidth;
-
                     break;
                 }
             }
         }
 
-        var totalWidthForStars = Math.Max(0.0, dataBox.AvailableWidth - accumulatedWidth);
-        var totalStarValue = 0.0;
-
-        for (var c = 0; c < dataBox.Columns.Count; c++)
+        if (isInfinity)
         {
-            var column = dataBox.Columns[c];
-            var type = column.Width.GridUnitType;
-
-            if (measureStarAsAuto && type is GridUnitType.Star)
-            {
-                type = GridUnitType.Auto;
-            }
-
-            if (type == GridUnitType.Star)
-            {
-                totalStarValue += column.Width.Value;
-            }
+            return totalPixelSize;
         }
 
-        for (var c = 0; c < dataBox.Columns.Count; c++)
+        var starColumnsWidth = Math.Max(0, finalWidth - totalPixelSize);
+
+        for (var c = 0; c < columns.Count; c++)
         {
-            var column = dataBox.Columns[c];
-            var type = column.Width.GridUnitType;
-            var value = column.Width.Value;
+            var column = columns[c];
 
-            if (measureStarAsAuto && type is GridUnitType.Star)
-            {
-                type = GridUnitType.Auto;
-            }
-
-            switch (type)
+            switch (column.Width.GridUnitType)
             {
                 case GridUnitType.Star:
                 {
-                    var actualWidth = (value / totalStarValue) * totalWidthForStars;
-
-                    actualWidth = Math.Max(column.MinWidth, actualWidth);
-                    actualWidth = Math.Min(column.MaxWidth, actualWidth);
-
-                    totalWidthForStars -= actualWidth;
-                    totalStarValue -= value;
-
-                    if (actualWidths[c] > actualWidth)
-                    {
-                        actualWidth = actualWidths[c];
-                        actualWidth = Math.Max(column.MinWidth, actualWidth);
-                        actualWidth = Math.Min(column.MaxWidth, actualWidth);
-                    }
-
-                    actualWidths[c] = actualWidth;
-                    accumulatedWidth += actualWidths[c];
-
-                    break;
+                    var percentage = column.Width.Value / totalStarSize;
+                    var width = starColumnsWidth * percentage;
+                    width = Math.Max(column.MinWidth, width);
+                    width = Math.Min(column.MaxWidth, width);
+                    column.MeasureWidth = width;
+                    totalPixelSize += width;
+                    break;  
                 }
             }
         }
-            
-        for (var c = 0; c < dataBox.Columns.Count; c++)
-        {
-            var column = dataBox.Columns[c];
-            column.MeasureWidth = actualWidths[c];
-        }
 
-        return accumulatedWidth;
+        return totalPixelSize;
     }
 
-    private static double AdjustAccumulatedWidth(double accumulatedWidth, double availableWidth)
+    public static Size Measure(Size availableSize, DataBox dataBox, Func<Size, Size> measureOverride, AvaloniaList<IControl> rows)
     {
-        if (double.IsPositiveInfinity(availableWidth))
-        {
-            return accumulatedWidth;
-        }
-        return accumulatedWidth < availableWidth ? availableWidth : accumulatedWidth;
+        availableSize = measureOverride(availableSize);
+
+        SetColumnsFinalMeasureWidth(dataBox.Columns, availableSize.Width);
+
+        return availableSize;
     }
 
-    private static void MeasureCells(AvaloniaList<IControl> rows)
+    public static Size Arrange(Size finalSize, DataBox dataBox, Func<Size, Size> measureOverride, Action invalidateMeasure, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
     {
-        for (int r = 0, rowsCount = rows.Count; r < rowsCount; ++r)
-        {
-            var row = rows[r];
-            var cellPresenter = GetCellsPresenter(row);
-            if (cellPresenter is null)
-            {
-                continue;
-            }
-
-            var cells = cellPresenter.Children;
-
-            for (int c = 0, cellsCount = cells.Count; c < cellsCount; ++c)
-            {
-                if (cells[c] is not DataBoxCell cell)
-                {
-                    continue;
-                }
-
-                // TODO: Optimize measure performance.Do not measure twice cells. Should be done only once in DataBoxCellsPresenter.MeasureOverride().
-                // cell.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                cell.MeasuredWidth = cell.DesiredSize.Width;
-            }
-        }
-    }
-
-    public static Size Measure(Size availableSize, DataBox dataBox, Func<Size, Size> measureOverride, Action invalidateMeasure, AvaloniaList<IControl> rows)
-    {
-        var availableSizeWidth = availableSize.Width;
-        var measureStarAsAuto = double.IsPositiveInfinity(availableSize.Width);
-
-        dataBox.AvailableWidth = availableSize.Width;
-        dataBox.AvailableHeight = availableSize.Height;
-
-        MeasureCells(rows);
-
-        var accumulatedWidth = SetColumnsActualWidth(rows, dataBox, measureStarAsAuto);
-        var panelSize = availableSize.WithWidth(accumulatedWidth);
-
-        // TODO: Optimize measure performance.
         invalidateMeasure();
+        measureOverride(finalSize);
 
-        panelSize = measureOverride(panelSize);
-        panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(accumulatedWidth, availableSizeWidth));
+        var accumulatedWidth = SetColumnsFinalMeasureWidth(dataBox.Columns, finalSize.Width);
+        var panelSize = finalSize.WithWidth(accumulatedWidth);
 
-        return panelSize;
-    }
-
-    public static Size Arrange(Size finalSize, DataBox dataBox, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
-    {
-        var finalSizeWidth = finalSize.Width;
-
-        dataBox.AvailableWidth = finalSize.Width;
-        dataBox.AvailableHeight = finalSize.Height;
-        dataBox.AccumulatedWidth = SetColumnsActualWidth(rows, dataBox, false);
-        var panelSize = finalSize.WithWidth(dataBox.AccumulatedWidth);
-
-        panelSize = arrangeOverride(panelSize);
-        panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(dataBox.AccumulatedWidth, finalSizeWidth));
+        arrangeOverride(panelSize);
 
         return panelSize;
     }
