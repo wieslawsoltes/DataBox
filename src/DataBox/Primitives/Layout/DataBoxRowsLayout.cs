@@ -36,7 +36,6 @@ internal static class DataBoxRowsLayout
                     width = Math.Min(column.MaxWidth, width);
                     column.MeasureWidth = isInfinity ? double.NaN : width;
                     totalPixelSize += width;
-                    Debug.WriteLine($"{column.Header} a={column.AutoWidth} m={column.MeasureWidth}");
                     break;
                 }
                 case GridUnitType.Pixel:
@@ -90,20 +89,19 @@ internal static class DataBoxRowsLayout
         return totalPixelSize;
     }
 
-    public static Size Measure(Size availableSize, DataBox dataBox, Func<Size, Size> measureOverride, AvaloniaList<IControl> rows)
+    public static Size Measure(Size availableSize, DataBox dataBox, Func<Size, Size> measureOverride)
     {
+        var finalWidth = availableSize.Width;
+
         availableSize = measureOverride(availableSize);
 
-        SetColumnsFinalMeasureWidth(dataBox.Columns, availableSize.Width);
+        SetColumnsFinalMeasureWidth(dataBox.Columns, finalWidth);
 
         return availableSize;
     }
 
-    public static Size Arrange(Size finalSize, DataBox dataBox, Func<Size, Size> measureOverride, Action invalidateMeasure, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
+    public static Size Arrange(Size finalSize, DataBox dataBox, Func<Size, Size> arrangeOverride)
     {
-        invalidateMeasure();
-        measureOverride(finalSize);
-
         var accumulatedWidth = SetColumnsFinalMeasureWidth(dataBox.Columns, finalSize.Width);
         var panelSize = finalSize.WithWidth(accumulatedWidth);
 

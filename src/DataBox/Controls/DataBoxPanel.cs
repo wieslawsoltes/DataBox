@@ -28,7 +28,7 @@ public class DataBoxPanel : VirtualizingStackPanel, IStyleable
             return availableSize;
         }
 
-        return DataBoxRowsLayout.Measure(availableSize, DataBox, base.MeasureOverride, Children);
+        return DataBoxRowsLayout.Measure(availableSize, DataBox, base.MeasureOverride);
     }
 
     protected override Size ArrangeOverride(Size finalSize)
@@ -38,6 +38,6 @@ public class DataBoxPanel : VirtualizingStackPanel, IStyleable
             return finalSize;
         }
 
-        return DataBoxRowsLayout.Arrange(finalSize, DataBox, base.MeasureOverride, base.InvalidateMeasure, base.ArrangeOverride, Children);
+        return DataBoxRowsLayout.Arrange(finalSize, DataBox, base.ArrangeOverride);
     }
 }
