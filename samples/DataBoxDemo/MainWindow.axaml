@@ -57,6 +57,7 @@
       <DataBox.Columns>
         <DataBoxTemplateColumn Header="Column 1" 
                                Width="2*"
+                               MinWidth="100"
                                SortMemberPath="Column1" 
                                SortCommand="{Binding SortCommand}" 
                                SortingState="{Binding SortingStateColumn1, Mode=TwoWay}" >
@@ -104,6 +105,7 @@
                                x:DataType="vm:ItemViewModel" x:CompileBindings="False" />
         <DataBoxTextColumn Header="Column 5" 
                            Width="1*" 
+                           MinWidth="100" 
                            Binding="{Binding Column5}" 
                            SortMemberPath="Column5" 
                            SortCommand="{Binding SortCommand}" 
