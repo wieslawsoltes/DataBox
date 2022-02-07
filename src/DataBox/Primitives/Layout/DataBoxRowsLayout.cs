@@ -92,7 +92,7 @@ internal static class DataBoxRowsLayout
     public static Size Measure(Size availableSize, DataBox dataBox, Func<Size, Size> measureOverride)
     {
         var finalWidth = availableSize.Width;
-
+        
         availableSize = measureOverride(availableSize);
 
         SetColumnsFinalMeasureWidth(dataBox.Columns, finalWidth);
