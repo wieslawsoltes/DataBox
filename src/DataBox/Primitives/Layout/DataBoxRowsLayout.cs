@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Controls;
@@ -95,9 +94,9 @@ internal static class DataBoxRowsLayout
         
         availableSize = measureOverride(availableSize);
 
-        SetColumnsFinalMeasureWidth(dataBox.Columns, finalWidth);
+        var measureWidth = SetColumnsFinalMeasureWidth(dataBox.Columns, finalWidth);
 
-        return availableSize;
+        return availableSize.WithWidth(measureWidth);
     }
 
     public static Size Arrange(Size finalSize, DataBox dataBox, Func<Size, Size> arrangeOverride)
@@ -107,6 +106,6 @@ internal static class DataBoxRowsLayout
 
         arrangeOverride(panelSize);
 
-        return panelSize;
+        return finalSize.WithWidth(accumulatedWidth);
     }
 }
