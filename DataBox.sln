@@ -36,6 +36,7 @@ ProjectSection(SolutionItems) = preProject
 	build\SignAssembly.props = build\SignAssembly.props
 	build\SourceLink.props = build\SourceLink.props
 	build\XUnit.props = build\XUnit.props
+	build\Avalonia.Themes.Fluent.props = build\Avalonia.Themes.Fluent.props
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{4E19FF9C-17EE-4AFA-9317-7C949FB3C66A}"
