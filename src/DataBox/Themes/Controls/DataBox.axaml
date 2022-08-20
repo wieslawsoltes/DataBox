@@ -1,0 +1,41 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <Design.PreviewWith>
+    <DataBox Width="600" Height="400" />
+  </Design.PreviewWith>
+
+  <ControlTheme x:Key="{x:Type DataBox}" TargetType="DataBox">
+
+    <Setter Property="GridLinesVisibility" Value="None" />
+    <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource DataGridGridLinesBrush}" />
+    <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource DataGridGridLinesBrush}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <DockPanel>
+          <ScrollViewer Name="PART_HeadersPresenterScrollViewer"
+                        HorizontalScrollBarVisibility="Hidden"
+                        VerticalScrollBarVisibility="Disabled"
+                        DockPanel.Dock="Top">
+            <DataBoxColumnHeadersPresenter Name="PART_HeadersPresenter" />
+          </ScrollViewer>
+          <Rectangle Name="PART_ColumnHeadersAndRowsSeparator" DockPanel.Dock="Top" />
+          <Panel>
+            <DataBoxRowsPresenter Name="PART_RowsPresenter" />
+          </Panel>
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^/template/ Rectangle#PART_ColumnHeadersAndRowsSeparator">
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Height" Value="1" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Fill" Value="{DynamicResource DataGridGridLinesBrush}" />
+      <Setter Property="Opacity" Value="0.4" />
+    </Style>
+
+  </ControlTheme>
+
+</ResourceDictionary>

@@ -1,0 +1,35 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <ControlTheme x:Key="{x:Type DataBoxCell}" TargetType="DataBoxCell">
+
+    <Setter Property="Background" Value="{DynamicResource DataGridCellBackgroundBrush}" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Stretch" />
+    <Setter Property="FontSize" Value="15" />
+    <Setter Property="MinHeight" Value="32" />
+    <Setter Property="Focusable" Value="False" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid x:Name="PART_CellRoot"
+              ColumnDefinitions="*,Auto"
+              Background="{TemplateBinding Background}">
+          <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Content="{TemplateBinding Content}"
+                            Margin="{TemplateBinding Padding}"
+                            TextBlock.Foreground="{TemplateBinding Foreground}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+          <Rectangle Name="PART_RightGridLine"
+                     Grid.Column="1"
+                     VerticalAlignment="Stretch"
+                     Width="1"
+                     Fill="{DynamicResource DataGridFillerColumnGridLinesBrush}" />
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+  </ControlTheme>
+
+</ResourceDictionary>

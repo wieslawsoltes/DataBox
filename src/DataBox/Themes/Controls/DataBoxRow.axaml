@@ -1,0 +1,61 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <ControlTheme x:Key="{x:Type DataBoxRow}" TargetType="DataBoxRow">
+
+    <Setter Property="Background" Value="Transparent" />
+    <Setter Property="Margin" Value="0" />
+    <Setter Property="Padding" Value="0" />
+    <Setter Property="HorizontalContentAlignment" Value="Left" />
+    <Setter Property="TextBlock.FontWeight" Value="Normal" />
+    <Setter Property="TextBlock.FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <Grid Name="PART_Root" RowDefinitions="*,Auto">
+          <Rectangle Grid.Row="0" Name="BackgroundRectangle" />
+          <DataBoxCellsPresenter Grid.Row="0" Name="PART_CellsPresenter"/>
+          <Rectangle Grid.Row="1" Name="PART_BottomGridLine"/>
+        </Grid>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^/template/ Rectangle#PART_BottomGridLine">
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Height" Value="1" />
+      <Setter Property="Fill" Value="{DynamicResource DataGridGridLinesBrush}" />
+      <Setter Property="Opacity" Value="0.4" />
+    </Style>
+
+    <Style Selector="^ /template/ Rectangle#BackgroundRectangle">
+      <Setter Property="Fill" Value="{DynamicResource SystemControlTransparentBrush}" />
+    </Style>
+
+    <Style Selector="^:pointerover /template/ Rectangle#BackgroundRectangle">
+      <Setter Property="Fill" Value="{DynamicResource SystemListLowColor}" />
+    </Style>
+
+    <Style Selector="^:selected /template/ Rectangle#BackgroundRectangle">
+      <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundColor}" />
+      <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedUnfocusedBackgroundOpacity}" />
+    </Style>
+
+    <Style Selector="^:selected:pointerover /template/ Rectangle#BackgroundRectangle">
+      <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedHoveredUnfocusedBackgroundColor}" />
+      <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedHoveredUnfocusedBackgroundOpacity}" />
+    </Style>
+
+    <Style Selector="^:selected:focus /template/ Rectangle#BackgroundRectangle">
+      <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedBackgroundColor}" />
+      <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedBackgroundOpacity}" />
+    </Style>
+
+    <Style Selector="^:selected:pointerover:focus /template/ Rectangle#BackgroundRectangle">
+      <Setter Property="Fill" Value="{DynamicResource DataGridRowSelectedHoveredBackgroundColor}" />
+      <Setter Property="Opacity" Value="{DynamicResource DataGridRowSelectedHoveredBackgroundOpacity}" />
+    </Style>
+
+  </ControlTheme>
+
+</ResourceDictionary>

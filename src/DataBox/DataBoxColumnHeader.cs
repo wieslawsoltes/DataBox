@@ -97,13 +97,13 @@ public class DataBoxColumnHeader : ContentControl, IStyleable
         IsPressed = false;
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         base.OnPropertyChanged(change);
 
         if (change.Property == IsPressedProperty)
         {
-            UpdatePseudoClassesIsPressed(change.NewValue.GetValueOrDefault<bool>());
+            UpdatePseudoClassesIsPressed(change.GetNewValue<bool>());
         }
     }
 

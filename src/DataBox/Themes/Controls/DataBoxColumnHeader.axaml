@@ -1,0 +1,66 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+  <ControlTheme x:Key="{x:Type DataBoxColumnHeader}" TargetType="DataBoxColumnHeader">
+
+    <Setter Property="Foreground" Value="{DynamicResource DataGridColumnHeaderForegroundBrush}" />
+    <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderBackgroundBrush}" />
+    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    <Setter Property="VerticalContentAlignment" Value="Center" />
+    <Setter Property="Focusable" Value="False" />
+    <Setter Property="SeparatorBrush" Value="{DynamicResource DataGridGridLinesBrush}" />
+    <Setter Property="Padding" Value="12,0,0,0" />
+    <Setter Property="FontSize" Value="12" />
+    <Setter Property="MinHeight" Value="32" />
+
+    <Setter Property="Template">
+      <ControlTemplate>
+        <DockPanel Name="PART_ColumnHeaderRoot" 
+                   Background="{TemplateBinding Background}">
+          <Rectangle Name="VerticalSeparator"
+                     DockPanel.Dock="Right"
+                     Width="1"
+                     VerticalAlignment="Stretch"
+                     Fill="{TemplateBinding SeparatorBrush}"
+                     IsVisible="{TemplateBinding AreSeparatorsVisible}" />
+          <Path Name="SortIcon"
+                DockPanel.Dock="Right"
+                Fill="{TemplateBinding Foreground}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Stretch="Uniform"
+                Height="12"
+                MinWidth="24"/>
+          <ContentPresenter Content="{TemplateBinding Content}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Margin="{TemplateBinding Padding}"/>
+        </DockPanel>
+      </ControlTemplate>
+    </Setter>
+
+    <Style Selector="^:pointerover /template/ DockPanel#PART_ColumnHeaderRoot">
+      <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderHoveredBackgroundColor}" />
+    </Style>
+
+    <Style Selector="^:pressed /template/ DockPanel#PART_ColumnHeaderRoot">
+      <Setter Property="Background" Value="{DynamicResource DataGridColumnHeaderPressedBackgroundColor}" />
+    </Style>
+
+    <Style Selector="^/template/ Path#SortIcon">
+      <Setter Property="IsVisible" Value="False" />
+    </Style>
+  
+    <Style Selector="^:sortascending /template/ Path#SortIcon">
+      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="Data" Value="{DynamicResource DataGridSortIconAscendingPath}" />
+    </Style>
+
+    <Style Selector="^:sortdescending /template/ Path#SortIcon">
+      <Setter Property="IsVisible" Value="True" />
+      <Setter Property="Data" Value="{DynamicResource DataGridSortIconDescendingPath}" />
+    </Style>
+
+  </ControlTheme>
+
+</ResourceDictionary>

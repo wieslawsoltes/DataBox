@@ -1,0 +1,20 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="DataBox.Themes.DataBoxFluentTheme">
+  <Styles.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://DataBox/Themes/Controls/DataBox.axaml" />
+        <ResourceInclude Source="avares://DataBox/Themes/Controls/DataBoxCell.axaml" />
+        <ResourceInclude Source="avares://DataBox/Themes/Controls/DataBoxCellsPresenter.axaml" />
+        <ResourceInclude Source="avares://DataBox/Themes/Controls/DataBoxColumnHeader.axaml" />
+        <ResourceInclude Source="avares://DataBox/Themes/Controls/DataBoxColumnHeadersPresenter.axaml" />
+        <ResourceInclude Source="avares://DataBox/Themes/Controls/DataBoxPanel.axaml" />
+        <ResourceInclude Source="avares://DataBox/Themes/Controls/DataBoxRow.axaml" />
+        <ResourceInclude Source="avares://DataBox/Themes/Controls/DataBoxRowsPresenter.axaml" />
+        <ResourceInclude Source="avares://DataBox/Themes/Accents/Fluent.axaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Styles.Resources>
+</Styles>
+
