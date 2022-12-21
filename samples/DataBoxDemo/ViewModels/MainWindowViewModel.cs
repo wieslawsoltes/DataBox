@@ -93,7 +93,9 @@ public class MainWindowViewModel : ViewModelBase
                 $"Item {index}-2",
                 $"Item {index}-3",
                 rand.NextDouble() > 0.5,
-                index);
+                index,
+                //rand.Next(24, 100));
+                double.NaN);
         }
 
         _itemsSourceList = new SourceList<ItemViewModel>();

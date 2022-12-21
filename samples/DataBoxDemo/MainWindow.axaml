@@ -61,7 +61,7 @@
                                SortCommand="{Binding SortCommand}" 
                                SortingState="{Binding SortingStateColumn1, Mode=TwoWay}" >
           <DataTemplate DataType="vm:ItemViewModel">
-            <Panel Background="Transparent">
+            <Panel Background="Transparent" Height="{Binding Height}">
               <TextBlock Text="{Binding Column1}" 
                          Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
                          VerticalAlignment="Center" />
