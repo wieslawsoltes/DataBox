@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "build\build\_buil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataVirtualization", "src\DataVirtualization\DataVirtualization.csproj", "{8AD8D915-14C1-49E5-AB33-792C63DF2379}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBoxDataVirtualizationDemo", "samples\DataBoxDataVirtualizationDemo\DataBoxDataVirtualizationDemo.csproj", "{51696845-5450-4A14-9368-E1063B6B14B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{8AD8D915-14C1-49E5-AB33-792C63DF2379}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AD8D915-14C1-49E5-AB33-792C63DF2379}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AD8D915-14C1-49E5-AB33-792C63DF2379}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51696845-5450-4A14-9368-E1063B6B14B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51696845-5450-4A14-9368-E1063B6B14B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51696845-5450-4A14-9368-E1063B6B14B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51696845-5450-4A14-9368-E1063B6B14B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{17E6165A-4614-435A-8BBE-55A8C850F21B} = {BFAAFDC6-9A28-4F70-9C21-F6DF50786C70}
@@ -93,5 +99,6 @@ Global
 		{85FA5761-009D-4072-9C86-7CCFE1B14CE3} = {491007E3-8E11-4236-A724-ED7AC78FF726}
 		{185AA19E-8CAC-4539-BD28-8199E348AC40} = {BFAAFDC6-9A28-4F70-9C21-F6DF50786C70}
 		{8AD8D915-14C1-49E5-AB33-792C63DF2379} = {D7275F04-303E-4385-B806-08726C572D6D}
+		{51696845-5450-4A14-9368-E1063B6B14B5} = {3B564AD4-C507-43DC-8711-38320FB3B679}
 	EndGlobalSection
 EndGlobal
