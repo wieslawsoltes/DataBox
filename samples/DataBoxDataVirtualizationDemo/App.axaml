@@ -1,0 +1,8 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="DataBoxDataVirtualizationDemo.App">
+  <Application.Styles>
+    <FluentTheme Mode="Light" />
+    <StyleInclude Source="avares://DataBox/Themes/DataBoxFluentTheme.axaml" />
+  </Application.Styles>
+</Application>

@@ -1,0 +1,105 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:DataBoxDataVirtualizationDemo.ViewModels"
+        xmlns:dv="clr-namespace:DataVirtualization;assembly=DataVirtualization"
+        mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="420"
+        WindowStartupLocation="CenterScreen"
+        Width="750" Height="420"
+        UseLayoutRounding="True"
+        x:Class="DataBoxDataVirtualizationDemo.MainWindow"
+        x:DataType="vm:MainWindowViewModel" x:CompileBindings="True"
+        Title="DataBox Demo" >
+  
+  <Design.DataContext>
+    <vm:MainWindowViewModel />
+  </Design.DataContext>
+
+  <DockPanel>
+    
+    <Panel Height="32" 
+           DockPanel.Dock="Top" />
+
+    <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto"
+                  DockPanel.Dock="Top"
+                  IsVisible="False">
+      <Grid Background="LightGray">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="2*"/>
+          <ColumnDefinition Width="Auto"/>
+          <ColumnDefinition Width="200"/>
+          <ColumnDefinition Width="Auto" MinWidth="100"/>
+          <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Panel Grid.Column="0" Background="Red">
+          <TextBlock Text="Column 1" Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" />
+        </Panel>
+        <Panel Grid.Column="1" Background="Green">
+          <TextBlock Text="Column 2" Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" />
+        </Panel>
+        <Panel Grid.Column="2" Background="Blue">
+          <TextBlock Text="Column 3" Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" />
+        </Panel>
+        <Panel Grid.Column="2" Background="Magenta">
+          <TextBlock Text="Column 4" Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" />
+        </Panel>
+        <Panel Grid.Column="3" Background="Yellow">
+          <TextBlock Text="Column 5" Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" />
+        </Panel>
+      </Grid>
+    </ScrollViewer>
+
+    <DataBox Items="{Binding Items}"
+             CanUserResizeColumns="True"
+             GridLinesVisibility="All">
+      <DataBox.Columns>
+        <DataBoxTemplateColumn Header="Column 1" 
+                               Width="*">
+          <DataTemplate>
+            <DataTemplate.DataType>
+              <x:Type TypeName="dv:DataWrapper" x:TypeArguments="vm:ItemViewModel" />
+            </DataTemplate.DataType>
+            <Panel DataContext="{Binding Data}" 
+                   Background="Transparent" 
+                   Height="{Binding Height}">
+              <TextBlock Text="{Binding Column1}" 
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+                         VerticalAlignment="Center" />
+            </Panel>
+          </DataTemplate>
+        </DataBoxTemplateColumn>
+        <DataBoxTemplateColumn Header="Column 2" 
+                               Width="Auto">
+          <DataTemplate>
+            <DataTemplate.DataType>
+              <x:Type TypeName="dv:DataWrapper" x:TypeArguments="vm:ItemViewModel" />
+            </DataTemplate.DataType>
+            <Panel DataContext="{Binding Data}" 
+                   Background="Transparent">
+              <TextBlock Text="{Binding Column2}" 
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+                         VerticalAlignment="Center" />
+            </Panel>
+          </DataTemplate>
+        </DataBoxTemplateColumn>
+        <DataBoxTemplateColumn Header="Column 3" 
+                               Width="200">
+          <DataTemplate>
+            <DataTemplate.DataType>
+              <x:Type TypeName="dv:DataWrapper" x:TypeArguments="vm:ItemViewModel" />
+            </DataTemplate.DataType>
+            <Panel DataContext="{Binding Data}" 
+                   Background="Transparent">
+              <TextBlock Text="{Binding Column3}" 
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+                         VerticalAlignment="Center" />
+            </Panel>
+          </DataTemplate>
+        </DataBoxTemplateColumn>
+      </DataBox.Columns>
+    </DataBox>
+
+  </DockPanel>
+</Window>
