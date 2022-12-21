@@ -236,9 +236,8 @@ internal static class DataBoxRowsLayout
         dataBox.AccumulatedWidth = SetColumnsActualWidth(rows, dataBox, false);
         var panelSize = finalSize.WithWidth(dataBox.AccumulatedWidth);
 
-        // TODO: 
-        //panelSize = arrangeOverride(panelSize);
-        //panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(dataBox.AccumulatedWidth, finalSizeWidth));
+        panelSize = arrangeOverride(panelSize);
+        panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(dataBox.AccumulatedWidth, finalSizeWidth));
 
         return panelSize;
     }

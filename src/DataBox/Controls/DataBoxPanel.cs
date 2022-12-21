@@ -43,7 +43,8 @@ public class DataBoxPanel : VirtualizingStackPanel, IStyleable
 
     protected override Size ArrangeOverride(Size finalSize)
     {
-        finalSize  = base.ArrangeOverride(finalSize);
+        // TODO:
+        // finalSize  = base.ArrangeOverride(finalSize);
 
         if (DataBox is null)
         {
