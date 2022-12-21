@@ -23,21 +23,31 @@ public class DataBoxPanel : VirtualizingStackPanel, IStyleable
 
     protected override Size MeasureOverride(Size availableSize)
     {
+        availableSize  = base.MeasureOverride(availableSize);
+
         if (DataBox is null)
         {
             return availableSize;
         }
 
-        return DataBoxRowsLayout.Measure(availableSize, DataBox, base.MeasureOverride, base.InvalidateMeasure, Children);
+        var children = GetRealizedContainers();
+        return children is { } 
+            ? DataBoxRowsLayout.Measure(availableSize, DataBox, base.MeasureOverride, base.InvalidateMeasure, children) 
+            : availableSize;
     }
 
     protected override Size ArrangeOverride(Size finalSize)
     {
+        finalSize  = base.ArrangeOverride(finalSize);
+
         if (DataBox is null)
         {
             return finalSize;
         }
 
-        return DataBoxRowsLayout.Arrange(finalSize, DataBox, base.ArrangeOverride, Children);
+        var children = GetRealizedContainers();
+        return children is { } 
+            ? DataBoxRowsLayout.Arrange(finalSize, DataBox, base.ArrangeOverride, children)
+            : finalSize;
     }
 }

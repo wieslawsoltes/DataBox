@@ -1,6 +1,5 @@
 ﻿using System;
 using Avalonia.Controls;
-using Avalonia.Controls.Generators;
 using Avalonia.Styling;
 
 namespace DataBox.Primitives;
@@ -11,46 +10,31 @@ public class DataBoxRowsPresenter : ListBox, IStyleable
 
     Type IStyleable.StyleKey => typeof(DataBoxRowsPresenter);
 
-    protected override IItemContainerGenerator CreateItemContainerGenerator()
+    protected override Control CreateContainerForItemOverride()
     {
-        var generator = new ItemContainerGenerator<DataBoxRow>(
-            this,
-            ContentControl.ContentProperty,
-            ContentControl.ContentTemplateProperty);
-
-        generator.Materialized += (_, args) =>
+        return new DataBoxRow
         {
-            foreach (var container in args.Containers)
-            {
-                if (container.ContainerControl is DataBoxRow row)
-                {
-                    row.DataBox = DataBox;
-                }
-            }
+            DataBox = DataBox
         };
+    }
 
-        generator.Dematerialized += (_, args) =>
+    protected override void PrepareContainerForItemOverride(Control element, object? item, int index)
+    {
+        base.PrepareContainerForItemOverride(element, item, index);
+        
+        if (element is DataBoxRow row)
         {
-            foreach (var container in args.Containers)
-            {
-                if (container.ContainerControl is DataBoxRow row)
-                {
-                    row.DataBox = null;
-                }
-            }
-        };
+            row.DataBox = DataBox;
+        }
+    }
 
-        generator.Recycled += (_, args) =>
+    protected override void ClearContainerForItemOverride(Control element)
+    {
+        base.ClearContainerForItemOverride(element);
+        
+        if (element is DataBoxRow row)
         {
-            foreach (var container in args.Containers)
-            {
-                if (container.ContainerControl is DataBoxRow row)
-                {
-                    row.DataBox = DataBox;
-                }
-            }
-        };
-
-        return generator;
+            row.DataBox = null;
+        }
     }
 }
