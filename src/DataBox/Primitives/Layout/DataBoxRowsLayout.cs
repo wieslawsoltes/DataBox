@@ -1,13 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
 
 namespace DataBox.Primitives.Layout;
 
 internal static class DataBoxRowsLayout
 {
-    private static DataBoxCellsPresenter? GetCellsPresenter(IControl? control)
+    private static DataBoxCellsPresenter? GetCellsPresenter(Control? control)
     {
         if (control is DataBoxRow row)
         {
@@ -16,7 +16,7 @@ internal static class DataBoxRowsLayout
         return control as DataBoxCellsPresenter;
     }
 
-    private static double SetColumnsActualWidth(AvaloniaList<IControl> rows, DataBox dataBox, bool measureStarAsAuto)
+    private static double SetColumnsActualWidth(IEnumerable<Control> rows, DataBox dataBox, bool measureStarAsAuto)
     {
         var accumulatedWidth = 0.0;
         var actualWidths = new double[dataBox.Columns.Count];
@@ -178,11 +178,10 @@ internal static class DataBoxRowsLayout
         return accumulatedWidth < availableWidth ? availableWidth : accumulatedWidth;
     }
 
-    private static void MeasureCells(AvaloniaList<IControl> rows)
+    private static void MeasureCells(IEnumerable<Control> rows)
     {
-        for (int r = 0, rowsCount = rows.Count; r < rowsCount; ++r)
+        foreach (var row in rows)
         {
-            var row = rows[r];
             var cellPresenter = GetCellsPresenter(row);
             if (cellPresenter is null)
             {
@@ -205,7 +204,7 @@ internal static class DataBoxRowsLayout
         }
     }
 
-    public static Size Measure(Size availableSize, DataBox dataBox, Func<Size, Size> measureOverride, Action invalidateMeasure, AvaloniaList<IControl> rows)
+    public static Size Measure(Size availableSize, DataBox dataBox, Func<Size, Size> measureOverride, Action invalidateMeasure, IEnumerable<Control> rows)
     {
         var availableSizeWidth = availableSize.Width;
         var measureStarAsAuto = double.IsPositiveInfinity(availableSize.Width);
@@ -219,7 +218,8 @@ internal static class DataBoxRowsLayout
         var panelSize = availableSize.WithWidth(accumulatedWidth);
 
         // TODO: Optimize measure performance.
-        invalidateMeasure();
+        // TODO: 
+        // invalidateMeasure();
 
         panelSize = measureOverride(panelSize);
         panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(accumulatedWidth, availableSizeWidth));
@@ -227,7 +227,7 @@ internal static class DataBoxRowsLayout
         return panelSize;
     }
 
-    public static Size Arrange(Size finalSize, DataBox dataBox, Func<Size, Size> arrangeOverride, AvaloniaList<IControl> rows)
+    public static Size Arrange(Size finalSize, DataBox dataBox, Func<Size, Size> arrangeOverride, IEnumerable<Control> rows)
     {
         var finalSizeWidth = finalSize.Width;
 

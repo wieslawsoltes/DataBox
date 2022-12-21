@@ -9,6 +9,7 @@ public class ItemViewModel : ViewModelBase
     private string _column3;
     private bool _column4;
     private int _column5;
+    private double _height;
 
     public string Column1
     {
@@ -40,13 +41,20 @@ public class ItemViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _column5, value);
     }
 
-    public ItemViewModel(string column1, string column2, string column3, bool column4, int column5)
+    public double Height
+    {
+        get => _height;
+        set => this.RaiseAndSetIfChanged(ref _height, value);
+    }
+
+    public ItemViewModel(string column1, string column2, string column3, bool column4, int column5, double height)
     {
         _column1 = column1;
         _column2 = column2;
         _column3 = column3;
         _column4 = column4;
         _column5 = column5;
+        _height = height;
     }
 
     public override string ToString()
