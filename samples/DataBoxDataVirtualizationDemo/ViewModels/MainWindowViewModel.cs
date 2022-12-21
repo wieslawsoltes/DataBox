@@ -13,12 +13,6 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _items, value);
     }
 
-
-    public MainWindowViewModel() 
-        : this(2_000_000_000, 100)
-    {
-    }
-
     public MainWindowViewModel(int count, int pageSize)
     {
         Items = new AsyncVirtualizingCollection<ItemViewModel>(
