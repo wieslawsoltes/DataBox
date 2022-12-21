@@ -11,10 +11,6 @@
         x:Class="DataBoxDataVirtualizationDemo.MainWindow"
         x:DataType="vm:MainWindowViewModel" x:CompileBindings="True"
         Title="DataBox Demo" >
-  
-  <Design.DataContext>
-    <vm:MainWindowViewModel />
-  </Design.DataContext>
 
   <DockPanel>
     
