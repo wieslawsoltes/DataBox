@@ -23,14 +23,19 @@ public class DataBoxPanel : VirtualizingStackPanel, IStyleable
 
     protected override Size MeasureOverride(Size availableSize)
     {
-        availableSize  = base.MeasureOverride(availableSize);
-
         if (DataBox is null)
         {
             return availableSize;
         }
 
         var children = GetRealizedContainers();
+
+        if (children is null)
+        {
+            availableSize  = base.MeasureOverride(availableSize);
+            children = GetRealizedContainers();
+        }
+
         return children is { } 
             ? DataBoxRowsLayout.Measure(availableSize, DataBox, base.MeasureOverride, base.InvalidateMeasure, children) 
             : availableSize;

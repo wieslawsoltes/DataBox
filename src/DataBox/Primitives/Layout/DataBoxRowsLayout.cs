@@ -221,9 +221,8 @@ internal static class DataBoxRowsLayout
         // TODO: 
         // invalidateMeasure();
 
-        // TODO: 
-        // panelSize = measureOverride(panelSize);
-        // panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(accumulatedWidth, availableSizeWidth));
+        panelSize = measureOverride(panelSize);
+        panelSize = panelSize.WithWidth(AdjustAccumulatedWidth(accumulatedWidth, availableSizeWidth));
 
         return panelSize;
     }
