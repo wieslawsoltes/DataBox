@@ -152,30 +152,25 @@ internal static class DataBoxRowsLayout
                 type = GridUnitType.Auto;
             }
 
-            switch (type)
+            if (type == GridUnitType.Star)
             {
-                case GridUnitType.Star:
-                {
-                    var actualWidth = (value / totalStarValue) * totalWidthForStars;
+                var actualWidth = (value / totalStarValue) * totalWidthForStars;
 
+                actualWidth = Math.Max(column.MinWidth, actualWidth);
+                actualWidth = Math.Min(column.MaxWidth, actualWidth);
+
+                totalWidthForStars -= actualWidth;
+                totalStarValue -= value;
+
+                if (actualWidths[c] > actualWidth)
+                {
+                    actualWidth = actualWidths[c];
                     actualWidth = Math.Max(column.MinWidth, actualWidth);
                     actualWidth = Math.Min(column.MaxWidth, actualWidth);
-
-                    totalWidthForStars -= actualWidth;
-                    totalStarValue -= value;
-
-                    if (actualWidths[c] > actualWidth)
-                    {
-                        actualWidth = actualWidths[c];
-                        actualWidth = Math.Max(column.MinWidth, actualWidth);
-                        actualWidth = Math.Min(column.MaxWidth, actualWidth);
-                    }
-
-                    actualWidths[c] = actualWidth;
-                    accumulatedWidth += actualWidths[c];
-
-                    break;
                 }
+
+                actualWidths[c] = actualWidth;
+                accumulatedWidth += actualWidths[c];
             }
         }
             
