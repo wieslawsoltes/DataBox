@@ -16,6 +16,46 @@ internal static class DataBoxRowsLayout
         return control as DataBoxCellsPresenter;
     }
 
+    private static double GetAutoColumnActualWidth(IEnumerable<Control> rows, int c, double actualWidth)
+    {
+        foreach (var row in rows)
+        {
+            var cellPresenter = GetCellsPresenter(row);
+            if (cellPresenter is null)
+            {
+                continue;
+            }
+  
+            var cells = cellPresenter.Children;
+            if (cells.Count > c && cells[c] is DataBoxCell cell)
+            {
+                var width = cell.MeasuredWidth;
+                actualWidth = Math.Max(actualWidth, width);
+            }
+        }
+
+        return actualWidth;
+    }
+
+    private static double GetStarColumnActualWidth(IEnumerable<Control> rows, int c, double actualWidth)
+    {
+        foreach (var row in rows)
+        {
+            var cellPresenter = GetCellsPresenter(row);
+            if (cellPresenter is { })
+            {
+                var cells = cellPresenter.Children;
+                if (cells.Count > c && cells[c] is DataBoxCell cell)
+                {
+                    var width = cell.MeasuredWidth;
+                    actualWidth = Math.Max(actualWidth, width);
+                }
+            }
+        }
+
+        return actualWidth;
+    }
+
     private static double SetColumnsActualWidth(IEnumerable<Control> rows, DataBox dataBox, bool measureStarAsAuto)
     {
         var accumulatedWidth = 0.0;
@@ -56,20 +96,7 @@ internal static class DataBoxRowsLayout
                 {
                     var actualWidth = actualWidths[c];
   
-                    foreach (var row in rows)
-                    {
-                        var cellPresenter = GetCellsPresenter(row);
-                        if (cellPresenter is { })
-                        {
-                            var cells = cellPresenter.Children;
-                            if (cells.Count > c && cells[c] is DataBoxCell cell)
-                            {
-                                var width = cell.MeasuredWidth;
-                                actualWidth = Math.Max(actualWidth, width);
-                            }
-                        }
-                    }
-
+                    actualWidth = GetAutoColumnActualWidth(rows, c, actualWidth);
                     actualWidth = Math.Max(column.MinWidth, actualWidth);
                     actualWidth = Math.Min(column.MaxWidth, actualWidth);
 
@@ -82,20 +109,7 @@ internal static class DataBoxRowsLayout
                 {
                     var actualWidth = 0.0;
   
-                    foreach (var row in rows)
-                    {
-                        var cellPresenter = GetCellsPresenter(row);
-                        if (cellPresenter is { })
-                        {
-                            var cells = cellPresenter.Children;
-                            if (cells.Count > c && cells[c] is DataBoxCell cell)
-                            {
-                                var width = cell.MeasuredWidth;
-                                actualWidth = Math.Max(actualWidth, width);
-                            }
-                        }
-                    }
-
+                    actualWidth = GetStarColumnActualWidth(rows, c, actualWidth);
                     actualWidths[c] = actualWidth;
 
                     break;
