@@ -112,6 +112,9 @@ internal static class DataBoxRowsLayout
                     var actualWidth = 0.0;
   
                     actualWidth = GetStarColumnActualWidth(rows, c, actualWidth);
+                    actualWidth = Math.Max(column.MinWidth, actualWidth);
+                    actualWidth = Math.Min(column.MaxWidth, actualWidth);
+
                     actualWidths[c] = actualWidth;
 
                     break;
