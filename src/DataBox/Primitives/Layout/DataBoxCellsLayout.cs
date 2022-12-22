@@ -1,13 +1,14 @@
 using System;
+using System.Collections.Generic;
 using Avalonia;
-using Avalonia.Collections;
 using Avalonia.Controls;
 
 namespace DataBox.Primitives.Layout;
 
 internal static class DataBoxCellsLayout
 {
-    public static Size Measure(Size availableSize, DataBox? dataBox, AvaloniaList<Control> children)
+    public static Size Measure<T>(Size availableSize, DataBox? dataBox, IList<T> children) 
+        where  T : Control
     {
         if (dataBox is null || children.Count == 0)
         {
@@ -40,7 +41,8 @@ internal static class DataBoxCellsLayout
         return new Size(parentWidth, parentHeight);
     }
 
-    public static Size Arrange(Size arrangeSize, DataBox? dataBox, AvaloniaList<Control> children)
+    public static Size Arrange<T>(Size arrangeSize, DataBox? dataBox, IList<T> children)
+        where  T : Control
     {
         if (dataBox is null || children.Count == 0)
         {
