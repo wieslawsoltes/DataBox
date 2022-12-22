@@ -46,7 +46,7 @@ internal static class DataBoxRowsLayout
 
                     actualWidth = Math.Max(column.MinWidth, actualWidth);
                     actualWidth = Math.Min(column.MaxWidth, actualWidth);
-                        
+
                     actualWidths[c] = actualWidth;
                     accumulatedWidth += actualWidths[c];
 
