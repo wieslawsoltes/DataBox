@@ -25,7 +25,7 @@ internal static class DataBoxRowsLayout
             {
                 continue;
             }
-  
+
             var cells = cellPresenter.Children;
             if (cells.Count > c && cells[c] is DataBoxCell cell)
             {
@@ -42,14 +42,16 @@ internal static class DataBoxRowsLayout
         foreach (var row in rows)
         {
             var cellPresenter = GetCellsPresenter(row);
-            if (cellPresenter is { })
+            if (cellPresenter is null)
             {
-                var cells = cellPresenter.Children;
-                if (cells.Count > c && cells[c] is DataBoxCell cell)
-                {
-                    var width = cell.MeasuredWidth;
-                    actualWidth = Math.Max(actualWidth, width);
-                }
+                continue;
+            }
+
+            var cells = cellPresenter.Children;
+            if (cells.Count > c && cells[c] is DataBoxCell cell)
+            {
+                var width = cell.MeasuredWidth;
+                actualWidth = Math.Max(actualWidth, width);
             }
         }
 
