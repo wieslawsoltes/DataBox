@@ -51,11 +51,13 @@ public class DataBoxColumnHeadersPresenter : Panel, IStyleable
             Children.Add(columnHeader);
             _columnHeaders.Add(columnHeader);
 
-            var disposable = column.GetObservable(DataBoxColumn.MeasureWidthProperty).Subscribe(_ =>
-            {
-                InvalidateMeasure();
-                InvalidateVisual();
-            });
+            var disposable = column.GetObservable(DataBoxColumn.MeasureWidthProperty).Subscribe(
+                new ActionObserver<double>(
+                    _ =>
+                    {
+                        InvalidateMeasure();
+                        InvalidateVisual();
+                    }));
             _columnActualWidthDisposables.Add(disposable);
         }
     }
