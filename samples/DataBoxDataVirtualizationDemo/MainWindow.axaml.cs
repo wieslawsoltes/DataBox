@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
+using Avalonia.Rendering;
 
 namespace DataBoxDataVirtualizationDemo;
 
@@ -12,7 +13,7 @@ public partial class MainWindow : Window
 #if DEBUG
         this.AttachDevTools();
 #endif
-        Renderer.DrawFps = true;
+        Renderer.Diagnostics.DebugOverlays = RendererDebugOverlays.Fps;
     }
 
     private void InitializeComponent()
