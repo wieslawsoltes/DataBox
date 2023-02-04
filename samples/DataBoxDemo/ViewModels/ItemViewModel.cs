@@ -11,10 +11,29 @@ public class ItemViewModel : ViewModelBase
     private int _column5;
     private double _height;
 
+    private int _column6;
+
+    public ItemViewModel(string column1, string column2, string column3, bool column4, int column5, double height, int column6)
+    {
+        _column1 = column1;
+        _column2 = column2;
+        _column3 = column3;
+        _column4 = column4;
+        _column5 = column5;
+        _height = height;
+        _column6 = column6;
+    }
+
     public string Column1
     {
         get => _column1;
         set => this.RaiseAndSetIfChanged(ref _column1, value);
+    }
+
+    public int Column6
+    {
+        get { return _column6; }
+        set { this.RaiseAndSetIfChanged(ref _column6, value); }
     }
 
     public string Column2
@@ -45,16 +64,6 @@ public class ItemViewModel : ViewModelBase
     {
         get => _height;
         set => this.RaiseAndSetIfChanged(ref _height, value);
-    }
-
-    public ItemViewModel(string column1, string column2, string column3, bool column4, int column5, double height)
-    {
-        _column1 = column1;
-        _column2 = column2;
-        _column3 = column3;
-        _column4 = column4;
-        _column5 = column5;
-        _height = height;
     }
 
     public override string ToString()

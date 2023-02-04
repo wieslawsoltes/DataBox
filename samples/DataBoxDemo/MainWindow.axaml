@@ -9,15 +9,15 @@
         UseLayoutRounding="True"
         x:Class="DataBoxDemo.MainWindow"
         x:DataType="vm:MainWindowViewModel" x:CompileBindings="True"
-        Title="DataBox Demo" >
-  
+        Title="DataBox Demo">
+
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
 
   <DockPanel>
-    
-    <Panel Height="32" 
+
+    <Panel Height="32"
            DockPanel.Dock="Top" />
 
     <ScrollViewer HorizontalScrollBarVisibility="Auto"
@@ -26,11 +26,11 @@
                   IsVisible="False">
       <Grid Background="LightGray">
         <Grid.ColumnDefinitions>
-          <ColumnDefinition Width="2*"/>
-          <ColumnDefinition Width="Auto"/>
-          <ColumnDefinition Width="200"/>
-          <ColumnDefinition Width="Auto" MinWidth="100"/>
-          <ColumnDefinition Width="1*"/>
+          <ColumnDefinition Width="2*" />
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="200" />
+          <ColumnDefinition Width="Auto" MinWidth="100" />
+          <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Panel Grid.Column="0" Background="Red">
           <TextBlock Text="Column 1" Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" />
@@ -55,62 +55,69 @@
              CanUserResizeColumns="True"
              GridLinesVisibility="All">
       <DataBox.Columns>
-        <DataBoxTemplateColumn Header="Column 1" 
+        <DataBoxTemplateColumn Header="Column 1"
                                Width="2*"
-                               SortMemberPath="Column1" 
-                               SortCommand="{Binding SortCommand}" 
-                               SortingState="{Binding SortingStateColumn1, Mode=TwoWay}" >
+                               SortMemberPath="Column1"
+                               SortCommand="{Binding SortCommand}"
+                               SortingState="{Binding SortingStateColumn1, Mode=TwoWay}">
           <DataTemplate DataType="vm:ItemViewModel">
             <Panel Background="Transparent" Height="{Binding Height}">
-              <TextBlock Text="{Binding Column1}" 
-                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+              <TextBlock Text="{Binding Column1}"
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}"
                          VerticalAlignment="Center" />
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
-        <DataBoxTemplateColumn Header="Column 2" 
+        <DataBoxTemplateColumn Header="Column 2"
                                Width="Auto"
-                               SortMemberPath="Column2" 
-                               SortCommand="{Binding SortCommand}" 
-                               SortingState="{Binding SortingStateColumn2}" >
+                               SortMemberPath="Column2"
+                               SortCommand="{Binding SortCommand}"
+                               SortingState="{Binding SortingStateColumn2}">
           <DataTemplate DataType="vm:ItemViewModel">
             <Panel Background="Transparent">
-              <TextBlock Text="{Binding Column2}" 
-                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+              <TextBlock Text="{Binding Column2}"
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}"
                          VerticalAlignment="Center" />
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
-        <DataBoxTemplateColumn Header="Column 3" 
+        <DataBoxTemplateColumn Header="Column 3"
                                Width="200"
-                               SortMemberPath="Column3" 
-                               SortCommand="{Binding SortCommand}" 
-                               SortingState="{Binding SortingStateColumn3}" >
+                               SortMemberPath="Column3"
+                               SortCommand="{Binding SortCommand}"
+                               SortingState="{Binding SortingStateColumn3}">
           <DataTemplate DataType="vm:ItemViewModel">
             <Panel Background="Transparent">
-              <TextBlock Text="{Binding Column3}" 
-                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}" 
+              <TextBlock Text="{Binding Column3}"
+                         Margin="{DynamicResource DataGridTextColumnCellTextBlockMargin}"
                          VerticalAlignment="Center" />
             </Panel>
           </DataTemplate>
         </DataBoxTemplateColumn>
-        <DataBoxCheckBoxColumn Header="Column 4" 
-                               MinWidth="100" 
-                               Width="Auto" 
-                               Binding="{Binding Column4}" 
-                               SortMemberPath="Column4" 
-                               SortCommand="{Binding SortCommand}" 
-                               SortingState="{Binding SortingStateColumn4}" 
+        <DataBoxCheckBoxColumn Header="Column 4"
+                               MinWidth="100"
+                               Width="Auto"
+                               Binding="{Binding Column4}"
+                               SortMemberPath="Column4"
+                               SortCommand="{Binding SortCommand}"
+                               SortingState="{Binding SortingStateColumn4}"
                                x:DataType="vm:ItemViewModel" x:CompileBindings="False" />
-        <DataBoxTextColumn Header="Column 5" 
-                           Width="1*" 
-                           Binding="{Binding Column5}" 
-                           SortMemberPath="Column5" 
-                           SortCommand="{Binding SortCommand}" 
-                           SortingState="{Binding SortingStateColumn5}" 
+        <DataBoxTextColumn Header="Column 5"
+                           Width="1*"
+                           Binding="{Binding Column5}"
+                           SortMemberPath="Column5"
+                           SortCommand="{Binding SortCommand}"
+                           SortingState="{Binding SortingStateColumn5}"
+                           x:DataType="vm:ItemViewModel" x:CompileBindings="False" />
+
+        <DataBoxProgressColumn Header="Column 6"
+                           Width="1*"
+                           Binding="{Binding Column6}"
+                           SortMemberPath="Column6"
+                           SortCommand="{Binding SortCommand}"
+                           SortingState="{Binding SortingStateColumn6}"
                            x:DataType="vm:ItemViewModel" x:CompileBindings="False" />
       </DataBox.Columns>
     </DataBox>
-
   </DockPanel>
 </Window>

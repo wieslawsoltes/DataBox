@@ -16,6 +16,7 @@ namespace DataBoxDemo.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     private readonly SourceList<ItemViewModel> _itemsSourceList;
+    private readonly Subject<IComparer<ItemViewModel>> _comparerSubject;
     private ReadOnlyObservableCollection<ItemViewModel>? _items;
     private ItemViewModel? _selectedItem;
     private ListSortDirection? _sortingStateColumn1;
@@ -23,57 +24,8 @@ public class MainWindowViewModel : ViewModelBase
     private ListSortDirection? _sortingStateColumn3;
     private ListSortDirection? _sortingStateColumn4;
     private ListSortDirection? _sortingStateColumn5;
-    private readonly Subject<IComparer<ItemViewModel>> _comparerSubject;
     private IDisposable? _subscription;
     private bool _isSortingEnabled;
-
-    public ReadOnlyObservableCollection<ItemViewModel>? Items => _items;
-
-    public ItemViewModel? SelectedItem
-    {
-        get => _selectedItem;
-        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
-    }
-
-    public ListSortDirection? SortingStateColumn1
-    {
-        get => _sortingStateColumn1;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn1, value);
-    }
-        
-    public ListSortDirection? SortingStateColumn2
-    {
-        get => _sortingStateColumn2;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn2, value);
-    }
-
-    public ListSortDirection? SortingStateColumn3
-    {
-        get => _sortingStateColumn3;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn3, value);
-    }
-
-    public ListSortDirection? SortingStateColumn4
-    {
-        get => _sortingStateColumn4;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn4, value);
-    }
-
-    public ListSortDirection? SortingStateColumn5
-    {
-        get => _sortingStateColumn5;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn5, value);
-    }
-
-    public ICommand SortCommand { get; }
-
-    public ICommand AddItemCommand { get; }
-
-    public ICommand InsertItemCommand { get; }
-
-    public ICommand RemoveItemCommand { get; }
-
-    public ICommand SelectFirstItemCommand { get; }
 
     public MainWindowViewModel()
     {
@@ -95,7 +47,7 @@ public class MainWindowViewModel : ViewModelBase
                 rand.NextDouble() > 0.5,
                 index,
                 //rand.Next(24, 100));
-                double.NaN);
+                double.NaN, rand.Next(1, 100));
         }
 
         _itemsSourceList = new SourceList<ItemViewModel>();
@@ -154,6 +106,54 @@ public class MainWindowViewModel : ViewModelBase
         });
     }
 
+    public ReadOnlyObservableCollection<ItemViewModel>? Items => _items;
+
+    public ItemViewModel? SelectedItem
+    {
+        get => _selectedItem;
+        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
+    }
+
+    public ListSortDirection? SortingStateColumn1
+    {
+        get => _sortingStateColumn1;
+        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn1, value);
+    }
+
+    public ListSortDirection? SortingStateColumn2
+    {
+        get => _sortingStateColumn2;
+        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn2, value);
+    }
+
+    public ListSortDirection? SortingStateColumn3
+    {
+        get => _sortingStateColumn3;
+        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn3, value);
+    }
+
+    public ListSortDirection? SortingStateColumn4
+    {
+        get => _sortingStateColumn4;
+        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn4, value);
+    }
+
+    public ListSortDirection? SortingStateColumn5
+    {
+        get => _sortingStateColumn5;
+        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn5, value);
+    }
+
+    public ICommand SortCommand { get; }
+
+    public ICommand AddItemCommand { get; }
+
+    public ICommand InsertItemCommand { get; }
+
+    public ICommand RemoveItemCommand { get; }
+
+    public ICommand SelectFirstItemCommand { get; }
+
     private IObservable<IChangeSet<ItemViewModel>> GetSortObservable(IComparer<ItemViewModel> comparer)
     {
         return _itemsSourceList!
@@ -208,18 +208,23 @@ public class MainWindowViewModel : ViewModelBase
             case null:
                 DisableSort();
                 break;
+
             case "Column1":
                 EnableSort(x => x.Column1, SortingStateColumn1);
                 break;
+
             case "Column2":
                 EnableSort(x => x.Column2, SortingStateColumn2);
                 break;
+
             case "Column3":
                 EnableSort(x => x.Column3, SortingStateColumn3);
                 break;
+
             case "Column4":
                 EnableSort(x => x.Column4, SortingStateColumn4);
                 break;
+
             case "Column5":
                 EnableSort(x => x.Column5, SortingStateColumn5);
                 break;
