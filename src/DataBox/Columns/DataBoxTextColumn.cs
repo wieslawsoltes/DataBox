@@ -25,7 +25,7 @@ public class DataBoxTextColumn : DataBoxBoundColumn
             _ => true,
             (_, _) =>
             {
-                var textBlock = new TextBlock            
+                var textBlock = new TextBlock
                 {
                     [!Layoutable.MarginProperty] = new DynamicResourceExtension("DataGridTextColumnCellTextBlockMargin"),
                     VerticalAlignment = VerticalAlignment.Center
