@@ -24,7 +24,7 @@ public class DataBoxEntryColumn : DataBoxBoundColumn
             _ => true,
             (_, _) =>
             {
-                var textBox = new TextBox            
+                var textBox = new TextBox
                 {
                     VerticalAlignment = VerticalAlignment.Center
                 };
