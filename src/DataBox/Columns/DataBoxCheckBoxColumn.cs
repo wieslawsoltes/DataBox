@@ -16,8 +16,10 @@ public class DataBoxCheckBoxColumn : DataBoxToggleColumn
             {
                 var checkBox = new CheckBox
                 {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Stretch,
                 };
 
                 if (Content is { })
