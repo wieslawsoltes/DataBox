@@ -6,7 +6,7 @@ using Avalonia.Layout;
 
 namespace DataBox.Columns;
 
-public class DataBoxCheckBoxColumn : DataBoxBoundColumn
+public class DataBoxCheckBoxColumn : DataBoxToggleColumn
 {
     public DataBoxCheckBoxColumn()
     {
@@ -16,13 +16,30 @@ public class DataBoxCheckBoxColumn : DataBoxBoundColumn
             {
                 var checkBox = new CheckBox
                 {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    HorizontalContentAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    VerticalContentAlignment = VerticalAlignment.Stretch,
                 };
 
-                if (Binding is { })
+                if (Content is { })
                 {
-                    checkBox.Bind(ToggleButton.IsCheckedProperty, Binding);
+                    checkBox.Bind(ContentControl.ContentProperty, Content);
+                }
+
+                if (Command is { })
+                {
+                    checkBox.Bind(Button.CommandProperty, Command);
+                }
+
+                if (CommandParameter is { })
+                {
+                    checkBox.Bind(Button.CommandParameterProperty, CommandParameter);
+                }
+
+                if (IsChecked is { })
+                {
+                    checkBox.Bind(ToggleButton.IsCheckedProperty, IsChecked);
                 }
 
                 return checkBox;
