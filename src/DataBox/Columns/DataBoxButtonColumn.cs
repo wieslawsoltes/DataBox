@@ -1,16 +1,10 @@
-﻿using System.Windows.Input;
-using Avalonia;
+﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
 
 namespace DataBox.Columns;
-
-// AutoCompleteBox
-// DatePicker
-// TimePicker
-// NumericUpDown
 
 public class DataBoxButtonColumn : DataBoxContentColumn
 {
