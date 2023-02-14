@@ -14,7 +14,7 @@ public class DataBoxCheckBoxColumn : DataBoxBoundColumn
             _ => true,
             (_, _) =>
             {
-                var checkBox = new CheckBox()
+                var checkBox = new CheckBox
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center
