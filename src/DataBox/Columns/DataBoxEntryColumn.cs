@@ -3,14 +3,13 @@ using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Data;
 using Avalonia.Layout;
-using Avalonia.Markup.Xaml.MarkupExtensions;
 
 namespace DataBox.Columns;
 
-public class DataBoxTextColumn : DataBoxBoundColumn
+public class DataBoxEntryColumn : DataBoxBoundColumn
 {
     public static readonly StyledProperty<IBinding?> TextProperty = 
-        AvaloniaProperty.Register<DataBoxTextColumn, IBinding?>(nameof(Text));
+        AvaloniaProperty.Register<DataBoxEntryColumn, IBinding?>(nameof(Text));
 
     [AssignBinding]
     public IBinding? Text
@@ -19,24 +18,23 @@ public class DataBoxTextColumn : DataBoxBoundColumn
         set => SetValue(TextProperty, value);
     }
 
-    public DataBoxTextColumn()
+    public DataBoxEntryColumn()
     {
         CellTemplate = new FuncDataTemplate(
             _ => true,
             (_, _) =>
             {
-                var textBlock = new TextBlock            
+                var textBox = new TextBox            
                 {
-                    [!Layoutable.MarginProperty] = new DynamicResourceExtension("DataGridTextColumnCellTextBlockMargin"),
                     VerticalAlignment = VerticalAlignment.Center
                 };
 
                 if (Text is { })
                 {
-                    textBlock.Bind(TextBlock.TextProperty, Text);
+                    textBox.Bind(TextBox.TextProperty, Text);
                 }
 
-                return textBlock;
+                return textBox;
             },
             supportsRecycling: true);
     }
