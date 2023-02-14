@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Data;
 
-namespace DataBox;
+namespace DataBox.Columns;
 
 public abstract class DataBoxBoundColumn : DataBoxColumn
 {

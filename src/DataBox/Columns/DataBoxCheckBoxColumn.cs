@@ -4,7 +4,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 
-namespace DataBox;
+namespace DataBox.Columns;
 
 public class DataBoxCheckBoxColumn : DataBoxBoundColumn
 {

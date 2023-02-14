@@ -4,7 +4,7 @@ using Avalonia.Controls.Templates;
 using Avalonia.Layout;
 using Avalonia.Markup.Xaml.MarkupExtensions;
 
-namespace DataBox;
+namespace DataBox.Columns;
 
 public class DataBoxTextColumn : DataBoxBoundColumn
 {
