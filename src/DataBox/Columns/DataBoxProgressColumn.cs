@@ -16,8 +16,8 @@ public class DataBoxProgressColumn : DataBoxRangeColumn
             {
                 var progressbar = new ProgressBar
                 {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
                 };
 
                 if (Value is { })
