@@ -16,8 +16,8 @@ public class DataBoxSliderColumn : DataBoxRangeColumn
             {
                 var slider = new Slider
                 {
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch,
                 };
 
                 if (Value is { })
