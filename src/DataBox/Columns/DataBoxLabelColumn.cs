@@ -13,7 +13,7 @@ public class DataBoxLabelColumn : DataBoxContentColumn
             _ => true,
             (_, _) =>
             {
-                var label = new Label            
+                var label = new Label
                 {
                     VerticalAlignment = VerticalAlignment.Center
                 };
