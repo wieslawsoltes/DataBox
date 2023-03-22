@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\DataBox\DataBox.csproj" />
-    <ProjectReference Include="..\..\src\DataVirtualization\DataVirtualization.csproj" />
+    <ProjectReference Include="..\..\src\DataBox.DataVirtualization\DataBox.DataVirtualization.csproj" />
   </ItemGroup>
 
 </Project>

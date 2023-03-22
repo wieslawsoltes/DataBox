@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="using:DataBoxDataVirtualizationDemo.ViewModels"
-        xmlns:dv="clr-namespace:DataVirtualization;assembly=DataVirtualization"
+        xmlns:dv="clr-namespace:DataVirtualization;assembly=DataBox.DataVirtualization"
         mc:Ignorable="d" d:DesignWidth="750" d:DesignHeight="420"
         WindowStartupLocation="CenterScreen"
         Width="750" Height="420"

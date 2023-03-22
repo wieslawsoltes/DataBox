@@ -6,10 +6,11 @@
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU;x64</Platforms>
+    <RootNamespace>DataVirtualization</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>DataVirtualization</PackageId>
+    <PackageId>DataBox.DataVirtualization</PackageId>
     <Description>Specialized list implementation that provides data virtualization.</Description>
     <PackageTags>data;virtualization;scrolling</PackageTags>
   </PropertyGroup>

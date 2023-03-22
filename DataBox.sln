@@ -55,7 +55,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBox.UnitTests", "tests\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "build\build\_build.csproj", "{185AA19E-8CAC-4539-BD28-8199E348AC40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataVirtualization", "src\DataVirtualization\DataVirtualization.csproj", "{8AD8D915-14C1-49E5-AB33-792C63DF2379}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBox.DataVirtualization", "src\DataBox.DataVirtualization\DataBox.DataVirtualization.csproj", "{8AD8D915-14C1-49E5-AB33-792C63DF2379}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBoxDataVirtualizationDemo", "samples\DataBoxDataVirtualizationDemo\DataBoxDataVirtualizationDemo.csproj", "{51696845-5450-4A14-9368-E1063B6B14B5}"
 EndProject
