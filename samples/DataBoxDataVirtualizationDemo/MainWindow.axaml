@@ -47,7 +47,7 @@
             </Panel>
           </Grid>
         </ScrollViewer>
-        <DataBox Items="{Binding Items}"
+        <DataBox ItemsSource="{Binding Items}"
                  CanUserResizeColumns="True"
                  GridLinesVisibility="All">
           <DataBox.Columns>
@@ -103,7 +103,7 @@
       <DockPanel>
         <Panel Height="32" 
                DockPanel.Dock="Top" />
-        <ListBox Items="{Binding Items}"
+        <ListBox ItemsSource="{Binding Items}"
                  VerticalAlignment="Top">
           <ListBox.ItemTemplate>
             <DataTemplate>

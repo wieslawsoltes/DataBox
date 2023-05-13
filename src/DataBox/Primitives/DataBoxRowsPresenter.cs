@@ -10,12 +10,17 @@ public class DataBoxRowsPresenter : ListBox, IStyleable
 
     Type IStyleable.StyleKey => typeof(DataBoxRowsPresenter);
 
-    protected override Control CreateContainerForItemOverride()
+    protected override Control CreateContainerForItemOverride(object? item, int index, object? recycleKey)
     {
         return new DataBoxRow
         {
             DataBox = DataBox
         };
+    }
+
+    protected override bool NeedsContainerOverride(object? item, int index, out object? recycleKey)
+    {
+        return NeedsContainer<DataBoxRow>(item, out recycleKey);
     }
 
     protected override void PrepareContainerForItemOverride(Control element, object? item, int index)

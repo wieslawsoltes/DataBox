@@ -12,11 +12,11 @@ namespace DataBox;
 
 public class DataBox : TemplatedControl
 {
-    public static readonly DirectProperty<DataBox, IEnumerable?> ItemsProperty =
+    public static readonly DirectProperty<DataBox, IEnumerable?> ItemsSourceProperty =
         AvaloniaProperty.RegisterDirect<DataBox, IEnumerable?>(
-            nameof(Items), 
-            o => o.Items, 
-            (o, v) => o.Items = v);
+            nameof(ItemsSource), 
+            o => o.ItemsSource, 
+            (o, v) => o.ItemsSource = v);
 
     public static readonly DirectProperty<DataBox, object?> SelectedItemProperty =
         AvaloniaProperty.RegisterDirect<DataBox, object?>(
@@ -48,7 +48,7 @@ public class DataBox : TemplatedControl
     public static readonly StyledProperty<IBrush> VerticalGridLinesBrushProperty =
         AvaloniaProperty.Register<DataBox, IBrush>(nameof(VerticalGridLinesBrush));
 
-    private IEnumerable? _items = new AvaloniaList<object>();
+    private IEnumerable? _itemsSource = new AvaloniaList<object>();
     private object? _selectedItem;
     private AvaloniaList<DataBoxColumn> _columns;
     private ScrollViewer? _headersPresenterScrollViewer;
@@ -62,10 +62,10 @@ public class DataBox : TemplatedControl
     }
 
     [Content]
-    public IEnumerable? Items
+    public IEnumerable? ItemsSource
     {
-        get { return _items; }
-        set { SetAndRaise(ItemsProperty, ref _items, value); }
+        get { return _itemsSource; }
+        set { SetAndRaise(ItemsSourceProperty, ref _itemsSource, value); }
     }
 
     public object? SelectedItem
@@ -145,7 +145,7 @@ public class DataBox : TemplatedControl
         {
             _rowsPresenter.DataBox = this;
 
-            _rowsPresenter[!!ItemsControl.ItemsProperty] = this[!!ItemsProperty];
+            _rowsPresenter[!!ItemsControl.ItemsSourceProperty] = this[!!ItemsSourceProperty];
             this[!!SelectedItemProperty] = _rowsPresenter[!!SelectingItemsControl.SelectedItemProperty];
 
             _rowsPresenter.TemplateApplied += (_, _) =>

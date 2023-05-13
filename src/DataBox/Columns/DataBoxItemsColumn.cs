@@ -43,7 +43,7 @@ public class DataBoxItemsColumn : DataBoxBoundColumn
 
                 if (Items is { })
                 {
-                    comboBox.Bind(ItemsControl.ItemsProperty, Items);
+                    comboBox.Bind(ItemsControl.ItemsSourceProperty, Items);
                 }
 
                 if (SelectedItem is { })

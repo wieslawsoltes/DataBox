@@ -50,7 +50,7 @@
       </Grid>
     </ScrollViewer>
 
-    <DataBox Items="{Binding Items}"
+    <DataBox ItemsSource="{Binding Items}"
              SelectedItem="{Binding SelectedItem}"
              CanUserResizeColumns="True"
              GridLinesVisibility="All">

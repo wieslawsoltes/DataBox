@@ -51,7 +51,7 @@ public class DataBoxAutoCompleteColumn : DataBoxBoundColumn
 
                 if (Items is { })
                 {
-                    autoCompleteBox.Bind(AutoCompleteBox.ItemsProperty, Items);
+                    autoCompleteBox.Bind(AutoCompleteBox.ItemsSourceProperty, Items);
                 }
 
                 if (SelectedItem is { })
