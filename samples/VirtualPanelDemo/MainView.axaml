@@ -11,7 +11,8 @@
 
   <DockPanel>
 
-    <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Background="Gray" x:CompileBindings="False">
+    <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Background="Gray" x:CompileBindings="False"
+               IsVisible="False">
       <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Extent, StringFormat={}Extent: {0}}" DockPanel.Dock="Top" />
       <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Viewport, StringFormat={}Viewport: {0}}" DockPanel.Dock="Top" />
       <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Offset, StringFormat={}Offset: {0}}" DockPanel.Dock="Top" />
