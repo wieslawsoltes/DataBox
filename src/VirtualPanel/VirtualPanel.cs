@@ -286,14 +286,12 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
                 break;
             case Layout.Wrap:
                 var itemsPerRow = (int)(width / itemWidth);
-                if (itemsPerRow > 0)
+                if (itemsPerRow <= 0)
                 {
-                    totalHeight = (itemCount / itemsPerRow) * itemHeight;
+                    itemsPerRow = 1;
                 }
-                else
-                {
-                    totalHeight = 0.0;
-                }
+                totalHeight = Math.Ceiling((double)itemCount / itemsPerRow) * itemHeight;
+
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
