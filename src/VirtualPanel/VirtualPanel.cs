@@ -77,12 +77,12 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     Size IScrollable.Viewport => _viewport;
 
-    bool ILogicalScrollable.BringIntoView(IControl target, Rect targetRect)
+    bool ILogicalScrollable.BringIntoView(Control target, Rect targetRect)
     {
         return false;
     }
 
-    IControl? ILogicalScrollable.GetControlInDirection(NavigationDirection direction, IControl @from)
+    Control? ILogicalScrollable.GetControlInDirection(NavigationDirection direction, Control @from)
     {
         return null;
     }
@@ -134,7 +134,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     int IChildIndexProvider.GetChildIndex(ILogical child)
     {
-        if (child is IControl control)
+        if (child is Control control)
         { 
             foreach (var i in _controls)
             {
@@ -162,7 +162,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     private void RaiseChildIndexChanged()
     {
-        _childIndexChanged?.Invoke(this, new ChildIndexChangedEventArgs());
+        _childIndexChanged?.Invoke(this, new ChildIndexChangedEventArgs(null, -1));
     }
 
     #endregion
@@ -234,17 +234,17 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     #region Events
 
-    protected virtual void OnContainerMaterialized(IControl container, int index)
+    protected virtual void OnContainerMaterialized(Control container, int index)
     {
         // System.Diagnostics.Debug.WriteLine($"[Materialized] {index}, {container.DataContext}");
     }
 
-    protected virtual void OnContainerDematerialized(IControl container, int index)
+    protected virtual void OnContainerDematerialized(Control container, int index)
     {
         // System.Diagnostics.Debug.WriteLine($"[Dematerialized] {index}, {container.DataContext}");
     }
 
-    protected virtual void OnContainerRecycled(IControl container, int index)
+    protected virtual void OnContainerRecycled(Control container, int index)
     {
         // System.Diagnostics.Debug.WriteLine($"[Recycled] {index}, {container.DataContext}");
     }
@@ -257,11 +257,11 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     private int _endIndex = -1;
     private int _visibleCount = -1;
     private double _scrollOffset;
-    private readonly Stack<IControl> _recycled = new();
-    private readonly SortedDictionary<int, IControl> _controls = new();
-    private List<IControl> _children = new();
+    private readonly Stack<Control> _recycled = new();
+    private readonly SortedDictionary<int, Control> _controls = new();
+    private List<Control> _children = new();
 
-    public IReadOnlyList<IControl> Children => _children;
+    public IReadOnlyList<Control> Children => _children;
 
     enum Layout
     {
@@ -309,14 +309,14 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         return extent;
     }
 
-    private void AddChild(IControl control)
+    private void AddChild(Control control)
     {
         LogicalChildren.Add(control);
         VisualChildren.Add(control);
         _children.Add(control);
     }
 
-    private void RemoveChildren(HashSet<IControl> controls)
+    private void RemoveChildren(HashSet<Control> controls)
     {
         LogicalChildren.RemoveAll(controls);
         VisualChildren.RemoveAll(controls);
@@ -419,7 +419,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             }
         }
 
-        var childrenRemove = new HashSet<IControl>();
+        var childrenRemove = new HashSet<Control>();
 
         foreach (var remove in toRemove)
         {
@@ -443,7 +443,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
                 continue;
             }
 
-            IControl control;
+            Control control;
             var param = items[i];
 
             if (_recycled.Count > 0)

@@ -4,7 +4,7 @@ using VirtualPanelDemo.ViewModels;
 
 namespace VirtualPanelDemo;
 
-public class MainView : UserControl
+public partial class MainView : UserControl
 {
     public MainView()
     {
