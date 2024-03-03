@@ -175,6 +175,9 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     public static readonly StyledProperty<double> ItemHeightProperty = 
         AvaloniaProperty.Register<VirtualPanel, double>(nameof(ItemHeight), double.NaN);
 
+    public static readonly StyledProperty<double> ItemWidthProperty = 
+        AvaloniaProperty.Register<VirtualPanel, double>(nameof(ItemWidth), double.NaN);
+
     public static readonly StyledProperty<IEnumerable?> ItemsProperty = 
         AvaloniaProperty.Register<VirtualPanel, IEnumerable?>(nameof(Items));
 
@@ -200,6 +203,12 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     {
         get => GetValue(ItemHeightProperty);
         set => SetValue(ItemHeightProperty, value);
+    }
+
+    public double ItemWidth
+    {
+        get => GetValue(ItemWidthProperty);
+        set => SetValue(ItemWidthProperty, value);
     }
 
     public IEnumerable? Items
@@ -254,11 +263,35 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     public IReadOnlyList<IControl> Children => _children;
 
+    enum Layout
+    {
+        Stack,
+        Wrap
+    }
+
+    private Layout _layout = Layout.Wrap;
+    
     protected Size UpdateScrollable(double width, double height, double totalWidth)
     {
         var itemCount = GetItemsCount(Items);
         var itemHeight = ItemHeight;
-        var totalHeight = itemCount * itemHeight;
+        var itemWidth = ItemWidth;
+
+        double totalHeight;
+
+        switch (_layout)
+        {
+            case Layout.Stack:
+                totalHeight = itemCount * itemHeight;
+                break;
+            case Layout.Wrap:
+                var itemsPerRow = (int)(width / itemWidth);
+                totalHeight = (itemCount / itemsPerRow) * itemHeight;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
         var extent = new Size(totalWidth, totalHeight);
 
         _viewport = new Size(width, height);
@@ -290,7 +323,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         _children.Clear();
     }
 
-    private void InvalidateChildren(double height, double offset)
+    private void InvalidateChildren(double width, double height, double offset)
     {
         // TODO: Support other IEnumerable types.
         if (Items is not IList items)
@@ -300,21 +333,46 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         }
 
         var itemCount = GetItemsCount(items);
+        
         var itemHeight = ItemHeight;
+        var itemWidth = ItemWidth;
 
         _scrollOffset = ScrollMode == VirtualPanelScrollMode.Smooth ? offset % itemHeight : 0.0;
 
         var size = height + _scrollOffset;
         
-        _startIndex = (int)(offset / itemHeight);
-        _visibleCount = (int)(size / itemHeight);
+        var itemsPerRow = (int)(width / itemWidth);
+
+        switch (_layout)
+        {
+            case Layout.Stack:   
+                _startIndex = (int)(offset / itemHeight);
+                _visibleCount = (int)(size / itemHeight);
+                break;
+            case Layout.Wrap:   
+                _startIndex = (int)(offset / itemHeight) * itemsPerRow;
+                _visibleCount = (int)(size / itemHeight) * itemsPerRow;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
 
         if (size % itemHeight > 0 && height > 0)
         {
             _visibleCount += 1;
         }
 
-        _endIndex = (_startIndex + _visibleCount) - 1;
+        switch (_layout)
+        {
+            case Layout.Stack:  
+                _endIndex = (_startIndex + _visibleCount) - 1;
+                break;
+            case Layout.Wrap:   
+                _endIndex = (_startIndex + _visibleCount + itemsPerRow) - 1;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
 
         if (itemCount == 0 || ItemTemplate is null)
         {
@@ -412,14 +470,33 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     {
         availableSize = UpdateScrollable(availableSize.Width, availableSize.Height, availableSize.Width);
 
-        InvalidateChildren(_viewport.Height, _offset.Y);
+        InvalidateChildren(_viewport.Width, _viewport.Height, _offset.Y);
 
         if (_controls.Count > 0)
         {
+            var itemHeight = ItemHeight;
+            var itemWidth = ItemWidth;
+
             foreach (var control in _controls)
             {
-                var size = new Size(_viewport.Width, ItemHeight);
-                control.Value.Measure(size);
+                switch (_layout)
+                {
+                    case Layout.Stack:
+                    {
+                        var size = new Size(_viewport.Width, ItemHeight);
+                        control.Value.Measure(size);
+                        break;
+                    }
+                    case Layout.Wrap:
+                    {
+                        var size = new Size(itemWidth, itemHeight);
+                        control.Value.Measure(size);
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+                
             }
         }
 
@@ -430,7 +507,10 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     {
         finalSize = UpdateScrollable(finalSize.Width, finalSize.Height, finalSize.Width);
 
-        InvalidateChildren(_viewport.Height, _offset.Y);
+        var itemHeight = ItemHeight;
+        var itemWidth = ItemWidth;
+
+        InvalidateChildren(_viewport.Width, _viewport.Height, _offset.Y);
         InvalidateScrollable();
 
         var scrollOffsetX = 0.0; // TODO: _offset.X;
@@ -441,11 +521,40 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             var x = scrollOffsetX == 0.0 ? 0.0 : -scrollOffsetX;
             var y = scrollOffsetY == 0.0 ? 0.0 : -scrollOffsetY;
 
-            foreach (var control in _controls)
+            switch (_layout)
             {
-                var rect = new Rect(new Point(x, y), new Size(_viewport.Width, ItemHeight));
-                control.Value.Arrange(rect);
-                y += ItemHeight;
+                case Layout.Stack:
+                {
+                    foreach (var control in _controls)
+                    {
+                        var rect = new Rect(new Point(x, y), new Size(_viewport.Width, itemHeight));
+                        control.Value.Arrange(rect);
+                        y += itemHeight;
+                    }
+                    break;
+                }
+                case Layout.Wrap:
+                {
+                    var column = 0;
+                    var itemsPerRow = (int)(_viewport.Width / itemWidth);
+
+                    foreach (var control in _controls)
+                    {
+                        var rect = new Rect(new Point(x + itemWidth * column, y), new Size(itemWidth, itemHeight));
+                        control.Value.Arrange(rect);
+
+                        column += 1;
+                        if (column >= itemsPerRow)
+                        {
+                            y += itemHeight;
+                            column = 0;
+                        }
+                    }
+
+                    break;
+                }
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 

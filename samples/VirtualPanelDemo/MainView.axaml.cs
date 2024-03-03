@@ -10,7 +10,7 @@ public class MainView : UserControl
     {
         InitializeComponent();
 
-        var vm = new MainWindowViewModel(2_000_000_000, 100, 25);
+        var vm = new MainWindowViewModel(2_000_000_000, 100, 100, 100);
 
         DataContext = vm;
 

@@ -22,12 +22,12 @@
     <ScrollViewer Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 
       <ScrollViewer.Styles>
-        <Style Selector="VirtualPanel > ContentControl">
+        <!--<Style Selector="VirtualPanel > ContentControl">
           <Setter Property="Background" Value="Transparent"/>
         </Style>
         <Style Selector="VirtualPanel > ContentControl:nth-child(2n)">
           <Setter Property="Background" Value="#fff8f8f8"/>
-        </Style>
+        </Style>-->
         <Style Selector="VirtualPanel > ContentControl:pointerover">
           <Setter Property="Background" Value="#ffe4e4e4"/>
         </Style>
@@ -35,6 +35,7 @@
 
       <VirtualPanel Items="{Binding Items}"
                     ItemHeight="{Binding ItemHeight}"
+                    ItemWidth="{Binding ItemWidth}"
                     VerticalAlignment="Top"
                     Name="VirtualPanel">
         <VirtualPanel.ItemTemplate>
@@ -42,7 +43,12 @@
             <DataTemplate.DataType>
               <x:Type TypeName="dv:DataWrapper" x:TypeArguments="sys:String" />
             </DataTemplate.DataType>
-            <TextBlock Text="{Binding Data}" Margin="6,0,6,0" VerticalAlignment="Center" />
+            <Panel Background="#fff8f8f8"
+                   Margin="2" >
+              <TextBlock Text="{Binding Data}" 
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+            </Panel>
           </DataTemplate>
         </VirtualPanel.ItemTemplate>
       </VirtualPanel>

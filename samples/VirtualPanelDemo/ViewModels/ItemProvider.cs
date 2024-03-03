@@ -26,7 +26,8 @@ namespace VirtualPanelDemo.ViewModels
 
             for (var i = startIndex; i < endIndex; i++)
             {
-                result.Add($"Item {i}");
+                //result.Add($"Item {i}");
+                result.Add($"{i}");
             }
             
 			return result;

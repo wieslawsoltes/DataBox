@@ -7,6 +7,7 @@ public class MainWindowViewModel : ReactiveObject
 {
     private AsyncVirtualizingCollection<string>? _items;
     private double _itemHeight;
+    private double _itemWidth;
 
     public AsyncVirtualizingCollection<string>? Items
     {
@@ -20,6 +21,12 @@ public class MainWindowViewModel : ReactiveObject
         set => this.RaiseAndSetIfChanged(ref _itemHeight, value);
     }
 
+    public double ItemWidth
+    {
+        get => _itemWidth;
+        set => this.RaiseAndSetIfChanged(ref _itemWidth, value);
+    }
+
     public int Count { get; }
 
     public void RaiseCountChanged()
@@ -27,10 +34,11 @@ public class MainWindowViewModel : ReactiveObject
         this.RaisePropertyChanged(nameof(Count));
     }
 
-    public MainWindowViewModel(int count, int pageSize, int itemHeight)
+    public MainWindowViewModel(int count, int pageSize, int itemHeight, int itemWidth)
     {
         Items = new AsyncVirtualizingCollection<string>(new ItemProvider(count), pageSize, 5000);
         ItemHeight = itemHeight;
+        ItemWidth = itemWidth;
         Count = count;
     }
 }
