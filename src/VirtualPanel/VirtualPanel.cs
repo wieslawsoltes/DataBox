@@ -18,6 +18,12 @@ public enum VirtualPanelScrollMode
     Item
 }
 
+public enum VirtualPanelLayout
+{
+    Stack,
+    Wrap
+}
+
 public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 {
     #region Util
@@ -263,13 +269,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     public IReadOnlyList<Control> Children => _children;
 
-    enum Layout
-    {
-        Stack,
-        Wrap
-    }
-
-    private Layout _layout = Layout.Wrap;
+    private VirtualPanelLayout _virtualPanelLayout = VirtualPanelLayout.Wrap;
     
     protected Size UpdateScrollable(double width, double height, double totalWidth)
     {
@@ -279,12 +279,12 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
         double totalHeight;
 
-        switch (_layout)
+        switch (_virtualPanelLayout)
         {
-            case Layout.Stack:
+            case VirtualPanelLayout.Stack:
                 totalHeight = itemCount * itemHeight;
                 break;
-            case Layout.Wrap:
+            case VirtualPanelLayout.Wrap:
                 var itemsPerRow = (int)(width / itemWidth);
                 if (itemsPerRow <= 0)
                 {
@@ -353,13 +353,13 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             itemsPerRow = 1;
         }
 
-        switch (_layout)
+        switch (_virtualPanelLayout)
         {
-            case Layout.Stack:   
+            case VirtualPanelLayout.Stack:   
                 _startIndex = (int)(offset / itemHeight);
                 _visibleCount = (int)(size / itemHeight);
                 break;
-            case Layout.Wrap:   
+            case VirtualPanelLayout.Wrap:   
                 _startIndex = (int)(offset / itemHeight) * itemsPerRow;
                 _visibleCount = (int)(size / itemHeight) * itemsPerRow;
                 break;
@@ -372,12 +372,12 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             _visibleCount += 1;
         }
 
-        switch (_layout)
+        switch (_virtualPanelLayout)
         {
-            case Layout.Stack:  
+            case VirtualPanelLayout.Stack:  
                 _endIndex = (_startIndex + _visibleCount) - 1;
                 break;
-            case Layout.Wrap:   
+            case VirtualPanelLayout.Wrap:   
                 _endIndex = (_startIndex + _visibleCount + itemsPerRow) - 1;
                 break;
             default:
@@ -489,15 +489,15 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
             foreach (var control in _controls)
             {
-                switch (_layout)
+                switch (_virtualPanelLayout)
                 {
-                    case Layout.Stack:
+                    case VirtualPanelLayout.Stack:
                     {
                         var size = new Size(_viewport.Width, ItemHeight);
                         control.Value.Measure(size);
                         break;
                     }
-                    case Layout.Wrap:
+                    case VirtualPanelLayout.Wrap:
                     {
                         var size = new Size(itemWidth, itemHeight);
                         control.Value.Measure(size);
@@ -531,9 +531,9 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             var x = scrollOffsetX == 0.0 ? 0.0 : -scrollOffsetX;
             var y = scrollOffsetY == 0.0 ? 0.0 : -scrollOffsetY;
 
-            switch (_layout)
+            switch (_virtualPanelLayout)
             {
-                case Layout.Stack:
+                case VirtualPanelLayout.Stack:
                 {
                     foreach (var control in _controls)
                     {
@@ -543,7 +543,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
                     }
                     break;
                 }
-                case Layout.Wrap:
+                case VirtualPanelLayout.Wrap:
                 {
                     var column = 0;
                     var itemsPerRow = (int)(_viewport.Width / itemWidth);
