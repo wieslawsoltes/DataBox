@@ -431,7 +431,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
         for (var i = _startIndex; i <= _endIndex; i++)
         {
-            if (i >= itemCount)
+            if (i < 0 || i >= itemCount)
             {
                 break;
             }
