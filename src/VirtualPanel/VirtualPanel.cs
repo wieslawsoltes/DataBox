@@ -156,7 +156,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     bool IChildIndexProvider.TryGetTotalCount(out int count)
     {
-        count = GetItemsCount(Items);
+        count = GetItemsCount(ItemsSource);
         return true;
     }
 
@@ -184,8 +184,8 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     public static readonly StyledProperty<double> ItemWidthProperty = 
         AvaloniaProperty.Register<VirtualPanel, double>(nameof(ItemWidth), double.NaN);
 
-    public static readonly StyledProperty<IEnumerable?> ItemsProperty = 
-        AvaloniaProperty.Register<VirtualPanel, IEnumerable?>(nameof(Items));
+    public static readonly StyledProperty<IEnumerable?> ItemsSourceProperty = 
+        AvaloniaProperty.Register<VirtualPanel, IEnumerable?>(nameof(ItemsSource));
 
     public static readonly DirectProperty<VirtualPanel, object?> SelectedItemProperty =
         AvaloniaProperty.RegisterDirect<VirtualPanel, object?>(
@@ -217,10 +217,10 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         set => SetValue(ItemWidthProperty, value);
     }
 
-    public IEnumerable? Items
+    public IEnumerable? ItemsSource
     {
-        get => GetValue(ItemsProperty);
-        set => SetValue(ItemsProperty, value);
+        get => GetValue(ItemsSourceProperty);
+        set => SetValue(ItemsSourceProperty, value);
     }
 
     public object? SelectedItem
@@ -273,7 +273,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     
     protected Size UpdateScrollable(double width, double height, double totalWidth)
     {
-        var itemCount = GetItemsCount(Items);
+        var itemCount = GetItemsCount(ItemsSource);
         var itemHeight = ItemHeight;
         var itemWidth = ItemWidth;
 
@@ -331,7 +331,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     private void InvalidateChildren(double width, double height, double offset)
     {
         // TODO: Support other IEnumerable types.
-        if (Items is not IList items)
+        if (ItemsSource is not IList items)
         {
             _scrollOffset = 0;
             return;

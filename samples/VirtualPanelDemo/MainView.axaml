@@ -34,7 +34,7 @@
         </Style>
       </ScrollViewer.Styles>
 
-      <VirtualPanel Items="{Binding Items}"
+      <VirtualPanel ItemsSource="{Binding Items}"
                     ItemHeight="{Binding ItemHeight}"
                     ItemWidth="{Binding ItemWidth}"
                     VerticalAlignment="Top"
