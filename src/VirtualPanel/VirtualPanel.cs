@@ -175,6 +175,9 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     #region Properties
 
+    public static readonly StyledProperty<VirtualPanelLayout> LayoutProperty =
+        AvaloniaProperty.Register<VirtualPanel, VirtualPanelLayout>(nameof(Layout));
+
     public static readonly StyledProperty<VirtualPanelScrollMode> ScrollModeProperty =
         AvaloniaProperty.Register<VirtualPanel, VirtualPanelScrollMode>(nameof(ScrollMode));
 
@@ -198,7 +201,13 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         AvaloniaProperty.Register<VirtualPanel, IDataTemplate?>(nameof(ItemTemplate));
 
     private object? _selectedItem;
- 
+  
+    public VirtualPanelLayout Layout
+    {
+        get => GetValue(LayoutProperty);
+        set => SetValue(LayoutProperty, value);
+    }
+
     public VirtualPanelScrollMode ScrollMode
     {
         get => GetValue(ScrollModeProperty);
@@ -269,17 +278,16 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
     public IReadOnlyList<Control> Children => _children;
 
-    private VirtualPanelLayout _virtualPanelLayout = VirtualPanelLayout.Wrap;
-    
     protected Size UpdateScrollable(double width, double height, double totalWidth)
     {
         var itemCount = GetItemsCount(ItemsSource);
+        var layout = Layout;
         var itemHeight = ItemHeight;
         var itemWidth = ItemWidth;
 
         double totalHeight;
 
-        switch (_virtualPanelLayout)
+        switch (layout)
         {
             case VirtualPanelLayout.Stack:
                 totalHeight = itemCount * itemHeight;
@@ -338,7 +346,8 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
         }
 
         var itemCount = GetItemsCount(items);
-        
+
+        var layout = Layout;
         var itemHeight = ItemHeight;
         var itemWidth = ItemWidth;
 
@@ -353,7 +362,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             itemsPerRow = 1;
         }
 
-        switch (_virtualPanelLayout)
+        switch (layout)
         {
             case VirtualPanelLayout.Stack:   
                 _startIndex = (int)(offset / itemHeight);
@@ -372,7 +381,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             _visibleCount += 1;
         }
 
-        switch (_virtualPanelLayout)
+        switch (layout)
         {
             case VirtualPanelLayout.Stack:  
                 _endIndex = (_startIndex + _visibleCount) - 1;
@@ -484,12 +493,13 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
 
         if (_controls.Count > 0)
         {
+            var layout = Layout;
             var itemHeight = ItemHeight;
             var itemWidth = ItemWidth;
 
             foreach (var control in _controls)
             {
-                switch (_virtualPanelLayout)
+                switch (layout)
                 {
                     case VirtualPanelLayout.Stack:
                     {
@@ -517,6 +527,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     {
         finalSize = UpdateScrollable(finalSize.Width, finalSize.Height, finalSize.Width);
 
+        var layout = Layout;
         var itemHeight = ItemHeight;
         var itemWidth = ItemWidth;
 
@@ -531,7 +542,7 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
             var x = scrollOffsetX == 0.0 ? 0.0 : -scrollOffsetX;
             var y = scrollOffsetY == 0.0 ? 0.0 : -scrollOffsetY;
 
-            switch (_virtualPanelLayout)
+            switch (layout)
             {
                 case VirtualPanelLayout.Stack:
                 {
@@ -572,4 +583,34 @@ public class VirtualPanel : Control, ILogicalScrollable, IChildIndexProvider
     }
 
     #endregion
+
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
+    {
+        base.OnPropertyChanged(change);
+
+        if (change.Property == LayoutProperty)
+        {
+            InvalidateMeasure();
+        }
+
+        if (change.Property == ScrollModeProperty)
+        {
+            InvalidateMeasure();
+        }
+
+        if (change.Property == ItemsSourceProperty)
+        {
+            InvalidateMeasure();
+        }
+        
+        if (change.Property == ItemWidthProperty)
+        {
+            InvalidateMeasure();
+        }
+        
+        if (change.Property == ItemHeightProperty)
+        {
+            InvalidateMeasure();
+        }
+    }
 }
