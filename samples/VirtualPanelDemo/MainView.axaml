@@ -37,6 +37,8 @@
       <VirtualPanel ItemsSource="{Binding Items}"
                     ItemHeight="{Binding ItemHeight}"
                     ItemWidth="{Binding ItemWidth}"
+                    ScrollMode="Smooth"
+                    Layout="Wrap"
                     VerticalAlignment="Top"
                     Name="VirtualPanel">
         <VirtualPanel.ItemTemplate>
