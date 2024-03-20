@@ -2,9 +2,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:dv="clr-namespace:DataVirtualization;assembly=DataVirtualization"
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              xmlns:vm="clr-namespace:VirtualPanelDemo.ViewModels"
+             xmlns:dataVirtualization="clr-namespace:DataVirtualization;assembly=DataBox.DataVirtualization"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="VirtualPanelDemo.MainView"
              x:DataType="vm:MainWindowViewModel" x:CompileBindings="True">
@@ -44,7 +44,7 @@
         <VirtualPanel.ItemTemplate>
           <DataTemplate>
             <DataTemplate.DataType>
-              <x:Type TypeName="dv:DataWrapper" x:TypeArguments="sys:String" />
+              <x:Type TypeName="dataVirtualization:DataWrapper" x:TypeArguments="sys:String" />
             </DataTemplate.DataType>
             <Panel Background="#fff8f8f8"
                    Margin="2" >
