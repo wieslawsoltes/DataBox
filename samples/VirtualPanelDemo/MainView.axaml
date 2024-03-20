@@ -1,0 +1,63 @@
+﻿<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:dv="clr-namespace:DataVirtualization;assembly=DataVirtualization"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:vm="clr-namespace:VirtualPanelDemo.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="VirtualPanelDemo.MainView"
+             x:DataType="vm:MainWindowViewModel" x:CompileBindings="True">
+
+  <DockPanel>
+
+    <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Center" Background="Gray" x:CompileBindings="False"
+               IsVisible="False">
+      <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Extent, StringFormat={}Extent: {0}}" DockPanel.Dock="Top" />
+      <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Viewport, StringFormat={}Viewport: {0}}" DockPanel.Dock="Top" />
+      <TextBlock Margin="6,0,6,0" Text="{Binding #ScrollViewer.Offset, StringFormat={}Offset: {0}}" DockPanel.Dock="Top" />
+      <TextBlock Margin="6,0,6,0" Text="{Binding Count, StringFormat={}Count: {0}}" DockPanel.Dock="Top" />
+      <TextBlock Margin="6,0,6,0" Text="{Binding ItemHeight, StringFormat={}ItemHeight: {0}}" DockPanel.Dock="Top" />
+    </DockPanel>
+
+    <ScrollViewer Name="ScrollViewer" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+
+      <ScrollViewer.Styles>
+        <!--<Style Selector="VirtualPanel > ContentControl">
+          <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="VirtualPanel > ContentControl:nth-child(2n)">
+          <Setter Property="Background" Value="#fff8f8f8"/>
+        </Style>-->
+        <Style Selector="VirtualPanel > ContentControl:pointerover">
+          <Setter Property="Background" Value="#ffe4e4e4"/>
+        </Style>
+      </ScrollViewer.Styles>
+
+      <VirtualPanel ItemsSource="{Binding Items}"
+                    ItemHeight="{Binding ItemHeight}"
+                    ItemWidth="{Binding ItemWidth}"
+                    ScrollMode="Smooth"
+                    Layout="Wrap"
+                    VerticalAlignment="Top"
+                    Name="VirtualPanel">
+        <VirtualPanel.ItemTemplate>
+          <DataTemplate>
+            <DataTemplate.DataType>
+              <x:Type TypeName="dv:DataWrapper" x:TypeArguments="sys:String" />
+            </DataTemplate.DataType>
+            <Panel Background="#fff8f8f8"
+                   Margin="2" >
+              <TextBlock Text="{Binding Data}" 
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center" />
+            </Panel>
+          </DataTemplate>
+        </VirtualPanel.ItemTemplate>
+      </VirtualPanel>
+
+    </ScrollViewer>
+
+  </DockPanel>
+
+</UserControl>
