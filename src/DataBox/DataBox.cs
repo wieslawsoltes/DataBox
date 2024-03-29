@@ -110,13 +110,17 @@ public class DataBox : TemplatedControl
         set => SetValue(VerticalGridLinesBrushProperty, value);
     }
 
-    internal DataBoxRowsPresenter? RowsPresenter => _rowsPresenter;
-
     internal double AccumulatedWidth { get; set; }
         
     internal double AvailableWidth { get; set; }
 
     internal double AvailableHeight { get; set; }
+
+    internal ScrollViewer? HeadersPresenterScrollViewer => _headersPresenterScrollViewer;
+
+    internal DataBoxColumnHeadersPresenter? HeadersPresenter => _headersPresenter;
+
+    internal DataBoxRowsPresenter? RowsPresenter => _rowsPresenter;
 
     public DataBox()
     {
