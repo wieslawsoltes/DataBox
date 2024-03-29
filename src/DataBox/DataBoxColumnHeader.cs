@@ -8,13 +8,12 @@ using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
-using Avalonia.Styling;
 using Avalonia.VisualTree;
 
 namespace DataBox;
 
 [PseudoClasses(":pressed", ":sortascending", ":sortdescending")]
-public class DataBoxColumnHeader : ContentControl, IStyleable
+public class DataBoxColumnHeader : ContentControl
 {
     public static readonly StyledProperty<IBrush?> SeparatorBrushProperty =
         AvaloniaProperty.Register<DataBoxColumnHeader, IBrush?>(nameof(SeparatorBrush));
@@ -32,8 +31,6 @@ public class DataBoxColumnHeader : ContentControl, IStyleable
         UpdatePseudoClassesIsPressed(IsPressed);
     }
 
-    Type IStyleable.StyleKey => typeof(DataBoxColumnHeader);
-
     internal DataBox? DataBox { get; set; }
 
     public IBrush? SeparatorBrush
@@ -47,6 +44,8 @@ public class DataBoxColumnHeader : ContentControl, IStyleable
         get => GetValue(AreSeparatorsVisibleProperty);
         set => SetValue(AreSeparatorsVisibleProperty, value);
     }
+
+    protected override Type StyleKeyOverride => typeof(DataBoxColumnHeader);
 
     internal bool IsPressed
     {

@@ -3,11 +3,10 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
-using Avalonia.Styling;
 
 namespace DataBox;
 
-public class DataBoxCell : ContentControl, IStyleable
+public class DataBoxCell : ContentControl
 {
     private Rectangle? _rightGridLine;
 
@@ -15,7 +14,7 @@ public class DataBoxCell : ContentControl, IStyleable
 
     internal double MeasuredWidth { get; set; }
 
-    Type IStyleable.StyleKey => typeof(DataBoxCell);
+    protected override Type StyleKeyOverride => typeof(DataBoxCell);
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {

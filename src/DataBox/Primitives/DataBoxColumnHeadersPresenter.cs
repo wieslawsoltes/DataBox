@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using Avalonia.Styling;
 using DataBox.Primitives.Layout;
 
 namespace DataBox.Primitives;
 
-public class DataBoxColumnHeadersPresenter : Panel, IStyleable
+public class DataBoxColumnHeadersPresenter : Panel
 {
     private List<IDisposable>? _columnActualWidthDisposables;
     private List<DataBoxColumnHeader>? _columnHeaders;
 
-    Type IStyleable.StyleKey => typeof(DataBoxColumnHeadersPresenter);
-        
     internal DataBox? DataBox { get; set; }
+
+    protected override Type StyleKeyOverride => typeof(DataBoxColumnHeadersPresenter);
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {

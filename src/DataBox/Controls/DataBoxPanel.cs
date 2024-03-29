@@ -3,16 +3,15 @@ using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.LogicalTree;
-using Avalonia.Styling;
 using DataBox.Primitives.Layout;
 
 namespace DataBox.Controls;
 
-public class DataBoxPanel : VirtualizingStackPanel, IStyleable
+public class DataBoxPanel : VirtualizingStackPanel
 {
-    Type IStyleable.StyleKey => typeof(DataBoxPanel);
-
     internal DataBox? DataBox { get; set; }
+
+    protected override Type StyleKeyOverride => typeof(DataBoxPanel);
 
     public override void ApplyTemplate()
     {

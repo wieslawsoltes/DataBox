@@ -2,15 +2,12 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Layout;
-using Avalonia.Styling;
 using DataBox.Primitives.Layout;
 
 namespace DataBox.Primitives;
 
-public class DataBoxCellsPresenter : Panel, IStyleable
+public class DataBoxCellsPresenter : Panel
 {
-    Type IStyleable.StyleKey => typeof(DataBoxCellsPresenter);
-
     internal DataBox? DataBox { get; set; }
 
     internal void Attach()
@@ -34,6 +31,8 @@ public class DataBoxCellsPresenter : Panel, IStyleable
             Children.Add(cell);
         }
     }
+
+    protected override Type StyleKeyOverride => typeof(DataBoxCellsPresenter);
 
     protected override Size MeasureOverride(Size availableSize)
     {

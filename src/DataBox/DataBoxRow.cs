@@ -2,21 +2,20 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
-using Avalonia.Styling;
 using DataBox.Primitives;
 
 namespace DataBox;
 
-public class DataBoxRow : ListBoxItem, IStyleable
+public class DataBoxRow : ListBoxItem
 {
     private Rectangle? _bottomGridLine;
-
-    Type IStyleable.StyleKey => typeof(DataBoxRow);
 
     internal DataBox? DataBox { get; set; }
 
     internal DataBoxCellsPresenter? CellsPresenter { get; set; }
-        
+
+    protected override Type StyleKeyOverride => typeof(DataBoxRow);
+
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
         base.OnApplyTemplate(e);
