@@ -1,7 +1,9 @@
 using System;
+using Avalonia.Automation.Peers;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using DataBox.Automation.Peers;
 using DataBox.Primitives;
 
 namespace DataBox;
@@ -15,6 +17,11 @@ public class DataBoxRow : ListBoxItem
     internal DataBoxCellsPresenter? CellsPresenter { get; set; }
 
     protected override Type StyleKeyOverride => typeof(DataBoxRow);
+
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new DataBoxRowAutomationPeer(this);
+    }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {

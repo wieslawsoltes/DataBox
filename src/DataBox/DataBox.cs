@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using Avalonia;
+using Avalonia.Automation.Peers;
 using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Data;
 using Avalonia.Media;
 using Avalonia.Metadata;
+using DataBox.Automation.Peers;
 using DataBox.Primitives;
 
 namespace DataBox;
@@ -125,6 +127,11 @@ public class DataBox : TemplatedControl
     public DataBox()
     {
         _columns = new AvaloniaList<DataBoxColumn>();
+    }
+
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new DataBoxAutomationPeer(this);
     }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)

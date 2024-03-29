@@ -1,8 +1,10 @@
 ﻿using System;
 using Avalonia;
+using Avalonia.Automation.Peers;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.Shapes;
+using DataBox.Automation.Peers;
 
 namespace DataBox;
 
@@ -15,6 +17,11 @@ public class DataBoxCell : ContentControl
     internal double MeasuredWidth { get; set; }
 
     protected override Type StyleKeyOverride => typeof(DataBoxCell);
+
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new DataBoxCellAutomationPeer(this);
+    }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {

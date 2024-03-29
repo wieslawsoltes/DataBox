@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Avalonia;
+using Avalonia.Automation.Peers;
 using Avalonia.Controls;
 using Avalonia.Layout;
+using DataBox.Automation.Peers;
 using DataBox.Primitives.Layout;
 
 namespace DataBox.Primitives;
@@ -15,6 +17,11 @@ public class DataBoxColumnHeadersPresenter : Panel
     internal DataBox? DataBox { get; set; }
 
     protected override Type StyleKeyOverride => typeof(DataBoxColumnHeadersPresenter);
+
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new DataBoxColumnHeadersPresenterAutomationPeer(this);
+    }
 
     protected override void OnDetachedFromVisualTree(VisualTreeAttachmentEventArgs e)
     {

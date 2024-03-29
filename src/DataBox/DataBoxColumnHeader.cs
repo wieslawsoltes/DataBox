@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Avalonia;
+using Avalonia.Automation.Peers;
 using Avalonia.Controls;
 using Avalonia.Controls.Metadata;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.VisualTree;
+using DataBox.Automation.Peers;
 
 namespace DataBox;
 
@@ -56,6 +58,11 @@ public class DataBoxColumnHeader : ContentControl
     internal DataBoxColumn? Column { get; set; }
 
     internal IReadOnlyList<DataBoxColumnHeader>? ColumnHeaders { get; set; }
+
+    protected override AutomationPeer OnCreateAutomationPeer()
+    {
+        return new DataBoxColumnHeaderAutomationPeer(this);
+    }
 
     protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
     {
