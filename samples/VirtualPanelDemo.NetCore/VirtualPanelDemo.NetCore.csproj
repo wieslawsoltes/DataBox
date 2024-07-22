@@ -25,7 +25,6 @@
   <Import Project="..\..\build\Avalonia.ReactiveUI.props" />
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\DataVirtualization\DataVirtualization.csproj" />
     <ProjectReference Include="..\..\src\VirtualPanel\VirtualPanel.csproj" />
     <ProjectReference Include="..\VirtualPanelDemo\VirtualPanelDemo.csproj" />
   </ItemGroup>

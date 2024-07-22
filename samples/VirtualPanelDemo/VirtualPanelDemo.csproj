@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\DataBox.DataVirtualization\DataBox.DataVirtualization.csproj" />
-    <ProjectReference Include="..\..\src\DataVirtualization\DataVirtualization.csproj" />
     <ProjectReference Include="..\..\src\VirtualPanel\VirtualPanel.csproj" />
   </ItemGroup>
 
