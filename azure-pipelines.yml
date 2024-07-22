@@ -31,7 +31,7 @@ jobs:
   - template: Test-Bash.yml@templates
     parameters:
       name: 'Test_macOS'
-      vmImage: 'macOS-11'
+      vmImage: 'macOS-14'
       BuildConfiguration: ${{ variables.BuildConfiguration }}
 
   - template: Pack-MyGet.yml@templates
