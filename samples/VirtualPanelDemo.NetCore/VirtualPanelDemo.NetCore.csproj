@@ -6,11 +6,12 @@
     <OutputType>WinExe</OutputType>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <IsPackable>False</IsPackable>
     <Nullable>enable</Nullable>
     <Configurations>Debug;Release</Configurations>
     <Platforms>AnyCPU;x64</Platforms>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

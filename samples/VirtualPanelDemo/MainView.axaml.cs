@@ -20,7 +20,7 @@ public partial class MainView : UserControl
         {
             vm.Items.CollectionChanged += (_, _) =>
             {
-                vp.InvalidateMeasure();
+                vp?.InvalidateMeasure();
             };
         }
     }

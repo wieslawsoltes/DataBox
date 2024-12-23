@@ -3,36 +3,18 @@ using ReactiveUI;
 
 namespace VirtualPanelDemo.ViewModels;
 
-public class MainWindowViewModel : ReactiveObject
+public partial class MainWindowViewModel : ReactiveObject
 {
-    private AsyncVirtualizingCollection<string>? _items;
-    private double _itemHeight;
-    private double _itemWidth;
-
-    public AsyncVirtualizingCollection<string>? Items
-    {
-        get => _items;
-        set => this.RaiseAndSetIfChanged(ref _items, value);
-    }
-
-    public double ItemHeight
-    {
-        get => _itemHeight;
-        set => this.RaiseAndSetIfChanged(ref _itemHeight, value);
-    }
-
-    public double ItemWidth
-    {
-        get => _itemWidth;
-        set => this.RaiseAndSetIfChanged(ref _itemWidth, value);
-    }
-
+    [Reactive]
+    public partial AsyncVirtualizingCollection<string>? Items { get; set; }
+    
+    [Reactive]
+    public partial double ItemHeight { get; set; }
+    
+    [Reactive]
+    public partial double ItemWidth { get; set; }
+    
     public int Count { get; }
-
-    public void RaiseCountChanged()
-    {
-        this.RaisePropertyChanged(nameof(Count));
-    }
 
     public MainWindowViewModel(int count, int pageSize, int itemHeight, int itemWidth)
     {

@@ -3,18 +3,11 @@ using DataVirtualization;
 
 namespace VirtualPanelDemo.ViewModels
 {
-	public class ItemProvider : IItemsProvider<string>
-	{
-        private readonly int _count;
-
-		public ItemProvider(int count)
-        {
-            _count = count;
-        }
-
-		public int FetchCount()
+	public class ItemProvider(int count) : IItemsProvider<string>
+    {
+        public int FetchCount()
 		{
-			return _count;
+			return count;
 		}
 
 		public IList<string> FetchRange(int startIndex, int pageCount, out int overallCount)
@@ -22,7 +15,7 @@ namespace VirtualPanelDemo.ViewModels
 			var result = new List<string>();
             var endIndex = startIndex + pageCount;
 
-			overallCount = _count; 
+			overallCount = count; 
 
             for (var i = startIndex; i < endIndex; i++)
             {

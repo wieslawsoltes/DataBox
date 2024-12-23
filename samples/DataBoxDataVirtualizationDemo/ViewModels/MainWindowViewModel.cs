@@ -1,17 +1,11 @@
 ﻿using DataVirtualization;
-using ReactiveUI;
 
 namespace DataBoxDataVirtualizationDemo.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase
 {
-    private AsyncVirtualizingCollection<ItemViewModel>? _items;
-
-    public AsyncVirtualizingCollection<ItemViewModel>? Items
-    {
-        get => _items;
-        set => this.RaiseAndSetIfChanged(ref _items, value);
-    }
+    [Reactive]
+    public partial AsyncVirtualizingCollection<ItemViewModel>? Items { get; set; }
 
     public MainWindowViewModel(int count, int pageSize)
     {

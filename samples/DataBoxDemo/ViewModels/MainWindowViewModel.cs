@@ -13,58 +13,34 @@ using ReactiveUI;
 
 namespace DataBoxDemo.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly SourceList<ItemViewModel> _itemsSourceList;
     private ReadOnlyObservableCollection<ItemViewModel>? _items;
-    private ItemViewModel? _selectedItem;
-    private ListSortDirection? _sortingStateColumn1;
-    private ListSortDirection? _sortingStateColumn2;
-    private ListSortDirection? _sortingStateColumn3;
-    private ListSortDirection? _sortingStateColumn4;
-    private ListSortDirection? _sortingStateColumn5;
     private readonly Subject<IComparer<ItemViewModel>> _comparerSubject;
     private IDisposable? _subscription;
     private bool _isSortingEnabled;
 
     public ReadOnlyObservableCollection<ItemViewModel>? Items => _items;
 
-    public ItemViewModel? SelectedItem
-    {
-        get => _selectedItem;
-        set => this.RaiseAndSetIfChanged(ref _selectedItem, value);
-    }
-
-    public ListSortDirection? SortingStateColumn1
-    {
-        get => _sortingStateColumn1;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn1, value);
-    }
-        
-    public ListSortDirection? SortingStateColumn2
-    {
-        get => _sortingStateColumn2;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn2, value);
-    }
-
-    public ListSortDirection? SortingStateColumn3
-    {
-        get => _sortingStateColumn3;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn3, value);
-    }
-
-    public ListSortDirection? SortingStateColumn4
-    {
-        get => _sortingStateColumn4;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn4, value);
-    }
-
-    public ListSortDirection? SortingStateColumn5
-    {
-        get => _sortingStateColumn5;
-        set => this.RaiseAndSetIfChanged(ref _sortingStateColumn5, value);
-    }
-
+    [Reactive]
+    public partial ItemViewModel? SelectedItem { get; set; }
+    
+    [Reactive]
+    public partial ListSortDirection? SortingStateColumn1 { get; set; }
+    
+    [Reactive]
+    public partial ListSortDirection? SortingStateColumn2 { get; set; }
+    
+    [Reactive]
+    public partial ListSortDirection? SortingStateColumn3 { get; set; }
+    
+    [Reactive]
+    public partial ListSortDirection? SortingStateColumn4 { get; set; }
+    
+    [Reactive]
+    public partial ListSortDirection? SortingStateColumn5 { get; set; }
+    
     public ICommand SortCommand { get; }
 
     public ICommand AddItemCommand { get; }
