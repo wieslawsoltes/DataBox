@@ -1,3 +1,5 @@
+# Deprecated in favour of https://github.com/wieslawsoltes/ProDataGrid
+
 # DataBox
 
 [![Build Status](https://dev.azure.com/wieslawsoltes/GitHub/_apis/build/status/wieslawsoltes.DataBox?repoName=wieslawsoltes%2FDataBox&branchName=main)](https://dev.azure.com/wieslawsoltes/GitHub/_build/latest?definitionId=103&repoName=wieslawsoltes%2FDataBox&branchName=main)
